@@ -16,6 +16,15 @@ public class UserFixture {
         return salesUser;
     }
 
+    public static User aAccountingUser(String phone){
+        User accountingUser = User.registerAccountingUser(RegisterUser.builder()
+                .username("경리사원")
+                .phone(phone)
+                .build());
+        accountingUser.register(mock(RegisterUserValidator.class));
+        return accountingUser;
+    }
+
     public static RegisterUser.RegisterUserBuilder aRegisterUser(){
         return RegisterUser
                 .builder()

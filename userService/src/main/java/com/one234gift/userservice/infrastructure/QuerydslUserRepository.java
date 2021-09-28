@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import java.util.Optional;
+
 import static com.one234gift.userservice.domain.QUser.user;
 
 @Repository
@@ -20,19 +22,28 @@ public class QuerydslUserRepository implements UserRepository {
     @PersistenceContext private EntityManager entityManager;
 
     @Override
+    public boolean existByPhone(Phone phone) {
+        return jpaQueryFactory.selectOne()
+            .from(user)
+            .where(user.phone.eq(phone))
+            .fetchFirst() != null;
+    }
+
+    @Override
+    public Optional<User> findByPhone(Phone phone) {
+        return Optional.ofNullable(
+                jpaQueryFactory.selectFrom(user)
+                        .where(user.phone.eq(phone))
+                        .fetchFirst()
+        );
+    }
+
+    @Override
     public void save(User user) {
         if(entityManager.contains(user)){
             entityManager.merge(user);
         }else{
             entityManager.persist(user);
         }
-    }
-
-    @Override
-    public boolean existByPhone(Phone phone) {
-        return jpaQueryFactory.selectOne()
-            .from(user)
-            .where(user.phone.eq(phone))
-            .fetchFirst() != null;
     }
 }

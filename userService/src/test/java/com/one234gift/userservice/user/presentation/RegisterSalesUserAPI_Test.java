@@ -1,4 +1,4 @@
-package com.one234gift.userservice.user;
+package com.one234gift.userservice.user.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.one234gift.userservice.application.UserRepository;
@@ -16,13 +16,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-public class RegisterSalesUserAPI_Test {
-    @Autowired
-    MockMvc mockMvc;
-    @Autowired
-    ObjectMapper objectMapper;
+public class RegisterSalesUserAPI_Test  extends APITest{
 
     @Test
     void 영업사원_생성() throws Exception{

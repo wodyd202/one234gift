@@ -1,4 +1,4 @@
-package com.one234gift.userservice.user;
+package com.one234gift.userservice.user.application;
 
 import com.one234gift.userservice.application.exception.DuplicatePhoneException;
 import com.one234gift.userservice.application.RegisterSalesUserService;

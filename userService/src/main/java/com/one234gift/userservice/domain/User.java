@@ -1,11 +1,13 @@
 package com.one234gift.userservice.domain;
 
 import com.one234gift.userservice.domain.exception.AlreadyLeaveException;
+import com.one234gift.userservice.domain.exception.AlreadyWorkingException;
 import com.one234gift.userservice.domain.model.RegisterUser;
 import com.one234gift.userservice.domain.model.UserModel;
 import com.one234gift.userservice.domain.value.Phone;
 import com.one234gift.userservice.domain.value.State;
 import com.one234gift.userservice.domain.value.Username;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
@@ -72,6 +74,17 @@ abstract public class User {
         }
     }
 
+    public void comeBack() {
+        verifyLeaved();
+        state = WORK;
+    }
+
+    private void verifyLeaved() {
+        if(state.equals(WORK)){
+            throw new AlreadyWorkingException("이미 근무중인 사용자입니다.");
+        }
+    }
+
     public UserModel toModel(){
         return UserModel.builder()
                 .username(name.get())
@@ -88,4 +101,5 @@ abstract public class User {
                 ", state=" + state +
                 '}';
     }
+
 }
