@@ -17,7 +17,7 @@ public class Phone implements Serializable {
     private final static Pattern PATTERN = Pattern.compile("^\\d{3}-\\d{3,4}-\\d{4}$");
     private void phoneValidation(String phone) {
         if(!PATTERN.matcher(phone).matches()){
-            throw new IllegalArgumentException("전화번호 양식은 [xxx-xxxx-xxxx] 형식으로 입력해주세요.");
+            throw new IllegalArgumentException("전화번호 형식은 [xxx-xxxx-xxxx] 형식으로 입력해주세요.");
         }
     }
 
