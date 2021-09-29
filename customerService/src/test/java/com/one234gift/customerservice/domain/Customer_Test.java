@@ -200,4 +200,86 @@ public class Customer_Test {
         new Contact(changeContact);
     }
 
+    @Test
+    public void 지역_입력(){
+        Location location = new Location("서울특별시");
+        assertEquals(location, new Location("서울특별시"));
+        assertEquals(location.get(), "서울특별시");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "!@#",
+            "서울!@# "
+    })
+    public void 지역은_한글및_숫자_영어조합_1자이상_15자이하로_입력해야함(String location){
+        assertThrows(IllegalArgumentException.class,()->{
+            new Location(location);
+        });
+    }
+
+    @Test
+    public void 주소_상세_입력(){
+        AddressDetail addressDetail = new AddressDetail("주소 상세");
+        assertEquals(addressDetail, new AddressDetail("주소 상세"));
+        assertEquals(addressDetail.get(), "주소 상세");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "!@#",
+            "주소 상세#@!@"
+    })
+    public void 주소_상세는_한글_숫자_영어조합_공백포함_1자이상_20자이하로입력해야함(String detail){
+        assertThrows(IllegalArgumentException.class,()->{
+            new AddressDetail(detail);
+        });
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void 지역_미입력(){
+        new Location("");
+    }
+
+    @Test
+    public void 주소_입력(){
+        ChangeAddress changeAddress = ChangeAddress.builder()
+                .location("서울특별시")
+                .addressDetail("주소 상세")
+                .build();
+        Address address = new Address(changeAddress);
+        AddressModel addressModel = address.toModel();
+        assertEquals(addressModel.getLocation(), "서울특별시");
+        assertEquals(addressModel.getAddressDetail(), "주소 상세");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void 주소입력시_지역을반드시_입력해야함(){
+        ChangeAddress changeAddress = ChangeAddress.builder().build();
+        new Address(changeAddress);
+    }
+
+    @Test
+    public void 주소입력시_주소_상세는_입력하지않아도됨(){
+        ChangeAddress changeAddress = ChangeAddress.builder()
+                .location("서울특별시")
+                .build();
+        Address address = new Address(changeAddress);
+        AddressModel addressModel = address.toModel();
+        assertEquals(addressModel.getLocation(), "서울특별시");
+        assertNull(addressModel.getAddressDetail());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    void 비고는_특수문자를_허용하지_않고_1자이상_100자이하로_입력해야함(){
+
+    }
+
+    @Test
+    void 비고_입력(){
+        Note note = new Note("비고");
+        assertEquals(note, new Note("비고"));
+        assertEquals(note.get(), "비고");
+    }
+
 }
