@@ -1,5 +1,7 @@
 package com.one234gift.customerservice.domain;
 
+import com.one234gift.customerservice.domain.model.ContactModel;
+
 public class Contact {
     private Tel mainTel;
     private Tel subTel;

@@ -1,5 +1,7 @@
 package com.one234gift.customerservice.domain;
 
+import com.one234gift.customerservice.domain.model.AddressModel;
+
 public class Address {
     private final Location location;
     private AddressDetail addressDetail;

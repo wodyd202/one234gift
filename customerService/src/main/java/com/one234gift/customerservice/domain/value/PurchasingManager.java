@@ -1,5 +1,7 @@
 package com.one234gift.customerservice.domain;
 
+import com.one234gift.customerservice.domain.model.PurchasingManagerModel;
+
 import java.util.Objects;
 
 public class PurchasingManager {

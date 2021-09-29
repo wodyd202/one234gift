@@ -1,6 +1,6 @@
 package com.one234gift.customerservice.domain;
 
-import lombok.Builder;
+import com.one234gift.customerservice.domain.model.BusinessInfoModel;
 
 import java.util.Objects;
 
@@ -8,18 +8,22 @@ public class BusinessInfo {
     private final BusinessName name;
     private BusinessNumber number;
 
-    @Builder
-    public BusinessInfo(BusinessName name, BusinessNumber number) {
-        nameValidation(name);
-        this.name = name;
+    public BusinessInfo(ChangeBusinessInfo businessInfo) {
+        nameValidation(businessInfo.getName());
+        name = new BusinessName(businessInfo.getName());
+        setNumber(businessInfo.getNumber());
+    }
+
+
+    private void setNumber(String number) {
         if(number == null){
             this.number = new BusinessNumber();
         }else{
-            this.number = number;
+            this.number = new BusinessNumber(number);
         }
     }
 
-    private void nameValidation(BusinessName name) {
+    private void nameValidation(String name) {
         if(name == null){
             throw new IllegalArgumentException("고객 업체명을 입력해주세요.");
         }
