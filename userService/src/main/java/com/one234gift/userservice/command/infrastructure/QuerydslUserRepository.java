@@ -1,6 +1,6 @@
-package com.one234gift.userservice.infrastructure;
+package com.one234gift.userservice.command.infrastructure;
 
-import com.one234gift.userservice.application.UserRepository;
+import com.one234gift.userservice.command.application.UserRepository;
 import com.one234gift.userservice.domain.User;
 import com.one234gift.userservice.domain.value.Phone;
 import com.querydsl.jpa.impl.JPAQueryFactory;

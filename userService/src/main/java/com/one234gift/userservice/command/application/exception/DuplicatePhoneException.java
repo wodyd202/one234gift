@@ -1,4 +1,4 @@
-package com.one234gift.userservice.application.exception;
+package com.one234gift.userservice.command.application.exception;
 
 public class DuplicatePhoneException extends RuntimeException {
     public DuplicatePhoneException(){

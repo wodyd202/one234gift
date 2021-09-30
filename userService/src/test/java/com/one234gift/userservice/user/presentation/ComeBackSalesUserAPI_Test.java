@@ -1,6 +1,6 @@
 package com.one234gift.userservice.user.presentation;
 
-import com.one234gift.userservice.application.UserRepository;
+import com.one234gift.userservice.command.application.UserRepository;
 import com.one234gift.userservice.domain.User;
 import com.one234gift.userservice.user.UserFixture;
 import org.junit.jupiter.api.Test;

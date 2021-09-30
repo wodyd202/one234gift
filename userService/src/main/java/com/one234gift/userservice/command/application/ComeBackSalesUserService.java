@@ -1,27 +1,27 @@
-package com.one234gift.userservice.application;
+package com.one234gift.userservice.command.application;
 
-import com.one234gift.userservice.application.exception.PhoneNotFoundException;
+import com.one234gift.userservice.command.application.exception.PhoneNotFoundException;
 import com.one234gift.userservice.domain.SalesUser;
 import com.one234gift.userservice.domain.User;
 import com.one234gift.userservice.domain.value.Phone;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.one234gift.userservice.application.UserServiceHelper.findByPhone;
+import static com.one234gift.userservice.command.application.UserServiceHelper.findByPhone;
 
 @Service
-public class LeaveSalesUserService {
+public class ComeBackSalesUserService {
     private final UserRepository userRepository;
 
-    public LeaveSalesUserService(UserRepository userRepository) {
+    public ComeBackSalesUserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Transactional
-    public void leave(Phone phone){
+    public void comeback(Phone phone) {
         User user = findByPhone(userRepository, phone);
         if(user instanceof SalesUser){
-            user.leave();
+            user.comeBack();
         }else{
             throw new PhoneNotFoundException();
         }

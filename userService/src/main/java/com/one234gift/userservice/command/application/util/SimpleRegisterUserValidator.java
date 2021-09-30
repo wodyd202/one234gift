@@ -1,7 +1,7 @@
-package com.one234gift.userservice.application.util;
+package com.one234gift.userservice.command.application.util;
 
-import com.one234gift.userservice.application.exception.DuplicatePhoneException;
-import com.one234gift.userservice.application.UserRepository;
+import com.one234gift.userservice.command.application.exception.DuplicatePhoneException;
+import com.one234gift.userservice.command.application.UserRepository;
 import com.one234gift.userservice.domain.RegisterUserValidator;
 import com.one234gift.userservice.domain.value.Phone;
 import org.springframework.stereotype.Component;

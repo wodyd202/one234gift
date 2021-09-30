@@ -4,10 +4,11 @@ import com.one234gift.userservice.domain.exception.AlreadyLeaveException;
 import com.one234gift.userservice.domain.exception.AlreadyWorkingException;
 import com.one234gift.userservice.domain.model.RegisterUser;
 import com.one234gift.userservice.domain.model.UserModel;
+import com.one234gift.userservice.domain.value.Password;
 import com.one234gift.userservice.domain.value.Phone;
 import com.one234gift.userservice.domain.value.State;
 import com.one234gift.userservice.domain.value.Username;
-import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
@@ -27,22 +28,35 @@ abstract public class User {
     // 추후에 아이디로 사용될 예정
     // 유니크 해야함
     @EmbeddedId
+    @AttributeOverride(name = "phone", column = @Column(name = "phone", length = 13, nullable = false))
     private final Phone phone;
 
     // 사용자 이름
     // 추후에 비밀번호로 사용될 예정
     @Embedded
+    @AttributeOverride(name = "name", column = @Column(name = "name", length = 10, nullable = false))
     private final Username name;
+
+    @Embedded
+    @AttributeOverride(name = "password", column = @Column(name = "password", nullable = false))
+    private Password password;
 
     // 사용자 상태
     // NOT_APPROVED(퇴사)
     // APPROVED(재직)
     @Enumerated(STRING)
+    @Column(nullable = false, length = 5)
     private State state;
 
-    protected User(Username username, Phone phone) {
+    protected User(){
+        phone = null;
+        name = null;
+    }
+
+    protected User(Username username, Phone phone, Password password) {
         name = username;
         this.phone = phone;
+        this.password = password;
     }
 
     /**
@@ -51,16 +65,21 @@ abstract public class User {
      * @return
      */
     public static User registerSalesUser(RegisterUser registerUser) {
-        return new SalesUser(new Username(registerUser.getUsername()),new Phone(registerUser.getPhone()));
+        return new SalesUser(new Username(registerUser.getUsername()),
+                            new Phone(registerUser.getPhone()),
+                            new Password(registerUser.getUsername()));
     }
 
     public static User registerAccountingUser(RegisterUser registerUser) {
-        return new AccountingUser(new Username(registerUser.getUsername()),new Phone(registerUser.getPhone()));
+        return new AccountingUser(new Username(registerUser.getUsername()),
+                                new Phone(registerUser.getPhone()),
+                                new Password(registerUser.getUsername()));
     }
 
-    final public void register(RegisterUserValidator registerUserValidator){
+    final public void register(RegisterUserValidator registerUserValidator, PasswordEncoder passwordEncoder){
         registerUserValidator.validation(phone);
         state = WORK;
+        password = password.encode(passwordEncoder);
     }
 
     final public void leave(){
@@ -90,6 +109,8 @@ abstract public class User {
                 .username(name.get())
                 .phone(phone.get())
                 .state(state)
+                .role(this.getClass().getSimpleName())
+                .password(password.get())
                 .build();
     }
 

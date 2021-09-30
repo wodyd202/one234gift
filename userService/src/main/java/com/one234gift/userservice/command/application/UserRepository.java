@@ -1,4 +1,4 @@
-package com.one234gift.userservice.application;
+package com.one234gift.userservice.command.application;
 
 import com.one234gift.userservice.domain.User;
 import com.one234gift.userservice.domain.value.Phone;

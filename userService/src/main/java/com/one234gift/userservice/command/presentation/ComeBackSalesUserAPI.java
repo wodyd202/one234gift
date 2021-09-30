@@ -1,23 +1,23 @@
-package com.one234gift.userservice.presentation;
+package com.one234gift.userservice.command.presentation;
 
-import com.one234gift.userservice.application.LeaveSalesUserService;
+import com.one234gift.userservice.command.application.ComeBackSalesUserService;
 import com.one234gift.userservice.common.APIResponse;
 import com.one234gift.userservice.domain.value.Phone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/sales-user")
-public class LeaveSalesUserAPI {
-    @Autowired private LeaveSalesUserService leaveSalesUserService;
+public class ComeBackSalesUserAPI {
+    @Autowired private ComeBackSalesUserService comeBackSalesUserService;
 
-    @DeleteMapping("{phone}")
-    public APIResponse leave(@PathVariable Phone phone){
-        leaveSalesUserService.leave(phone);
+    @PutMapping("{phone}/comeback")
+    public APIResponse comeback(@PathVariable Phone phone){
+        comeBackSalesUserService.comeback(phone);
         return new APIResponse(null, HttpStatus.OK);
     }
 }

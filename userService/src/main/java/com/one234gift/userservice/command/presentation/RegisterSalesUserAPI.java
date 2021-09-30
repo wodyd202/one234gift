@@ -1,6 +1,6 @@
-package com.one234gift.userservice.presentation;
+package com.one234gift.userservice.command.presentation;
 
-import com.one234gift.userservice.application.RegisterSalesUserService;
+import com.one234gift.userservice.command.application.RegisterSalesUserService;
 import com.one234gift.userservice.common.APIResponse;
 import com.one234gift.userservice.domain.model.RegisterUser;
 import com.one234gift.userservice.domain.model.UserModel;

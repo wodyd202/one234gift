@@ -1,8 +1,8 @@
 package com.one234gift.userservice.user.application;
 
-import com.one234gift.userservice.application.exception.DuplicatePhoneException;
-import com.one234gift.userservice.application.RegisterSalesUserService;
-import com.one234gift.userservice.application.UserRepository;
+import com.one234gift.userservice.command.application.exception.DuplicatePhoneException;
+import com.one234gift.userservice.command.application.RegisterSalesUserService;
+import com.one234gift.userservice.command.application.UserRepository;
 import com.one234gift.userservice.domain.User;
 import com.one234gift.userservice.domain.model.RegisterUser;
 import com.one234gift.userservice.domain.model.UserModel;

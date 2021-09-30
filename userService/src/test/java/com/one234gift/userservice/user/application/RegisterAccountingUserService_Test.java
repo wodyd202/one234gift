@@ -1,6 +1,6 @@
 package com.one234gift.userservice.user.application;
 
-import com.one234gift.userservice.application.RegisterAccountingUserService;
+import com.one234gift.userservice.command.application.RegisterAccountingUserService;
 import com.one234gift.userservice.domain.model.RegisterUser;
 import com.one234gift.userservice.domain.model.UserModel;
 import org.junit.jupiter.api.Test;

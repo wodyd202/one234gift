@@ -1,26 +1,23 @@
-package com.one234gift.userservice.application;
+package com.one234gift.userservice.command.application;
 
 import com.one234gift.userservice.domain.RegisterUserValidator;
 import com.one234gift.userservice.domain.User;
 import com.one234gift.userservice.domain.model.RegisterUser;
 import com.one234gift.userservice.domain.model.UserModel;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class RegisterAccountingUserService {
-    private final UserRepository userRepository;
-    private final RegisterUserValidator registerUserValidator;
-
-    public RegisterAccountingUserService(UserRepository userRepository, RegisterUserValidator registerUserValidator) {
-        this.userRepository = userRepository;
-        this.registerUserValidator = registerUserValidator;
+public class RegisterAccountingUserService extends RegisterUserService{
+    public RegisterAccountingUserService(UserRepository userRepository, RegisterUserValidator registerUserValidator, PasswordEncoder passwordEncoder) {
+        super(userRepository, registerUserValidator, passwordEncoder);
     }
 
     @Transactional
     public UserModel register(RegisterUser registerUser) {
         User user = User.registerAccountingUser(registerUser);
-        user.register(registerUserValidator);
+        user.register(registerUserValidator, passwordEncoder);
         userRepository.save(user);
         return user.toModel();
     }

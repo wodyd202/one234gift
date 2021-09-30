@@ -1,7 +1,7 @@
 package com.one234gift.userservice.user.application;
 
-import com.one234gift.userservice.application.UserRepository;
-import com.one234gift.userservice.application.exception.PhoneNotFoundException;
+import com.one234gift.userservice.command.application.UserRepository;
+import com.one234gift.userservice.command.application.exception.PhoneNotFoundException;
 import com.one234gift.userservice.domain.value.Phone;
 import com.one234gift.userservice.user.UserFixture;
 import org.junit.Test;
@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.one234gift.userservice.application.UserServiceHelper.findByPhone;
+import static com.one234gift.userservice.command.application.UserServiceHelper.findByPhone;
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 
 @RunWith(SpringRunner.class)

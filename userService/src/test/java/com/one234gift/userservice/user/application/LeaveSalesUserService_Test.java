@@ -1,7 +1,7 @@
 package com.one234gift.userservice.user.application;
 
-import com.one234gift.userservice.application.LeaveSalesUserService;
-import com.one234gift.userservice.application.UserRepository;
+import com.one234gift.userservice.command.application.LeaveSalesUserService;
+import com.one234gift.userservice.command.application.UserRepository;
 import com.one234gift.userservice.domain.model.UserModel;
 import com.one234gift.userservice.domain.value.Phone;
 import com.one234gift.userservice.user.UserFixture;
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.one234gift.userservice.application.UserServiceHelper.findByPhone;
+import static com.one234gift.userservice.command.application.UserServiceHelper.findByPhone;
 import static com.one234gift.userservice.domain.value.State.LEAVE;
 import static com.one234gift.userservice.user.UserTestHelper.persistUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
