@@ -237,7 +237,6 @@ public class Customer {
                 .id(id)
                 .category(category.get())
                 .businessInfo(businessInfo.toModel())
-                .purchasingManagers(purchasingManagers.toModel())
                 .address(address.toModel())
                 .saleState(saleState)
                 .manager(manager.toModel())
