@@ -4,13 +4,11 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class ChangeBusinessInfo {
+public class ChangeBusinessName {
     private String name;
-    private String number;
 
     @Builder
-    public ChangeBusinessInfo(String name, String number) {
+    public ChangeBusinessName(String name) {
         this.name = name;
-        this.number = number;
     }
 }

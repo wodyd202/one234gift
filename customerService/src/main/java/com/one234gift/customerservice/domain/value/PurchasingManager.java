@@ -1,18 +1,52 @@
-package com.one234gift.customerservice.domain;
+package com.one234gift.customerservice.domain.value;
 
+import com.one234gift.customerservice.domain.Customer;
+import com.one234gift.customerservice.domain.model.ChangePurchasingManager;
 import com.one234gift.customerservice.domain.model.PurchasingManagerModel;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.AUTO;
+
+@Entity
+@Table(name = "customer_purchasing_manager")
 public class PurchasingManager {
+    @Id
+    @GeneratedValue(strategy = AUTO)
+    private Long seq;
+
+    @ManyToOne(fetch = LAZY)
+    private Customer customer;
+
+    @Embedded
+    @AttributeOverride(name = "managerName", column = @Column(name = "name", length = 10))
     private ManagerName name;
+
+    @Embedded
+    @AttributeOverride(name = "email", column = @Column(name = "email", length = 50))
     private Email email;
+
+    @Embedded
+    @AttributeOverride(name = "jobTitle", column = @Column(name = "job_title", length = 10))
     private JobTitle jobTitle;
 
-    public PurchasingManager(ChangePurchasingManager purchasingManager) {
+    /**
+     * 고객(업체) 연락처
+     * - 대표 전화번호[필수]
+     * - 기타 전화번호
+     * - 팩스
+     */
+    @Embedded
+    private Contact contact;
+
+    public PurchasingManager(ChangePurchasingManager purchasingManager, Customer customer) {
         setManagerName(purchasingManager);
         setEmail(purchasingManager);
         setJobTitle(purchasingManager);
+        setContect(purchasingManager);
+        this.customer = customer;
     }
 
     private void setManagerName(ChangePurchasingManager purchasingManager) {
@@ -42,11 +76,19 @@ public class PurchasingManager {
         }
     }
 
+    private void setContect(ChangePurchasingManager purchasingManager) {
+        if(purchasingManager.getContact() == null){
+            throw new IllegalArgumentException("구매담당자의 연락처 정보를 입력해주세요.");
+        }
+        contact = new Contact(purchasingManager.getContact());
+    }
+
     public PurchasingManagerModel toModel() {
         return PurchasingManagerModel.builder()
                 .name(name.get())
                 .email(email.get())
                 .jobTitle(jobTitle.get())
+                .contact(contact.toModel())
                 .build();
     }
 
@@ -61,5 +103,15 @@ public class PurchasingManager {
     @Override
     public int hashCode() {
         return Objects.hash(name, email, jobTitle);
+    }
+
+    @Override
+    public String toString() {
+        return "PurchasingManager{" +
+                "seq=" + seq +
+                ", name=" + name +
+                ", email=" + email +
+                ", jobTitle=" + jobTitle +
+                '}';
     }
 }

@@ -1,10 +1,15 @@
-package com.one234gift.customerservice.domain;
+package com.one234gift.customerservice.domain.value;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Tel {
+    private static final Tel INSTANCE = new Tel();
     private final String tel;
+
+    public static Tel getInstance() {
+        return INSTANCE;
+    }
 
     protected Tel() {tel = null;}
 
@@ -36,5 +41,12 @@ public class Tel {
     @Override
     public int hashCode() {
         return Objects.hash(tel);
+    }
+
+    @Override
+    public String toString() {
+        return "Tel{" +
+                "tel='" + tel + '\'' +
+                '}';
     }
 }

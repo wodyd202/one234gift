@@ -1,4 +1,4 @@
-package com.one234gift.customerservice.domain.value;
+package com.one234gift.customerservice.domain.model;
 
 import lombok.Builder;
 import lombok.Getter;

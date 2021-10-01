@@ -1,4 +1,4 @@
-package com.one234gift.customerservice.domain;
+package com.one234gift.customerservice.domain.read;
 
 import lombok.Builder;
 import lombok.Getter;

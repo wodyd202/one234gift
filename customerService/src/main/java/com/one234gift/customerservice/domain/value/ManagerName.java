@@ -1,10 +1,13 @@
-package com.one234gift.customerservice.domain;
+package com.one234gift.customerservice.domain.value;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class ManagerName {
     private final String managerName;
+
+    protected ManagerName(){managerName = null;}
+
     public ManagerName(String managerName) {
         managerNameValidation(managerName);
         this.managerName = managerName;
@@ -32,5 +35,12 @@ public class ManagerName {
     @Override
     public int hashCode() {
         return Objects.hash(managerName);
+    }
+
+    @Override
+    public String toString() {
+        return "ManagerName{" +
+                "managerName='" + managerName + '\'' +
+                '}';
     }
 }

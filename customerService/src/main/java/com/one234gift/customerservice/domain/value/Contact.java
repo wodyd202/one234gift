@@ -1,16 +1,26 @@
-package com.one234gift.customerservice.domain;
+package com.one234gift.customerservice.domain.value;
 
-import com.one234gift.customerservice.domain.model.ContactModel;
+import com.one234gift.customerservice.domain.model.ChangeContact;
+import com.one234gift.customerservice.domain.read.ContectModel;
+
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
 
 public class Contact {
+    @Embedded
+    @AttributeOverride(name = "tel", column = @Column(name = "main_tel", nullable = false, length = 13))
     private Tel mainTel;
+
+    @Embedded
+    @AttributeOverride(name = "tel", column = @Column(name = "sub_tel", length = 13))
     private Tel subTel;
-    private Tel fax;
+
+    protected Contact(){}
 
     public Contact(ChangeContact contact){
         setMainTel(contact.getMainTel());
         setSubTel(contact.getSubTel());
-        setFax(contact.getFax());
     }
 
     private void setMainTel(String mainTel) {
@@ -32,19 +42,10 @@ public class Contact {
         }
     }
 
-    private void setFax(String fax) {
-        if(fax == null){
-            this.fax = new Tel();
-        }else {
-            this.fax = new Tel(fax);
-        }
-    }
-
-    public ContactModel toModel() {
-        return ContactModel.builder()
+    public ContectModel toModel() {
+        return ContectModel.builder()
                 .mainTel(mainTel.get())
                 .subTel(subTel.get())
-                .fax(fax.get())
                 .build();
     }
 }

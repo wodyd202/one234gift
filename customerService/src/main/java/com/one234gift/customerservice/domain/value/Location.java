@@ -1,10 +1,12 @@
-package com.one234gift.customerservice.domain;
+package com.one234gift.customerservice.domain.value;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Location {
     private final String location;
+
+    protected Location(){location=null;}
 
     public Location(String location) {
         locationValidation(location);
@@ -33,5 +35,12 @@ public class Location {
     @Override
     public int hashCode() {
         return Objects.hash(location);
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "location='" + location + '\'' +
+                '}';
     }
 }

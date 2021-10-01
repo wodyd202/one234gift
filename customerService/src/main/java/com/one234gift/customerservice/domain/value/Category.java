@@ -1,10 +1,12 @@
-package com.one234gift.customerservice.domain;
+package com.one234gift.customerservice.domain.value;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Category {
     private final String category;
+
+    protected Category(){category = null;}
 
     public Category(String category) {
         categoryValidation(category);

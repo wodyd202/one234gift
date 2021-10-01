@@ -1,8 +1,10 @@
-package com.one234gift.customerservice.domain;
+package com.one234gift.customerservice.domain.value;
 
+import javax.persistence.Embeddable;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+@Embeddable
 public class Email {
     private final String email;
 
@@ -35,5 +37,12 @@ public class Email {
     @Override
     public int hashCode() {
         return Objects.hash(email);
+    }
+
+    @Override
+    public String toString() {
+        return "Email{" +
+                "email='" + email + '\'' +
+                '}';
     }
 }

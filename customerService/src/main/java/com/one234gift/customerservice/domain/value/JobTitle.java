@@ -1,4 +1,4 @@
-package com.one234gift.customerservice.domain;
+package com.one234gift.customerservice.domain.value;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -35,5 +35,12 @@ public class JobTitle {
     @Override
     public int hashCode() {
         return Objects.hash(jobTitle);
+    }
+
+    @Override
+    public String toString() {
+        return "JobTitle{" +
+                "jobTitle='" + jobTitle + '\'' +
+                '}';
     }
 }

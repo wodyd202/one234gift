@@ -1,4 +1,4 @@
-package com.one234gift.customerservice.domain.value;
+package com.one234gift.customerservice.domain.model;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,12 +7,10 @@ import lombok.Getter;
 public class ChangeContact {
     private String mainTel;
     private String subTel;
-    private String fax;
 
     @Builder
-    public ChangeContact(String mainTel, String subTel, String fax) {
+    public ChangeContact(String mainTel, String subTel) {
         this.mainTel = mainTel;
         this.subTel = subTel;
-        this.fax = fax;
     }
 }

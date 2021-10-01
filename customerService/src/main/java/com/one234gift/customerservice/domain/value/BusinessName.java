@@ -1,9 +1,11 @@
-package com.one234gift.customerservice.domain;
+package com.one234gift.customerservice.domain.value;
 
 import java.util.regex.Pattern;
 
 public class BusinessName {
     private final String name;
+
+    protected BusinessName(){name=null;}
 
     public BusinessName(String name) {
         nameValidation(name);

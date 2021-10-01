@@ -1,4 +1,4 @@
-package com.one234gift.userservice.config;
+package com.one234gift.customerservice.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.context.annotation.Bean;
