@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.one234gift.customerservice.domain.CustomerFixture.aManager;
 import static com.one234gift.customerservice.domain.CustomerFixture.aRegisterCustomer;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -17,7 +16,7 @@ public class RegisterCustomerService_Test {
 
     @Test
     void 고객_등록(){
-        CustomerModel customerModel = registerCustomerService.register(aRegisterCustomer().build(), aManager().build());
+        CustomerModel customerModel = registerCustomerService.register(aRegisterCustomer().build(), "requester");
         Customer customer = customerRepository.findById(customerModel.getId()).get();
         assertNotNull(customer);
     }

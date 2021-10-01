@@ -322,10 +322,6 @@ public class Customer_Test {
         assertEquals(customerModel.getBusinessInfo().getNumber(),"000-00-00000");
         List<PurchasingManagerModel> purchasingManagerModelList = customerModel.getPurchasingManagers();
 
-        assertEquals(purchasingManagerModelList.get(0).getName(),"이름");
-        assertEquals(purchasingManagerModelList.get(0).getEmail(),"test@google.com");
-        assertEquals(purchasingManagerModelList.get(0).getJobTitle(),"직위");
-
         assertEquals(customerModel.getAddress().getLocation(),"지역");
         assertEquals(customerModel.getAddress().getAddressDetail(),"상세주소");
         assertEquals(customerModel.getManager().getName(),"담당자 이름");
@@ -450,7 +446,6 @@ public class Customer_Test {
         customer.saleStop();
         customer.saleStop();
     }
-
 
     @Test(expected = AlreadySaleException.class)
     public void 이미_영업중인_고객(){

@@ -25,7 +25,7 @@ public class ChangeSaleStateService_Test {
 
     @Test
     void 영업_중단(){
-        CustomerModel customer = registerCustomerService.register(aRegisterCustomer().build(), aManager().build());
+        CustomerModel customer = registerCustomerService.register(aRegisterCustomer().build(), "userId");
         changeSaleStateService.saleStop(customer.getId(), aManager().build());
 
         CustomerModel findCustomer = findById(customerRepository, customer.getId()).toModel();
@@ -34,7 +34,7 @@ public class ChangeSaleStateService_Test {
 
     @Test
     void 영업중으로_변경(){
-        CustomerModel customer = registerCustomerService.register(aRegisterCustomer().build(), aManager().build());
+        CustomerModel customer = registerCustomerService.register(aRegisterCustomer().build(), "userId");
         changeSaleStateService.saleStop(customer.getId(), aManager().build());
         changeSaleStateService.sale(customer.getId(), aManager().build());
 

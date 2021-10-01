@@ -12,12 +12,12 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: first-service
-          uri: http://127.0.0.1:8081/
+        - id: user-service
+          uri: lb://USER-SERVICE
           predicates:
-            - Path=/first-service/**
-        - id: second-service
-          uri: http://127.0.0.1:8082/
-          predicates:
-            - Path=/second-service/**
+            - Path=/user-service/access-token
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
 
