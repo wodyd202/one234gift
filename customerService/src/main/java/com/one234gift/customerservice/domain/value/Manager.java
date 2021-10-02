@@ -2,22 +2,24 @@ package com.one234gift.customerservice.domain.value;
 
 import com.one234gift.customerservice.domain.read.ManagerModel;
 import lombok.Builder;
+import lombok.Setter;
 
+@Setter
 public class Manager {
-    private final String name;
-    private final String phone;
+    private String username;
+    private String phone;
 
-    protected Manager(){name = null; phone = null;}
+    protected Manager(){}
 
     @Builder
     public Manager(String name, String phone) {
-        this.name = name;
+        this.username = name;
         this.phone = phone;
     }
 
     public ManagerModel toModel(){
         return ManagerModel.builder()
-                .name(name)
+                .name(username)
                 .phone(phone)
                 .build();
     }
@@ -25,7 +27,7 @@ public class Manager {
     @Override
     public String toString() {
         return "Manager{" +
-                "name='" + name + '\'' +
+                "name='" + username + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
     }

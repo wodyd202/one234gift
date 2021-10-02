@@ -31,7 +31,7 @@ public class ChangeCustomerService {
     }
 
     public CustomerModel changeBusinessName(Long id, ChangeBusinessName businessName, String userId) {
-        Manager manager = findById(userRepository, userId);
+        Manager manager = findById(userRepository);
         Customer customer = findById(customerRepository, id);
         customer.changeBusinessName(businessName);
         customerRepository.save(customer);
@@ -40,7 +40,7 @@ public class ChangeCustomerService {
     }
 
     public CustomerModel changeAddressDetail(Long id, ChangeAddressDetail addressDetail, String userId) {
-        Manager manager = findById(userRepository, userId);
+        Manager manager = findById(userRepository);
         Customer customer = findById(customerRepository, id);
         customer.changeAddressDetail(addressDetail);
         customerRepository.save(customer);
@@ -49,7 +49,7 @@ public class ChangeCustomerService {
     }
 
     public CustomerModel changeBusinessNumber(Long id, ChangeBusinessNumber businessNumber, String userId) {
-        Manager manager = findById(userRepository, userId);
+        Manager manager = findById(userRepository);
         Customer customer = findById(customerRepository, id);
         customer.changeBusinessNumber(businessNumber);
         customerRepository.save(customer);
@@ -58,7 +58,7 @@ public class ChangeCustomerService {
     }
 
     public CustomerModel changeFax(Long id, ChangeFax fax, String userId) {
-        Manager manager = findById(userRepository, userId);
+        Manager manager = findById(userRepository);
         Customer customer = findById(customerRepository, id);
         customer.changeFax(fax);
         customerRepository.save(customer);

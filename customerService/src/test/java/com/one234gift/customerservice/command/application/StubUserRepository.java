@@ -7,8 +7,9 @@ import java.util.Optional;
 
 @Repository
 public class StubUserRepository implements UserRepository{
+
     @Override
-    public Optional<Manager> findById(String userId) {
+    public Optional<Manager> findUser() {
         return Optional.of(Manager.builder()
                         .name("담당자")
                         .phone("010-0000-0000")

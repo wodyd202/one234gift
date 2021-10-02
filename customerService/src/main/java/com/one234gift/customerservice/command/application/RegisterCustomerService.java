@@ -27,7 +27,7 @@ public class RegisterCustomerService {
 
     @Transactional
     public CustomerModel register(RegisterCustomer registerCustomer, String userId) {
-        Manager manager = findById(userRepository, userId);
+        Manager manager = findById(userRepository);
         Customer customer = Customer.registerWith(registerCustomer, manager);
         customer.register(registerCustomerValidator);
         customer = customerRepository.save(customer);
