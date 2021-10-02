@@ -1,4 +1,4 @@
-package com.one234gift.userservice.config;
+package com.one234gift.userservice.security;
 
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;

@@ -1,4 +1,4 @@
-package com.one234gift.userservice.config;
+package com.one234gift.userservice.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

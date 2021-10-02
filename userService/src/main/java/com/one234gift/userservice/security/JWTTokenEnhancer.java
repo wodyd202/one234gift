@@ -1,4 +1,4 @@
-package com.one234gift.userservice.config;
+package com.one234gift.userservice.security;
 
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
