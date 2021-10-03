@@ -2,6 +2,7 @@ package com.one234gift.customerservice.command.application;
 
 import com.one234gift.customerservice.domain.Customer;
 import com.one234gift.customerservice.domain.read.CustomerModel;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +14,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class RegisterCustomerService_Test {
     @Autowired RegisterCustomerService registerCustomerService;
     @Autowired CustomerRepository customerRepository;
+
+    @BeforeEach
+    void setUp(){
+        registerCustomerService.setUserRepository(new StubUserRepository());
+    }
 
     @Test
     void 고객_등록(){

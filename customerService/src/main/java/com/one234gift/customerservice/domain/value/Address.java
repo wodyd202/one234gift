@@ -45,7 +45,7 @@ public class Address {
     public AddressModel toModel() {
         return AddressModel.builder()
                 .location(location.get())
-                .addressDetail(addressDetail.get())
+                .addressDetail(getAddressDetail().get())
                 .build();
     }
 
@@ -53,4 +53,7 @@ public class Address {
         return location;
     }
 
+    private AddressDetail getAddressDetail() {
+        return addressDetail != null ? addressDetail : new AddressDetail();
+    }
 }

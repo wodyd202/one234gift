@@ -11,6 +11,7 @@ import com.one234gift.customerservice.domain.model.ChangeBusinessNumber;
 import com.one234gift.customerservice.domain.model.ChangeFax;
 import com.one234gift.customerservice.domain.read.CustomerModel;
 import com.one234gift.customerservice.domain.value.Manager;
+import lombok.Setter;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +20,10 @@ import static com.one234gift.customerservice.command.application.CustomerService
 
 @Service
 @Transactional
+@Setter
 public class ChangeCustomerService {
     private final CustomerRepository customerRepository;
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
     private final ApplicationEventPublisher applicationEventPublisher;
 
     public ChangeCustomerService(CustomerRepository customerRepository, UserRepository userRepository, ApplicationEventPublisher applicationEventPublisher) {

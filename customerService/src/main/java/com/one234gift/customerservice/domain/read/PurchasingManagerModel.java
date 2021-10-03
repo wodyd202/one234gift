@@ -1,4 +1,4 @@
-package com.one234gift.customerservice.domain.model;
+package com.one234gift.customerservice.domain.read;
 
 import com.one234gift.customerservice.domain.read.ContectModel;
 import lombok.Builder;

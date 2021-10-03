@@ -14,6 +14,10 @@ abstract public class ChangedCustomerEvent {
     protected ChangedCustomerEvent(long customerId, Manager manager, String payload) {
         this.customerId = customerId;
         this.manager = manager;
-        this.payload = payload;
+        if(payload == null){
+            this.payload = "";
+        }else{
+            this.payload = payload;
+        }
     }
 }

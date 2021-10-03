@@ -5,7 +5,7 @@ import com.one234gift.customerservice.domain.model.ChangeBusinessInfo;
 import com.one234gift.customerservice.domain.model.ChangeContact;
 import com.one234gift.customerservice.domain.model.ChangePurchasingManager;
 import com.one234gift.customerservice.domain.value.Manager;
-import com.one234gift.customerservice.domain.value.RegisterCustomer;
+import com.one234gift.customerservice.domain.model.RegisterCustomer;
 
 import java.util.Arrays;
 

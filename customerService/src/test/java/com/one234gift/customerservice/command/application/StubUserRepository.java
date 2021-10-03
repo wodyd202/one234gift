@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public class StubUserRepository implements UserRepository{
+public class StubUserRepository implements UserRepository {
 
     @Override
     public Optional<Manager> findUser() {

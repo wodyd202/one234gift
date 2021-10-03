@@ -2,7 +2,7 @@ package com.one234gift.customerservice.domain.value;
 
 import com.one234gift.customerservice.domain.Customer;
 import com.one234gift.customerservice.domain.model.ChangePurchasingManager;
-import com.one234gift.customerservice.domain.model.PurchasingManagerModel;
+import com.one234gift.customerservice.domain.read.PurchasingManagerModel;
 
 import javax.persistence.Embeddable;
 import javax.persistence.OneToMany;

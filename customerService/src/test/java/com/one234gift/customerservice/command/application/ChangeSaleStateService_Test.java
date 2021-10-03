@@ -1,6 +1,7 @@
 package com.one234gift.customerservice.command.application;
 
 import com.one234gift.customerservice.domain.read.CustomerModel;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +23,11 @@ public class ChangeSaleStateService_Test {
 
     @Autowired
     ChangeSaleStateService changeSaleStateService;
+
+    @BeforeEach
+    void setUp(){
+        registerCustomerService.setUserRepository(new StubUserRepository());
+    }
 
     @Test
     void 영업_중단(){

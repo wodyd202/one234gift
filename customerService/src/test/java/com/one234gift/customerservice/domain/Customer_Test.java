@@ -11,6 +11,7 @@ import com.one234gift.customerservice.domain.model.*;
 import com.one234gift.customerservice.domain.read.AddressModel;
 import com.one234gift.customerservice.domain.read.BusinessInfoModel;
 import com.one234gift.customerservice.domain.read.CustomerModel;
+import com.one234gift.customerservice.domain.read.PurchasingManagerModel;
 import com.one234gift.customerservice.domain.value.*;
 import org.junit.Before;
 import org.junit.Test;

@@ -5,6 +5,7 @@ import com.one234gift.customerservice.domain.model.ChangeBusinessName;
 import com.one234gift.customerservice.domain.model.ChangeBusinessNumber;
 import com.one234gift.customerservice.domain.model.ChangeFax;
 import com.one234gift.customerservice.domain.read.CustomerModel;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,6 +30,12 @@ public class ChangeCustomerService_Test {
 
     @Autowired
     CustomerHistoryRepository customerHistoryRepository;
+
+    @BeforeEach
+    void setUp(){
+        changeCustomerService.setUserRepository(new StubUserRepository());
+        registerCustomerService.setUserRepository(new StubUserRepository());
+    }
 
     @Test
     void 업체명_수정(){

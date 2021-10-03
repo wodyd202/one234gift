@@ -1,6 +1,5 @@
 package com.one234gift.customerservice.domain.read;
 
-import com.one234gift.customerservice.domain.model.PurchasingManagerModel;
 import com.one234gift.customerservice.domain.value.SaleState;
 import lombok.Builder;
 import lombok.Getter;
