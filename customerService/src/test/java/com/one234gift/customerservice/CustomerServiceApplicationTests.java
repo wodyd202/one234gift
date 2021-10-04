@@ -1,15 +1,16 @@
 package com.one234gift.customerservice;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
 
 class CustomerServiceApplicationTests {
 
     @Test
-    void contextLoads() throws JsonProcessingException {
+    void contextLoads() {
+        LocalDate now = LocalDate.now();
+        LocalDate of = LocalDate.of(2021, 10, 10);
+        System.out.println(of.isBefore(now));
     }
 
 }

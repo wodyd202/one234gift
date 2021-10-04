@@ -1,6 +1,5 @@
 package com.one234gift.customerservice.command.application;
 
-import com.one234gift.customerservice.command.application.exception.SalesHistoryNotFoundException;
 import com.one234gift.customerservice.domain.SalesHistory;
 import com.one234gift.customerservice.domain.model.ChangeCallReservationDate;
 import com.one234gift.customerservice.domain.model.ChangeCustomerReactivity;

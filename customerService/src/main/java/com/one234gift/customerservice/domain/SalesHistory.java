@@ -73,7 +73,8 @@ public class SalesHistory {
     }
 
     private void setCallReservationDate(LocalDate callReservationDate) {
-        if(callReservationDate != null && callReservationDate.isBefore(LocalDate.now())){
+        LocalDate now = LocalDate.now();
+        if(callReservationDate != null && (callReservationDate.isEqual(now) || callReservationDate.isBefore(now))) {
             throw new IllegalArgumentException("예약콜은 오늘 이후 날짜로 지정해주세요.");
         }
         this.callReservationDate = callReservationDate;
