@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.one234gift.customerservice.command.application.CustomerServiceHelper.findById;
+import static com.one234gift.customerservice.command.application.CustomerServiceHelper.findCustomer;
 
 
 @Setter
@@ -29,7 +29,7 @@ public class RegisterCustomerService {
 
     @Transactional
     public CustomerModel register(RegisterCustomer registerCustomer, String userId) {
-        Manager manager = findById(userRepository);
+        Manager manager = CustomerServiceHelper.findCustomer(userRepository);
         Customer customer = Customer.registerWith(registerCustomer, manager);
         customer.register(registerCustomerValidator);
         customer = customerRepository.save(customer);

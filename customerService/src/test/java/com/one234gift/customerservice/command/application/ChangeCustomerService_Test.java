@@ -42,7 +42,7 @@ public class ChangeCustomerService_Test {
         CustomerModel customer = registerCustomerService.register(aRegisterCustomer().build(), "userId");
         changeCustomerService.changeBusinessName(customer.getId(), ChangeBusinessName.builder()
                 .name("업체명 수정")
-                .build(), "userId");
+                .build());
         CustomerModel findCustomer = customerRepository.findById(customer.getId()).get().toModel();
         assertEquals(findCustomer.getBusinessInfo().getName(),"업체명 수정");
         assertEquals(findCustomer.getBusinessInfo().getNumber(), customer.getBusinessInfo().getNumber());
@@ -53,7 +53,7 @@ public class ChangeCustomerService_Test {
         CustomerModel customer = registerCustomerService.register(aRegisterCustomer().build(), "userId");
         changeCustomerService.changeAddressDetail(customer.getId(), ChangeAddressDetail.builder()
                 .detail("상세 주소 변경")
-                .build(), "userId");
+                .build());
         CustomerModel findCustomer = customerRepository.findById(customer.getId()).get().toModel();
         assertEquals(findCustomer.getAddress().getAddressDetail(),"상세 주소 변경");
     }
@@ -63,7 +63,7 @@ public class ChangeCustomerService_Test {
         CustomerModel customer = registerCustomerService.register(aRegisterCustomer().build(), "userId");
         changeCustomerService.changeBusinessNumber(customer.getId(), ChangeBusinessNumber.builder()
                 .businessNumber("000-00-12345")
-                .build(), "userId");
+                .build());
         CustomerModel findCustomer = customerRepository.findById(customer.getId()).get().toModel();
         assertEquals(findCustomer.getBusinessInfo().getNumber(), "000-00-12345");
     }
@@ -71,7 +71,7 @@ public class ChangeCustomerService_Test {
     @Test
     void 팩스번호_변경(){
         CustomerModel customer = registerCustomerService.register(aRegisterCustomer().build(), "userId");
-        changeCustomerService.changeFax(customer.getId(), ChangeFax.builder().fax("123-1234-1234").build(), "userId");
+        changeCustomerService.changeFax(customer.getId(), ChangeFax.builder().fax("123-1234-1234").build());
         CustomerModel findCustomer = customerRepository.findById(customer.getId()).get().toModel();
         assertEquals(findCustomer.getFax(), "123-1234-1234");
     }

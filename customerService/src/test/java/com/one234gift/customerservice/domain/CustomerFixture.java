@@ -1,11 +1,8 @@
 package com.one234gift.customerservice.domain;
 
-import com.one234gift.customerservice.domain.model.ChangeAddress;
-import com.one234gift.customerservice.domain.model.ChangeBusinessInfo;
-import com.one234gift.customerservice.domain.model.ChangeContact;
-import com.one234gift.customerservice.domain.model.ChangePurchasingManager;
+import com.one234gift.customerservice.domain.model.*;
+import com.one234gift.customerservice.domain.value.CustomerReactivity;
 import com.one234gift.customerservice.domain.value.Manager;
-import com.one234gift.customerservice.domain.model.RegisterCustomer;
 
 import java.util.Arrays;
 
@@ -38,4 +35,11 @@ public class CustomerFixture {
                         .build());
     }
 
+    public static RegisterSalesHistory.RegisterSalesHistoryBuilder aRegisterSalesHistory() {
+        return RegisterSalesHistory.builder()
+                .sample(false)
+                .catalogue(false)
+                .content("영업 내용")
+                .reactivity(CustomerReactivity.THREE);
+    }
 }

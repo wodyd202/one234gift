@@ -6,11 +6,11 @@ import com.one234gift.customerservice.domain.Customer;
 import com.one234gift.customerservice.domain.value.Manager;
 
 public class CustomerServiceHelper {
-    public static Manager findById(UserRepository userRepository){
+    public static Manager findCustomer(UserRepository userRepository){
         return userRepository.findUser().orElseThrow(UserNotFoundException::new);
     }
 
-    public static Customer findById(CustomerRepository customerRepository, Long id) {
+    public static Customer findCustomer(CustomerRepository customerRepository, Long id) {
         return customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);
     }
 }

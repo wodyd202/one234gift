@@ -1,6 +1,7 @@
 package com.one234gift.customerservice.command.presentation;
 
 import com.one234gift.customerservice.command.application.ChangeCustomerService;
+import com.one234gift.customerservice.command.application.ChangeSaleStateService;
 import com.one234gift.customerservice.common.APIResponse;
 import com.one234gift.customerservice.common.CommandException;
 import com.one234gift.customerservice.domain.model.ChangeAddressDetail;
@@ -20,6 +21,7 @@ import java.security.Principal;
 @RequestMapping("api/customer/{customerId}")
 public class ChangeCustomerAPI {
     @Autowired private ChangeCustomerService changeCustomerService;
+    @Autowired private ChangeSaleStateService changeSaleStateService;
 
     @PutMapping("business-name")
     public APIResponse changeBusinessName(@Valid @RequestBody ChangeBusinessName businessName,
@@ -29,7 +31,7 @@ public class ChangeCustomerAPI {
         if(errors.hasErrors()){
             throw new CommandException(errors);
         }
-        CustomerModel customerModel = changeCustomerService.changeBusinessName(customerId, businessName, principal.getName());
+        CustomerModel customerModel = changeCustomerService.changeBusinessName(customerId, businessName);
         return new APIResponse(customerModel, HttpStatus.OK);
     }
 
@@ -41,7 +43,7 @@ public class ChangeCustomerAPI {
         if(errors.hasErrors()){
             throw new CommandException(errors);
         }
-        CustomerModel customerModel = changeCustomerService.changeAddressDetail(customerId, addressDetail, principal.getName());
+        CustomerModel customerModel = changeCustomerService.changeAddressDetail(customerId, addressDetail);
         return new APIResponse(customerModel, HttpStatus.OK);
     }
 
@@ -53,7 +55,7 @@ public class ChangeCustomerAPI {
         if(errors.hasErrors()){
             throw new CommandException(errors);
         }
-        CustomerModel customerModel = changeCustomerService.changeBusinessNumber(customerId, businessNumber, principal.getName());
+        CustomerModel customerModel = changeCustomerService.changeBusinessNumber(customerId, businessNumber);
         return new APIResponse(customerModel, HttpStatus.OK);
     }
 
@@ -65,8 +67,22 @@ public class ChangeCustomerAPI {
         if(errors.hasErrors()){
             throw new CommandException(errors);
         }
-        CustomerModel customerModel = changeCustomerService.changeFax(customerId, fax, principal.getName());
+        CustomerModel customerModel = changeCustomerService.changeFax(customerId, fax);
         return new APIResponse(customerModel, HttpStatus.OK);
+    }
+
+    @PutMapping("sale")
+    public APIResponse sale(@PathVariable Long customerId,
+                            Principal principal){
+        changeSaleStateService.sale(customerId);
+        return new APIResponse(HttpStatus.OK);
+    }
+
+    @PutMapping("sale-stop")
+    public APIResponse saleStop(@PathVariable Long customerId,
+                            Principal principal){
+        changeSaleStateService.saleStop(customerId);
+        return new APIResponse(HttpStatus.OK);
     }
 
 }

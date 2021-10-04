@@ -1,6 +1,8 @@
 spring:
   application:
     name: customer-service
+  profiles:
+    include: database
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
@@ -9,7 +11,6 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
-
 security:
   oauth2:
     resource:

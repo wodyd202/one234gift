@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.one234gift.customerservice.command.application.CustomerServiceHelper.findById;
-import static com.one234gift.customerservice.domain.CustomerFixture.aManager;
 import static com.one234gift.customerservice.domain.CustomerFixture.aRegisterCustomer;
 import static com.one234gift.customerservice.domain.value.SaleState.SALE;
 import static com.one234gift.customerservice.domain.value.SaleState.STOP;
@@ -32,19 +30,19 @@ public class ChangeSaleStateService_Test {
     @Test
     void 영업_중단(){
         CustomerModel customer = registerCustomerService.register(aRegisterCustomer().build(), "userId");
-        changeSaleStateService.saleStop(customer.getId(), aManager().build());
+        changeSaleStateService.saleStop(customer.getId());
 
-        CustomerModel findCustomer = findById(customerRepository, customer.getId()).toModel();
+        CustomerModel findCustomer = CustomerServiceHelper.findCustomer(customerRepository, customer.getId()).toModel();
         assertEquals(findCustomer.getSaleState(), STOP);
     }
 
     @Test
     void 영업중으로_변경(){
         CustomerModel customer = registerCustomerService.register(aRegisterCustomer().build(), "userId");
-        changeSaleStateService.saleStop(customer.getId(), aManager().build());
-        changeSaleStateService.sale(customer.getId(), aManager().build());
+        changeSaleStateService.saleStop(customer.getId());
+        changeSaleStateService.sale(customer.getId());
 
-        CustomerModel findCustomer = findById(customerRepository, customer.getId()).toModel();
+        CustomerModel findCustomer = CustomerServiceHelper.findCustomer(customerRepository, customer.getId()).toModel();
         assertEquals(findCustomer.getSaleState(), SALE);
     }
 }
