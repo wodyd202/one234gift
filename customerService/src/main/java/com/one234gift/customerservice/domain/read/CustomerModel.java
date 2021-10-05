@@ -1,6 +1,6 @@
 package com.one234gift.customerservice.domain.read;
 
-import com.one234gift.customerservice.domain.value.SaleState;
+import com.one234gift.customerservice.domain.value.*;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -18,6 +18,25 @@ public class CustomerModel {
     private ManagerModel manager;
     private String fax;
     private LocalDateTime createDateTime;
+
+    public CustomerModel(Long id,
+                         Category category,
+                         BusinessInfo businessInfo,
+                         Address address,
+                         SaleState saleState,
+                         Manager manager,
+                         Tel fax,
+                         LocalDateTime createDateTime
+                         ){
+        this.id = id;
+        this.category = category.get();
+        this.businessInfo = businessInfo.toModel();
+        this.address = address.toModel();
+        this.saleState = saleState;
+        this.manager = manager.toModel();
+        this.fax = fax.get();
+        this.createDateTime = createDateTime;
+    }
 
     @Builder
     public CustomerModel(Long id,

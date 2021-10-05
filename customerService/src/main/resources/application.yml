@@ -1,3 +1,5 @@
+server:
+  port: 8081
 spring:
   application:
     name: customer-service
@@ -15,5 +17,3 @@ security:
   oauth2:
     resource:
       userInfoUri: http://127.0.0.1:8080/user
-server:
-  port: 8081
