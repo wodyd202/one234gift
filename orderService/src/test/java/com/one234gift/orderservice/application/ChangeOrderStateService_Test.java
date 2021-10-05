@@ -38,7 +38,7 @@ public class ChangeOrderStateService_Test {
         assertEquals(orderModel.getState(), CENCEL);
     }
 
-    @Test≠
+    @Test
     void 주문_승인(){
         OrderModel orderModel = changeOrderStateService.complate(order.getId());
         assertEquals(orderModel.getState(), COMPLATE);
