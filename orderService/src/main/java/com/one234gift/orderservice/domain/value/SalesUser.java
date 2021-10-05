@@ -2,24 +2,26 @@ package com.one234gift.orderservice.domain.value;
 
 import com.one234gift.orderservice.domain.read.SalesUserModel;
 import lombok.Builder;
+import lombok.Setter;
 
 import java.util.Objects;
 
+@Setter
 public class SalesUser {
-    private final String phone;
-    private final String name;
+    private String phone;
+    private String username;
 
-    protected SalesUser(){phone = null; name = null;}
+    protected SalesUser(){}
 
     @Builder
     public SalesUser(String phone, String name) {
         this.phone = phone;
-        this.name = name;
+        this.username = name;
     }
 
     public SalesUserModel toModel() {
         return SalesUserModel.builder()
-                .name(name)
+                .name(username)
                 .phone(phone)
                 .build();
     }
@@ -29,11 +31,11 @@ public class SalesUser {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SalesUser salesUser = (SalesUser) o;
-        return Objects.equals(phone, salesUser.phone) && Objects.equals(name, salesUser.name);
+        return Objects.equals(phone, salesUser.phone) && Objects.equals(username, salesUser.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(phone, name);
+        return Objects.hash(phone, username);
     }
 }

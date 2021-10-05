@@ -1,5 +1,6 @@
 package com.one234gift.orderservice.application;
 
+import com.one234gift.orderservice.command.application.RegisterOrderService;
 import com.one234gift.orderservice.domain.model.RegisterOrder;
 import com.one234gift.orderservice.domain.read.OrderModel;
 import org.junit.jupiter.api.Test;
@@ -11,13 +12,14 @@ import static org.junit.Assert.assertNotNull;
 
 @SpringBootTest
 public class RegisterOrderService_Test {
-    @Autowired RegisterOrderService registerOrderService;
+    @Autowired
+    RegisterOrderService registerOrderService;
 
     @Test
     void 주문_생성(){
         long customerId = 1L;
         RegisterOrder registerOrder = aRegisterOrder().build();
-        OrderModel orderModel = registerOrderService.register(customerId, registerOrder);
+        OrderModel orderModel = registerOrderService.register(registerOrder);
         assertNotNull(orderModel);
     }
 }

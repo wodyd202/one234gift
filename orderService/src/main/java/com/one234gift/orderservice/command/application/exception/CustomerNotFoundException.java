@@ -1,4 +1,4 @@
-package com.one234gift.orderservice.application.exception;
+package com.one234gift.orderservice.command.application.exception;
 
 public class CustomerNotFoundException extends RuntimeException {
     public CustomerNotFoundException(){

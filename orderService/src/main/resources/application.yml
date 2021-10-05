@@ -1,15 +1,19 @@
+server:
+  port: 8082
 spring:
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:order
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: true
-      path: /h2-console
-  jpa:
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
+  application:
+    name: order-service
+  profiles:
+    include: database
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+security:
+  oauth2:
+    resource:
+      userInfoUri: http://127.0.0.1:8080/user

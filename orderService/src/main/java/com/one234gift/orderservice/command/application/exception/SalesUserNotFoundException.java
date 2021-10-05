@@ -1,6 +1,4 @@
-package com.one234gift.orderservice.application.exception;
-
-import com.one234gift.orderservice.domain.value.SalesUser;
+package com.one234gift.orderservice.command.application.exception;
 
 public class SalesUserNotFoundException extends RuntimeException{
     public SalesUserNotFoundException(){

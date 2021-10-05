@@ -5,13 +5,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChangeQuantity {
-    private Long quantity;
+    @Min(value = 1, message = "수량은 1개 이상 입력해주세요.")
+    private long quantity;
 
     @Builder
-    public ChangeQuantity(Long quantity) {
+    public ChangeQuantity(long quantity) {
         this.quantity = quantity;
     }
 }

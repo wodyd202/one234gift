@@ -1,18 +1,23 @@
 package com.one234gift.orderservice.domain;
 
-import com.one234gift.orderservice.domain.model.RegisterOrder;
+import com.one234gift.orderservice.domain.exception.AlreadyDeliveryFinishedException;
+import com.one234gift.orderservice.domain.exception.AlreadyOrderException;
+import com.one234gift.orderservice.domain.exception.EnableOrderInfoChangeException;
+import com.one234gift.orderservice.domain.model.*;
 import com.one234gift.orderservice.domain.read.OrderModel;
 import com.one234gift.orderservice.domain.value.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-import static com.one234gift.orderservice.domain.value.OrderState.WAITING;
+import static com.one234gift.orderservice.domain.value.OrderState.*;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
 @Table(name = "orders")
+@DynamicUpdate
 public class Order {
     @Id
     @GeneratedValue(strategy = AUTO)
@@ -68,7 +73,8 @@ public class Order {
     @Column(nullable = false)
     private OrderState state;
 
-    protected Order(){}
+    protected Order(){
+    }
 
     private Order(CustomerInfo customerInfo, SalesUser salesUser, RegisterOrder registerOrder) {
         this.product = new Product(registerOrder.getProduct());
@@ -76,7 +82,7 @@ public class Order {
         this.salesUser = salesUser;
         this.delivery = new Delivery(registerOrder.getDelivery().getAddressDetail());
         setContent(registerOrder.getContent());
-        this.quantity = new OrderQuantity(registerOrder.getQuantity().getQuantity());
+        this.quantity = new OrderQuantity(registerOrder.getQuantity());
         this.purchasePrice = new Price(registerOrder.getPurchasePrice());
         this.salePrice = new Price(registerOrder.getSalePrice());
         this.type = registerOrder.getType();
@@ -96,10 +102,100 @@ public class Order {
     }
 
     /**
-     * 주문
+     * - 주문
      */
     public void place() {
+        if(state != null){
+            throw new AlreadyOrderException();
+        }
         state = WAITING;
+    }
+
+    /**
+     * @param delivery
+     * - 배송지 주소 수정
+     * # 승인 대기상태(WATING) 상태에서만 변경가능
+     */
+    public void changeDelivery(ChangeDelivery delivery) {
+        verifyOrderInfoChangeAble();
+        this.delivery = new Delivery(delivery.getAddressDetail());
+    }
+
+    /**
+     * - 주문 취소
+     * # 배송 완료 주문은 취소 불가
+     */
+    public void cancel() {
+        verifyCencelAble();
+        state = CENCEL;
+    }
+
+    private void verifyOrderInfoChangeAble() {
+        if(!state.equals(WAITING)){
+            throw new EnableOrderInfoChangeException();
+        }
+    }
+
+    private void verifyCencelAble() {
+        if(state.equals(FINISH)){
+            throw new AlreadyDeliveryFinishedException();
+        }
+    }
+
+    /**
+     * @param quantity
+     * - 수량 변경
+     * # 승인 대기상태(WATING) 상태에서만 변경가능
+     */
+    public void changeQuantity(ChangeQuantity quantity) {
+        verifyOrderInfoChangeAble();
+        this.quantity = new OrderQuantity(quantity.getQuantity());
+    }
+
+    /**
+     * @param purchasePrice
+     * - 매입 단가 변경
+     * # 승인 대기상태(WATING) 상태에서만 변경가능
+     */
+    public void changePurchasePrice(ChangePurchasePrice purchasePrice) {
+        verifyOrderInfoChangeAble();
+        this.purchasePrice = new Price(purchasePrice.getPrice());
+    }
+
+    /**
+     * @param salePrice
+     * - 판매 단가 변경
+     * # 승인 대기상태(WATING) 상태에서만 변경가능
+     */
+    public void changeSalePrice(ChangeSalePrice salePrice) {
+        verifyOrderInfoChangeAble();
+        this.salePrice = new Price(salePrice.getPrice());
+    }
+
+    /**
+     * @param content
+     * - 비고 변경
+     * # 승인 대기상태(WATING) 상태에서만 변경가능
+     */
+    public void changeContent(ChangeContent content) {
+        verifyOrderInfoChangeAble();
+        setContent(content.getContent());
+    }
+
+    /**
+     * - 승인 거부
+     */
+    public void refuse() {
+        verifyOrderInfoChangeAble();
+        state = REFUSE;
+    }
+
+    /**
+     * - 주문 승인
+     */
+    public void complate() {
+        verifyOrderInfoChangeAble();
+        state = COMPLATE;
     }
 
     public OrderModel toModel() {
@@ -108,7 +204,7 @@ public class Order {
                 .product(product.get())
                 .customerInfo(customerInfo.toModel())
                 .salesUser(salesUser.toModel())
-                .content(content.get())
+                .content(getContent().get())
                 .delivery(delivery.get())
                 .quantity(quantity.get())
                 .purchasePrice(purchasePrice.get())
@@ -117,5 +213,9 @@ public class Order {
                 .createDateTime(createDatetime)
                 .state(state)
                 .build();
+    }
+
+    private Content getContent() {
+        return content == null ? Content.getInstance() : content;
     }
 }

@@ -1,4 +1,4 @@
-package com.one234gift.orderservice.application;
+package com.one234gift.orderservice.command.application;
 
 import com.one234gift.orderservice.domain.Order;
 import com.one234gift.orderservice.domain.model.RegisterOrder;
@@ -8,8 +8,8 @@ import com.one234gift.orderservice.domain.value.SalesUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.one234gift.orderservice.application.OrderServiceHelper.findById;
-import static com.one234gift.orderservice.application.OrderServiceHelper.findUser;
+import static com.one234gift.orderservice.command.application.OrderServiceHelper.findById;
+import static com.one234gift.orderservice.command.application.OrderServiceHelper.findUser;
 
 @Service
 @Transactional
@@ -24,9 +24,9 @@ public class RegisterOrderService {
         this.orderRepository = orderRepository;
     }
 
-    public OrderModel register(long customerId, RegisterOrder registerOrder) {
+    public OrderModel register(RegisterOrder registerOrder) {
         SalesUser salesUser = findUser(userRepository);
-        CustomerInfo customerInfo = findById(customerRepository, customerId);
+        CustomerInfo customerInfo = findById(customerRepository, registerOrder.getCustomerId());
         Order order = Order.register(customerInfo, salesUser, registerOrder);
         order.place();
         orderRepository.save(order);

@@ -1,7 +1,6 @@
 package com.one234gift.orderservice.domain;
 
 import com.one234gift.orderservice.domain.model.ChangeDelivery;
-import com.one234gift.orderservice.domain.model.ChangeQuantity;
 import com.one234gift.orderservice.domain.model.RegisterOrder;
 import com.one234gift.orderservice.domain.value.CustomerInfo;
 import com.one234gift.orderservice.domain.value.OrderType;
@@ -29,12 +28,17 @@ public class OrderFixture {
                 .delivery(ChangeDelivery.builder()
                         .addressDetail("배송지 주소")
                         .build())
-                .quantity(ChangeQuantity.builder()
-                        .quantity(30L)
-                        .build())
+                .quantity(30L)
                 .purchasePrice(3000L)
                 .salePrice(4000L)
                 .content(null)
                 .type(OrderType.SAMPLE);
+    }
+
+    public static Order aOrder(){
+        RegisterOrder registerOrder = OrderFixture.aRegisterOrder().build();
+        Order order = Order.register(aCustomerInfo().build(), aSaleUser().build(), registerOrder);
+        order.place();
+        return order;
     }
 }
