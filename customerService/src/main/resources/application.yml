@@ -5,6 +5,7 @@ spring:
     name: customer-service
   profiles:
     include: database
+    active: dev
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}

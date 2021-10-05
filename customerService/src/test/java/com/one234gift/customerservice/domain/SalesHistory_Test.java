@@ -97,7 +97,7 @@ public class SalesHistory_Test {
 
     @Test
     void 예약콜_변경(){
-        RegisterSalesHistory registerSalesHistory = aRegisterSalesHistory().callReservationDate(LocalDate.now()).build();
+        RegisterSalesHistory registerSalesHistory = aRegisterSalesHistory().callReservationDate(LocalDate.now().plusDays(1)).build();
         SalesHistory salesHistory = SalesHistory.register(1L, registerSalesHistory, aManager().build());
 
         salesHistory.changeCallReservationDate(ChangeCallReservationDate.builder()

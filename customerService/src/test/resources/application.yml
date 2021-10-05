@@ -5,3 +5,4 @@ spring:
     name: customer-service
   profiles:
     include: database
+    active: test

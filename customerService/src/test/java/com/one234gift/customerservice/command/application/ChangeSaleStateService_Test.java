@@ -24,7 +24,9 @@ public class ChangeSaleStateService_Test {
 
     @BeforeEach
     void setUp(){
-        registerCustomerService.setUserRepository(new StubUserRepository());
+        StubUserRepository userRepository = new StubUserRepository();
+        changeSaleStateService.setUserRepository(userRepository);
+        registerCustomerService.setUserRepository(userRepository);
     }
 
     @Test
