@@ -5,6 +5,8 @@ import java.util.Objects;
 public class Price {
     private final long price;
 
+    protected Price(){price=0;}
+
     public Price(long price) {
         priceValidation(price);
         this.price = price;

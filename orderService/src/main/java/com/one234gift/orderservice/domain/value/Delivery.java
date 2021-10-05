@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 public class Delivery {
     private final String addressDetail;
 
+    protected Delivery(){addressDetail = null;}
+
     public Delivery(String addressDetail) {
         addressDetailValidation(addressDetail);
         this.addressDetail = addressDetail;

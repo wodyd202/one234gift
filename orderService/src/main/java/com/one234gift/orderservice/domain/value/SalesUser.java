@@ -9,6 +9,8 @@ public class SalesUser {
     private final String phone;
     private final String name;
 
+    protected SalesUser(){phone = null; name = null;}
+
     @Builder
     public SalesUser(String phone, String name) {
         this.phone = phone;

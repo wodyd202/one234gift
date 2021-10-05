@@ -1,5 +1,6 @@
 package com.one234gift.orderservice.domain.read;
 
+import com.one234gift.orderservice.domain.value.OrderState;
 import com.one234gift.orderservice.domain.value.OrderType;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,9 +17,21 @@ public class OrderModel {
     private long quantity, purchasePrice, salePrice;
     private OrderType type;
     private LocalDateTime createDateTime;
+    private OrderState state;
 
     @Builder
-    public OrderModel(Long id, String product, CustomerInfoModel customerInfo, SalesUserModel salesUser, String content, String delivery, long quantity, long purchasePrice, long salePrice, OrderType type, LocalDateTime createDateTime) {
+    public OrderModel(Long id,
+                      String product,
+                      CustomerInfoModel customerInfo,
+                      SalesUserModel salesUser,
+                      String content,
+                      String delivery,
+                      long quantity,
+                      long purchasePrice,
+                      long salePrice,
+                      OrderType type,
+                      LocalDateTime createDateTime,
+                      OrderState state) {
         this.id = id;
         this.product = product;
         this.customerInfo = customerInfo;
@@ -30,5 +43,6 @@ public class OrderModel {
         this.salePrice = salePrice;
         this.type = type;
         this.createDateTime = createDateTime;
+        this.state = state;
     }
 }

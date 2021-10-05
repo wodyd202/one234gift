@@ -10,6 +10,8 @@ public class CustomerInfo {
     private String name;
     private String category;
 
+    protected CustomerInfo(){}
+
     @Builder
     public CustomerInfo(long id, String name, String category) {
         this.id = id;

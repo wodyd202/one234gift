@@ -5,6 +5,8 @@ import java.util.Objects;
 public class OrderQuantity {
     private final long quantity;
 
+    protected OrderQuantity(){quantity = 0;}
+
     public OrderQuantity(long quantity) {
         quantityValidation(quantity);
         this.quantity = quantity;

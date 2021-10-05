@@ -7,6 +7,7 @@ import com.one234gift.orderservice.domain.value.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static com.one234gift.orderservice.domain.value.OrderState.WAITING;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.AUTO;
 
@@ -63,6 +64,10 @@ public class Order {
     @Column(nullable = false)
     private LocalDateTime createDatetime;
 
+    @Enumerated(STRING)
+    @Column(nullable = false)
+    private OrderState state;
+
     protected Order(){}
 
     private Order(CustomerInfo customerInfo, SalesUser salesUser, RegisterOrder registerOrder) {
@@ -90,6 +95,13 @@ public class Order {
         return new Order(customerInfo, salesUser, registerOrder);
     }
 
+    /**
+     * 주문
+     */
+    public void place() {
+        state = WAITING;
+    }
+
     public OrderModel toModel() {
         return OrderModel.builder()
                 .id(id)
@@ -103,6 +115,7 @@ public class Order {
                 .salePrice(salePrice.get())
                 .type(type)
                 .createDateTime(createDatetime)
+                .state(state)
                 .build();
     }
 }

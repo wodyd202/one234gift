@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 public class Product {
     private final String product;
 
+    protected Product(){product=null;}
+
     public Product(String product) {
         productValidation(product);
         this.product = product;
