@@ -1,7 +1,6 @@
-package com.one234gift.saleshistoryservice.command;
+package com.one234gift.saleshistoryservice.command.application;
 
-import com.one234gift.saleshistoryservice.command.application.ChangeSalesHistoryService;
-import com.one234gift.saleshistoryservice.command.application.RegisterSalesHistoryService;
+import com.one234gift.saleshistoryservice.command.StubUserRepository;
 import com.one234gift.saleshistoryservice.domain.model.ChangeCallReservationDate;
 import com.one234gift.saleshistoryservice.domain.model.ChangeCustomerReactivity;
 import com.one234gift.saleshistoryservice.domain.model.ChangeSalesHistoryContent;

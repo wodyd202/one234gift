@@ -1,6 +1,7 @@
-package com.one234gift.saleshistoryservice.command;
+package com.one234gift.saleshistoryservice.command.application;
 
-import com.one234gift.saleshistoryservice.command.application.RegisterSalesHistoryService;
+import com.one234gift.saleshistoryservice.command.StubCustomerRepository;
+import com.one234gift.saleshistoryservice.command.StubUserRepository;
 import com.one234gift.saleshistoryservice.domain.model.RegisterSalesHistory;
 import com.one234gift.saleshistoryservice.domain.read.SalesHistoryModel;
 import org.junit.jupiter.api.BeforeEach;

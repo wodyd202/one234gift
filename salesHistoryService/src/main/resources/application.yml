@@ -1,1 +1,20 @@
-
+server:
+  port: 8083
+spring:
+  application:
+    name: saleshistory-service
+  profiles:
+    include: database
+    active: dev
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+security:
+  oauth2:
+    resource:
+      userInfoUri: http://127.0.0.1:8080/user
