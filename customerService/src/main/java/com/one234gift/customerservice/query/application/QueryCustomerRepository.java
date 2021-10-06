@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface QueryCustomerRepository {
     Optional<CustomerModel> findById(long customerId);
+    boolean existById(Long customerId);
 }

@@ -20,7 +20,7 @@ public class APITest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private RegisterCustomerService registerCustomerService;
+    protected RegisterCustomerService registerCustomerService;
 
     @BeforeEach
     void setUp() {

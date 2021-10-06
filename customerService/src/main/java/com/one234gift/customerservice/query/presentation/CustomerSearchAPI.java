@@ -18,4 +18,10 @@ public class CustomerSearchAPI {
         CustomerModel customerModel = queryCustomerService.findById(customerId);
         return ResponseEntity.ok(customerModel);
     }
+
+    @GetMapping("{customerId}/exist")
+    public ResponseEntity<Boolean> existByCustomerId(@PathVariable Long customerId){
+        boolean exist = queryCustomerService.existById(customerId);
+        return ResponseEntity.ok(exist);
+    }
 }

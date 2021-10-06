@@ -31,4 +31,11 @@ public class QuerydslQueryCustomerRepository implements QueryCustomerRepository 
                         .fetchFirst()
         );
     }
+
+    @Override
+    public boolean existById(Long customerId) {
+        return jpaQueryFactory.selectOne()
+                .from(customer)
+                .fetchFirst() != null;
+    }
 }

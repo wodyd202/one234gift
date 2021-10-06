@@ -1,4 +1,4 @@
-package com.one234gift.orderservice.command.application.exception;
+package com.one234gift.saleshistoryservice.command.application.exception;
 
 public class NotAbleRepositoryException extends RuntimeException {
     public NotAbleRepositoryException(){

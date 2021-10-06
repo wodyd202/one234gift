@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WithMockUser(username = "000-0000-0000", roles = {"SalesUser"})
-public class CustomerSearchAPI extends APITest {
+public class CustomerSearchAPI_Test extends APITest {
 
     @Test
     void existByCustomerId() throws Exception {

@@ -17,4 +17,8 @@ public class QueryCustomerService {
     public CustomerModel findById(Long customerId) {
         return customerRepository.findById(customerId).orElseThrow(CustomerNotFoundException::new);
     }
+
+    public boolean existById(Long customerId) {
+        return customerRepository.existById(customerId);
+    }
 }

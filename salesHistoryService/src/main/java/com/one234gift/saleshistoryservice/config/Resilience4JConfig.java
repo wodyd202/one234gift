@@ -1,4 +1,4 @@
-package com.one234gift.orderservice.config;
+package com.one234gift.saleshistoryservice.config;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.timelimiter.TimeLimiterConfig;

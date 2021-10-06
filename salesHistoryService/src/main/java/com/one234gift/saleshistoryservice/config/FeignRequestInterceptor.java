@@ -1,4 +1,4 @@
-package com.one234gift.customerservice.config;
+package com.one234gift.saleshistoryservice.config;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
