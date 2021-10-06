@@ -1,0 +1,8 @@
+server:
+  port: 0
+spring:
+  application:
+    name: saleshistory-service
+  profiles:
+    include: database
+    active: test

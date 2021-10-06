@@ -1,7 +1,6 @@
 package com.one234gift.customerservice.domain;
 
 import com.one234gift.customerservice.domain.model.*;
-import com.one234gift.customerservice.domain.value.CustomerReactivity;
 import com.one234gift.customerservice.domain.value.Manager;
 
 import java.util.Arrays;
@@ -33,13 +32,5 @@ public class CustomerFixture {
                         .location("지역")
                         .addressDetail("상세주소")
                         .build());
-    }
-
-    public static RegisterSalesHistory.RegisterSalesHistoryBuilder aRegisterSalesHistory() {
-        return RegisterSalesHistory.builder()
-                .sample(false)
-                .catalogue(false)
-                .content("영업 내용")
-                .reactivity(CustomerReactivity.THREE);
     }
 }

@@ -1,10 +1,7 @@
 package com.one234gift.customerservice.command.presentation;
 
 import com.one234gift.customerservice.APITest;
-import com.one234gift.customerservice.domain.model.ChangeBusinessInfo;
-import com.one234gift.customerservice.domain.model.ChangeContact;
-import com.one234gift.customerservice.domain.model.ChangePurchasingManager;
-import com.one234gift.customerservice.domain.model.RegisterCustomer;
+import com.one234gift.customerservice.domain.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -161,6 +158,55 @@ public class RegisterCustomerAPI_Test extends APITest {
     void 구매담당자는_최소_한명이상_입력해야함() throws Exception {
         RegisterCustomer registerCustomer = aRegisterCustomer()
                 .purchasingManagers(Arrays.asList()).build();
+        assertRegisterCustomer(registerCustomer, status().isBadRequest());
+    }
+
+    @Test
+    void 고객_지역을_입력하지_않음() throws Exception {
+        RegisterCustomer registerCustomer = aRegisterCustomer()
+                .address(ChangeAddress.builder()
+                        .location(null)
+                        .build())
+                .build();
+        assertRegisterCustomer(registerCustomer, status().isBadRequest());
+    }
+
+    @Test
+    void 고객의_지역이_빈값() throws Exception{
+        RegisterCustomer registerCustomer = aRegisterCustomer()
+                .address(ChangeAddress.builder()
+                        .location("")
+                        .build())
+                .build();
+        assertRegisterCustomer(registerCustomer, status().isBadRequest());
+    }
+
+    @Test
+    void 고객_지역이_유효하지_않음() throws Exception {
+        RegisterCustomer registerCustomer = aRegisterCustomer()
+                .address(ChangeAddress.builder()
+                        .location("invalid!@#")
+                        .build())
+                .build();
+        assertRegisterCustomer(registerCustomer, status().isBadRequest());
+    }
+
+    @Test
+    void 고객_상세_주소가_유효하지_않음() throws Exception {
+        RegisterCustomer registerCustomer = aRegisterCustomer()
+                .address(ChangeAddress.builder()
+                        .location("지역")
+                        .addressDetail("invalid!@3")
+                        .build())
+                .build();
+        assertRegisterCustomer(registerCustomer, status().isBadRequest());
+    }
+
+    @Test
+    void 팩스번호가_유효하지_않음() throws Exception {
+        RegisterCustomer registerCustomer = aRegisterCustomer()
+                .fax("invalid")
+                .build();
         assertRegisterCustomer(registerCustomer, status().isBadRequest());
     }
 
