@@ -28,9 +28,6 @@ public class ChangeCustomerService_Test {
     @Autowired
     ApplicationEventPublisher applicationEventPublisher;
 
-    @Autowired
-    CustomerHistoryRepository customerHistoryRepository;
-
     @BeforeEach
     void setUp(){
         changeCustomerService.setUserRepository(new StubUserRepository());

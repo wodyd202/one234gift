@@ -4,8 +4,10 @@ import com.one234gift.customerservice.domain.read.ManagerModel;
 import lombok.Builder;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Setter
-public class Manager {
+public class Manager implements Serializable {
     private String username;
     private String phone;
 

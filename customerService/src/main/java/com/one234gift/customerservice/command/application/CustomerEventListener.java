@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @Transactional
 @Slf4j
-public class CustomerHistoryEventListener {
+public class CustomerEventListener {
     @Autowired
     private Producer producer;
 
