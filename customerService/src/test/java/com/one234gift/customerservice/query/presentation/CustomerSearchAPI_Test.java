@@ -15,4 +15,49 @@ public class CustomerSearchAPI_Test extends APITest {
         mockMvc.perform(get("/api/customer/{customerId}/exist",1))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void findAll() throws Exception {
+        mockMvc.perform(get("/api/customer")
+                .param("size", "10")
+                .param("page", "0"))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    void searchForBusinessName() throws Exception {
+        mockMvc.perform(get("/api/customer")
+                        .param("businessName", "businessName")
+                        .param("size", "10")
+                        .param("page", "0"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void searchForLocation() throws Exception {
+        mockMvc.perform(get("/api/customer")
+                        .param("location", "location")
+                        .param("size", "10")
+                        .param("page", "0"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void searchForCategory() throws Exception {
+        mockMvc.perform(get("/api/customer")
+                        .param("category", "category")
+                        .param("size", "10")
+                        .param("page", "0"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void searchForState() throws Exception {
+        mockMvc.perform(get("/api/customer")
+                        .param("state", "SALE")
+                        .param("size", "10")
+                        .param("page", "0"))
+                .andExpect(status().isOk());
+    }
+
 }

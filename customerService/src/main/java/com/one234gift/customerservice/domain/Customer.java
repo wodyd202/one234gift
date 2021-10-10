@@ -19,7 +19,13 @@ import static javax.persistence.EnumType.STRING;
  * 고객(업체)
  */
 @Entity
-@Table(name = "customer")
+@Table(name = "customer",
+        indexes = {
+                @Index(name = "customer_category", columnList = "category"),
+                @Index(name = "customer_location", columnList = "location"),
+                @Index(name = "customer_manager", columnList = "manager_phone"),
+                @Index(name = "customer_state", columnList = "saleState")
+        })
 @DynamicUpdate
 public class Customer {
 
