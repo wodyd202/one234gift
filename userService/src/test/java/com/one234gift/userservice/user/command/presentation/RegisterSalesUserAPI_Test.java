@@ -1,22 +1,25 @@
-package com.one234gift.userservice.user.presentation;
+package com.one234gift.userservice.user.command.presentation;
 
+import com.one234gift.userservice.APITest;
 import com.one234gift.userservice.command.application.UserRepository;
-import com.one234gift.userservice.domain.User;
 import com.one234gift.userservice.domain.model.RegisterUser;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.ResultMatcher;
 
 import static com.one234gift.userservice.user.UserFixture.aRegisterUser;
+import static com.one234gift.userservice.user.UserFixture.aSalesUser;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class RegisterSalesUserAPI_Test  extends APITest{
+@WithMockUser(username = "000-0000-0000")
+public class RegisterSalesUserAPI_Test extends APITest {
 
     @Test
     void 영업사원_생성() throws Exception{
-        RegisterUser registerUser = aRegisterUser().build();
+        RegisterUser registerUser = aRegisterUser().phone("123-0948-2348").build();
 
         assertRegisterSalesUser(registerUser, status().isOk());
     }
@@ -65,7 +68,7 @@ public class RegisterSalesUserAPI_Test  extends APITest{
                 .phone("010-0001-0001")
                 .build();
 
-        userRepository.save(User.registerSalesUser(registerUser));
+        userRepository.save(aSalesUser("010-0001-0001"));
 
         assertRegisterSalesUser(registerUser, status().isBadRequest());
     }

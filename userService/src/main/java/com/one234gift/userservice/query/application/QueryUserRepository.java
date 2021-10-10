@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface QueryUserRepository {
     Optional<UserModel> findByPhone(String phone);
+    void save(UserModel userModel);
 }

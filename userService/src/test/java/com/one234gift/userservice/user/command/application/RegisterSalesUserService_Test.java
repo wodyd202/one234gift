@@ -1,4 +1,4 @@
-package com.one234gift.userservice.user.application;
+package com.one234gift.userservice.user.command.application;
 
 import com.one234gift.userservice.command.application.exception.DuplicatePhoneException;
 import com.one234gift.userservice.command.application.RegisterSalesUserService;
@@ -34,12 +34,12 @@ public class RegisterSalesUserService_Test {
 
     @Test
     void 중복된_휴대폰(){
-        User user = aSalesUser("000-0000-0000");
+        User user = aSalesUser("000-1345-0000");
         userRepository.save(user);
 
         assertThrows(DuplicatePhoneException.class,()->{
             RegisterUser duplicateUser = aRegisterUser()
-                    .phone("000-0000-0000")
+                    .phone("000-1345-0000")
                     .build();
             registerSalesUserService.register(duplicateUser);
         });

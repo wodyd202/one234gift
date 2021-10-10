@@ -1,8 +1,10 @@
-package com.one234gift.userservice.user.presentation;
+package com.one234gift.userservice.user.command.presentation;
 
+import com.one234gift.userservice.APITest;
 import com.one234gift.userservice.command.application.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import static com.one234gift.userservice.user.UserFixture.aAccountingUser;
 import static com.one234gift.userservice.user.UserFixture.aSalesUser;
@@ -10,7 +12,8 @@ import static com.one234gift.userservice.user.UserTestHelper.persistUser;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class LeaveSalesUserAPI_Test extends APITest{
+@WithMockUser(username = "000-0000-0000")
+public class LeaveSalesUserAPI_Test extends APITest {
     @Autowired private UserRepository userRepository;
 
     @Test

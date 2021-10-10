@@ -1,4 +1,4 @@
-package com.one234gift.userservice.user.application;
+package com.one234gift.userservice.user.command.application;
 
 import com.one234gift.userservice.command.application.UserRepository;
 import com.one234gift.userservice.command.application.exception.PhoneNotFoundException;

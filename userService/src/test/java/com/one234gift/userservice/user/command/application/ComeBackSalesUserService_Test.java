@@ -1,4 +1,4 @@
-package com.one234gift.userservice.user.application;
+package com.one234gift.userservice.user.command.application;
 
 import com.one234gift.userservice.command.application.ComeBackSalesUserService;
 import com.one234gift.userservice.command.application.UserRepository;
@@ -23,12 +23,12 @@ public class ComeBackSalesUserService_Test {
 
     @Test
     void 재영입() {
-        User salesUser = UserFixture.aSalesUser("010-0000-0000");
+        User salesUser = UserFixture.aSalesUser("010-0000-1234");
         salesUser.leave();
         persistUser(userRepository, salesUser);
-        comeBackSalesUserService.comeback(new Phone("010-0000-0000"));
+        comeBackSalesUserService.comeback(new Phone("010-0000-1234"));
 
-        UserModel user = findByPhone(userRepository, new Phone("010-0000-0000")).toModel();
+        UserModel user = findByPhone(userRepository, new Phone("010-0000-1234")).toModel();
         assertEquals(user.getState(), State.WORK);
     }
 }

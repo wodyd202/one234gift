@@ -1,4 +1,4 @@
-package com.one234gift.userservice.user.presentation;
+package com.one234gift.userservice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;

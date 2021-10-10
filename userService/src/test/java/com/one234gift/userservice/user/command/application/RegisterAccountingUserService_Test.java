@@ -1,4 +1,4 @@
-package com.one234gift.userservice.user.application;
+package com.one234gift.userservice.user.command.application;
 
 import com.one234gift.userservice.command.application.RegisterAccountingUserService;
 import com.one234gift.userservice.domain.model.RegisterUser;
@@ -17,7 +17,7 @@ public class RegisterAccountingUserService_Test {
 
     @Test
     void 경리_담당자_생성(){
-        RegisterUser registerUser = aRegisterUser().build();
+        RegisterUser registerUser = aRegisterUser().phone("123-4566-9483").username("경리담당자").build();
 
         UserModel userModel = registerAccountingUserService.register(registerUser);
         assertNotNull(userModel);
