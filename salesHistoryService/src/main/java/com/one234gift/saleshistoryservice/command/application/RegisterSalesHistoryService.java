@@ -41,7 +41,14 @@ public class RegisterSalesHistoryService {
 
     private void verifyExistCustomer(RegisterSalesHistory registerSalesHistory) {
         CircuitBreaker customerAPICircuit = circuitBreakerFactory.create("customerAPICircuit");
-        Boolean existCustomer = customerAPICircuit.run(() -> customerRepository.existByCustomer(registerSalesHistory.getCustomerId()), e -> false);
+        Boolean existCustomer = customerAPICircuit.run(() -> customerRepository.existByCustomer(registerSalesHistory.getCustomerId()), e -> {
+            try {
+                throw e;
+            } catch (Throwable ex) {
+                ex.printStackTrace();
+                return null;
+            }
+        });
 
         if(!customerRepository.existByCustomer(registerSalesHistory.getCustomerId())){
             throw new CustomerNotFoundException();
@@ -50,7 +57,6 @@ public class RegisterSalesHistoryService {
 
     private Writer findUser(){
         CircuitBreaker userAPICircuit = circuitBreakerFactory.create("userAPICircuit");
-//        return userAPICircuit.run(()->SalesHistoryServiceHelper.findUser(userRepository),e-> Writer.builder().build());
-        return SalesHistoryServiceHelper.findUser(userRepository);
+        return userAPICircuit.run(()->SalesHistoryServiceHelper.findUser(userRepository),e-> Writer.builder().build());
     }
 }

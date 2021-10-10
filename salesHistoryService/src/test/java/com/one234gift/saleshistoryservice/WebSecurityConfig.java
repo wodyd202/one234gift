@@ -1,4 +1,4 @@
-package com.one234gift.saleshistoryservice.command.presentation;
+package com.one234gift.saleshistoryservice;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

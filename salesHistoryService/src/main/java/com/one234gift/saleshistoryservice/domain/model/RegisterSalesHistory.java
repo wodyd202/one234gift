@@ -31,6 +31,7 @@ public class RegisterSalesHistory {
 
     @Builder
     public RegisterSalesHistory(long customerId, boolean sample, boolean catalogue, String content, LocalDate callReservationDate, CustomerReactivity reactivity) {
+        this.customerId = customerId;
         this.sample = sample;
         this.catalogue = catalogue;
         this.content = content;

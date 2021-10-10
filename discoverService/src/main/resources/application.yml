@@ -3,6 +3,10 @@ server:
 spring:
   application:
     name: discover-service
+  security:
+    user:
+      name: one234gift
+      password: 1234
 eureka:
   client:
     fetch-registry: false

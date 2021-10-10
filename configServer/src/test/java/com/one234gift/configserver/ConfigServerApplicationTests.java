@@ -1,12 +1,10 @@
-package com.one234gift.discoverservice;
+package com.one234gift.configserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 @SpringBootTest
-class DiscoverServiceApplicationTests {
+class ConfigServerApplicationTests {
 
     @Test
     void contextLoads() {
