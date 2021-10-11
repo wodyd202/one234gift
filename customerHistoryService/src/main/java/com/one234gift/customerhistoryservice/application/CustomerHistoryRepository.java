@@ -1,7 +1,11 @@
 package com.one234gift.customerhistoryservice.application;
 
 import com.one234gift.customerhistoryservice.domain.CustomerHistory;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.one234gift.customerhistoryservice.domain.read.CustomerHistoryModel;
 
-public interface CustomerHistoryRepository extends JpaRepository<CustomerHistory, Long> {
+import java.util.List;
+
+public interface CustomerHistoryRepository {
+    void save(CustomerHistory customerHistory);
+    List<CustomerHistoryModel> findAll(String customerId);
 }

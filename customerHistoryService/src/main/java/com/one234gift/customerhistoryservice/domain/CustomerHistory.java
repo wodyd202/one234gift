@@ -1,6 +1,7 @@
 package com.one234gift.customerhistoryservice.domain;
 
 import com.one234gift.customerhistoryservice.domain.model.CustomerHistoryEvent;
+import com.one234gift.customerhistoryservice.domain.read.CustomerHistoryModel;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -41,5 +42,15 @@ public class CustomerHistory {
 
     public static CustomerHistory register(CustomerHistoryEvent customerHistoryEvent) {
         return new CustomerHistory(customerHistoryEvent);
+    }
+
+    public CustomerHistoryModel toModel() {
+        return CustomerHistoryModel.builder()
+                .createDateTime(createDateTime)
+                .customerId(customerId)
+                .manager(manager)
+                .payload(payload)
+                .type(type)
+                .build();
     }
 }
