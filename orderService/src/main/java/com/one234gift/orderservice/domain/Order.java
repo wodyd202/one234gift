@@ -1,9 +1,9 @@
 package com.one234gift.orderservice.domain;
 
+import com.one234gift.orderservice.domain.exception.AlreadyCenceledException;
 import com.one234gift.orderservice.domain.exception.AlreadyDeliveryFinishedException;
 import com.one234gift.orderservice.domain.exception.AlreadyOrderException;
-import com.one234gift.orderservice.domain.exception.EnableOrderInfoChangeException;
-import com.one234gift.orderservice.domain.model.*;
+import com.one234gift.orderservice.domain.model.RegisterOrder;
 import com.one234gift.orderservice.domain.read.OrderModel;
 import com.one234gift.orderservice.domain.value.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -108,17 +108,7 @@ public class Order {
         if(state != null){
             throw new AlreadyOrderException();
         }
-        state = WAITING;
-    }
-
-    /**
-     * @param delivery
-     * - 배송지 주소 수정
-     * # 승인 대기상태(WATING) 상태에서만 변경가능
-     */
-    public void changeDelivery(ChangeDelivery delivery) {
-        verifyOrderInfoChangeAble();
-        this.delivery = new Delivery(delivery.getAddressDetail());
+        state = REGISTER;
     }
 
     /**
@@ -130,10 +120,12 @@ public class Order {
         state = CENCEL;
     }
 
-    private void verifyOrderInfoChangeAble() {
-        if(!state.equals(WAITING)){
-            throw new EnableOrderInfoChangeException();
-        }
+    /**
+     * - 주문 완료
+     */
+    public void finish() {
+        verifyFinishable();
+        state = FINISH;
     }
 
     private void verifyCencelAble() {
@@ -142,60 +134,10 @@ public class Order {
         }
     }
 
-    /**
-     * @param quantity
-     * - 수량 변경
-     * # 승인 대기상태(WATING) 상태에서만 변경가능
-     */
-    public void changeQuantity(ChangeQuantity quantity) {
-        verifyOrderInfoChangeAble();
-        this.quantity = new OrderQuantity(quantity.getQuantity());
-    }
-
-    /**
-     * @param purchasePrice
-     * - 매입 단가 변경
-     * # 승인 대기상태(WATING) 상태에서만 변경가능
-     */
-    public void changePurchasePrice(ChangePurchasePrice purchasePrice) {
-        verifyOrderInfoChangeAble();
-        this.purchasePrice = new Price(purchasePrice.getPrice());
-    }
-
-    /**
-     * @param salePrice
-     * - 판매 단가 변경
-     * # 승인 대기상태(WATING) 상태에서만 변경가능
-     */
-    public void changeSalePrice(ChangeSalePrice salePrice) {
-        verifyOrderInfoChangeAble();
-        this.salePrice = new Price(salePrice.getPrice());
-    }
-
-    /**
-     * @param content
-     * - 비고 변경
-     * # 승인 대기상태(WATING) 상태에서만 변경가능
-     */
-    public void changeContent(ChangeContent content) {
-        verifyOrderInfoChangeAble();
-        setContent(content.getContent());
-    }
-
-    /**
-     * - 승인 거부
-     */
-    public void refuse() {
-        verifyOrderInfoChangeAble();
-        state = REFUSE;
-    }
-
-    /**
-     * - 주문 승인
-     */
-    public void complate() {
-        verifyOrderInfoChangeAble();
-        state = COMPLATE;
+    private void verifyFinishable() {
+        if(!state.equals(REGISTER)){
+            throw new AlreadyCenceledException();
+        }
     }
 
     public OrderModel toModel() {

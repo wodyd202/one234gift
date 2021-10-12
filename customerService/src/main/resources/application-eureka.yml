@@ -1,0 +1,23 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: customer-service
+  profiles:
+    include: database, kafka
+    active: dev
+eureka:
+  server:
+    username: one234gift
+    password: 1234
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${eureka.server.username}:${eureka.server.password}@127.0.0.1:8761/eureka
+security:
+  oauth2:
+    resource:
+      userInfoUri: http://127.0.0.1:8080/user

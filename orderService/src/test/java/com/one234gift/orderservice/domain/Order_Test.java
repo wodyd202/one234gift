@@ -1,7 +1,7 @@
 package com.one234gift.orderservice.domain;
 
-import com.one234gift.orderservice.domain.exception.EnableOrderInfoChangeException;
-import com.one234gift.orderservice.domain.model.*;
+import com.one234gift.orderservice.domain.model.ChangeDelivery;
+import com.one234gift.orderservice.domain.model.RegisterOrder;
 import com.one234gift.orderservice.domain.read.CustomerInfoModel;
 import com.one234gift.orderservice.domain.read.OrderModel;
 import com.one234gift.orderservice.domain.read.SalesUserModel;
@@ -11,7 +11,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static com.one234gift.orderservice.domain.OrderFixture.*;
-import static com.one234gift.orderservice.domain.value.OrderState.*;
+import static com.one234gift.orderservice.domain.value.OrderState.CENCEL;
+import static com.one234gift.orderservice.domain.value.OrderState.FINISH;
 import static org.junit.Assert.*;
 
 public class Order_Test {
@@ -145,141 +146,6 @@ public class Order_Test {
     }
 
     @Test
-    void 주문후_승인대기상태라면_배송지정보_수정가능(){
-        Order order = aOrder();
-
-        order.changeDelivery(ChangeDelivery.builder()
-                .addressDetail("배송지 주소 수정")
-                .build());
-
-        assertEquals(order.toModel().getDelivery(), "배송지 주소 수정");
-    }
-
-    @Test
-    void 배송지_수정은_승인대기상태일때만_가능(){
-        Order order = aOrder();
-        order.cancel();
-
-        assertThrows(EnableOrderInfoChangeException.class,()->{
-            order.changeDelivery(ChangeDelivery.builder()
-                    .addressDetail("배송지 주소 수정")
-                    .build());
-        });
-    }
-
-    @Test
-    void 주문후_승인대기상태라면_수량_수정가능(){
-        Order order = aOrder();
-
-        order.changeQuantity(ChangeQuantity.builder()
-                        .quantity(30L)
-                .build());
-
-        assertEquals(order.toModel().getQuantity(), 30L);
-    }
-
-    @Test
-    void 수량_수정은_승인대기상태일때만_가능(){
-        Order order = aOrder();
-        order.cancel();
-
-        assertThrows(EnableOrderInfoChangeException.class,()->{
-            order.changeQuantity(ChangeQuantity.builder()
-                    .quantity(30L)
-                    .build());
-        });
-    }
-
-    @Test
-    void 주문후_승인대기상태라면_매입단가_수정가능(){
-        Order order = aOrder();
-
-        order.changePurchasePrice(ChangePurchasePrice.builder()
-                        .price(2000L)
-                .build());
-
-        assertEquals(order.toModel().getPurchasePrice(), 2000L);
-    }
-
-    @Test
-    void 매입단가_수정은_승인대기상태일때만_가능(){
-        Order order = aOrder();
-        order.cancel();
-
-        assertThrows(EnableOrderInfoChangeException.class,()->{
-            order.changePurchasePrice(ChangePurchasePrice.builder()
-                    .price(2000L)
-                    .build());
-        });
-    }
-
-    @Test
-    void 주문후_승인대기상태라면_판매단가_수정가능(){
-        Order order = aOrder();
-
-        order.changeSalePrice(ChangeSalePrice.builder()
-                .price(2000L)
-                .build());
-
-        assertEquals(order.toModel().getSalePrice(), 2000L);
-    }
-
-    @Test
-    void 판매단가_수정은_승인대기상태일때만_가능(){
-        Order order = aOrder();
-        order.cancel();
-
-        assertThrows(EnableOrderInfoChangeException.class,()->{
-            order.changeSalePrice(ChangeSalePrice.builder()
-                    .price(2000L)
-                    .build());
-        });
-    }
-
-    @Test
-    void 주문후_승인대기상태라면_비고_수정가능(){
-        Order order = aOrder();
-
-        order.changeContent(ChangeContent.builder()
-                        .content("비고 수정")
-                .build());
-
-        assertEquals(order.toModel().getContent(), "비고 수정");
-    }
-
-    @Test
-    void 비고_수정은_승인대기상태일때만_가능(){
-        Order order = aOrder();
-        order.cancel();
-
-        assertThrows(EnableOrderInfoChangeException.class,()->{
-            order.changeContent(ChangeContent.builder()
-                    .content("비고 수정")
-                    .build());
-        });
-    }
-
-    @Test
-    void 승인_거절(){
-        Order order = aOrder();
-
-        order.refuse();
-
-        assertEquals(order.toModel().getState(), REFUSE);
-    }
-
-    @Test
-    void 승인_거절은_승인_대기상태에서만_가능(){
-        Order order = aOrder();
-
-        order.cancel();
-
-        assertThrows(EnableOrderInfoChangeException.class,()->{
-            order.refuse();
-        });
-    }
-
-    @Test
     void 주문_취소(){
         Order order = aOrder();
 
@@ -289,12 +155,12 @@ public class Order_Test {
     }
 
     @Test
-    void 승인_완료(){
+    void 해피콜_후(){
         Order order = aOrder();
 
-        order.complate();
+        order.finish();
 
-        assertEquals(order.toModel().getState(), COMPLATE);
+        assertEquals(order.toModel().getState(), FINISH);
     }
 
 }

@@ -3,6 +3,7 @@ package com.one234gift.orderservice.command.presentation;
 import com.one234gift.orderservice.command.application.exception.CustomerNotFoundException;
 import com.one234gift.orderservice.command.application.exception.UserNotFoundException;
 import com.one234gift.orderservice.common.APIResponse;
+import com.one234gift.orderservice.domain.exception.AlreadyCenceledException;
 import com.one234gift.orderservice.domain.exception.AlreadyDeliveryFinishedException;
 import com.one234gift.orderservice.domain.exception.AlreadyOrderException;
 import com.one234gift.orderservice.domain.exception.EnableOrderInfoChangeException;
@@ -23,7 +24,8 @@ public class OrderExceptionHandler {
     @ExceptionHandler({
             AlreadyDeliveryFinishedException.class,
             AlreadyOrderException.class,
-            EnableOrderInfoChangeException.class
+            EnableOrderInfoChangeException.class,
+            AlreadyCenceledException.class
     })
     public APIResponse error(Exception e){
         return new APIResponse(e.getMessage(), HttpStatus.BAD_REQUEST);

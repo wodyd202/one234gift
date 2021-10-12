@@ -8,7 +8,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableResourceServer
 @EnableFeignClients
 public class OrderServiceApplication {
     public static void main(String[] args) {

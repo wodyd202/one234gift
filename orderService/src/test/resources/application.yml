@@ -5,3 +5,4 @@ spring:
     name: order-service
   profiles:
     include: database
+    active: test

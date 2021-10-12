@@ -1,4 +1,4 @@
-package com.one234gift.orderservice.application;
+package com.one234gift.orderservice.command.application;
 
 import com.one234gift.orderservice.command.application.UserRepository;
 import com.one234gift.orderservice.domain.value.SalesUser;

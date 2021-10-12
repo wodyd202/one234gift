@@ -1,12 +1,13 @@
 package com.one234gift.orderservice.command.application;
 
+import com.one234gift.orderservice.command.application.event.OrderedEvent;
 import com.one234gift.orderservice.domain.Order;
 import com.one234gift.orderservice.domain.model.RegisterOrder;
 import com.one234gift.orderservice.domain.read.OrderModel;
 import com.one234gift.orderservice.domain.value.CustomerInfo;
 import com.one234gift.orderservice.domain.value.SalesUser;
-import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
-import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
+import lombok.Setter;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,28 +16,32 @@ import static com.one234gift.orderservice.command.application.OrderServiceHelper
 
 @Service
 @Transactional
+@Setter
 public class RegisterOrderService {
     private UserRepository userRepository;
     private CustomerRepository customerRepository;
     private OrderRepository orderRepository;
-    private CircuitBreakerFactory circuitBreakerFactory;
+    private ApplicationEventPublisher applicationEventPublisher;
 
-    public RegisterOrderService(UserRepository userRepository, CustomerRepository customerRepository, OrderRepository orderRepository) {
+    public RegisterOrderService(UserRepository userRepository,
+                                CustomerRepository customerRepository,
+                                OrderRepository orderRepository,
+                                ApplicationEventPublisher applicationEventPublisher) {
         this.userRepository = userRepository;
         this.customerRepository = customerRepository;
         this.orderRepository = orderRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     public OrderModel register(RegisterOrder registerOrder) {
-        CircuitBreaker userAPICircuit = circuitBreakerFactory.create("userAPICircuit");
-        CircuitBreaker customerAPICircuit = circuitBreakerFactory.create("customerAPICircuit");
-
-        SalesUser salesUser = userAPICircuit.run(()-> findUser(userRepository), e -> SalesUser.builder().build());
-        CustomerInfo customerInfo = customerAPICircuit.run(()->findById(customerRepository, registerOrder.getCustomerId()), e -> CustomerInfo.builder().build());
+        CustomerInfo customerInfo = findById(customerRepository, registerOrder.getCustomerId());
+        SalesUser salesUser = findUser(userRepository);
 
         Order order = Order.register(customerInfo, salesUser, registerOrder);
         order.place();
         orderRepository.save(order);
-        return order.toModel();
+        OrderModel orderModel = order.toModel();
+        applicationEventPublisher.publishEvent(new OrderedEvent(orderModel));
+        return orderModel;
     }
 }
