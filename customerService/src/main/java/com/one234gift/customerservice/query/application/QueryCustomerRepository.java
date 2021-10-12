@@ -11,5 +11,8 @@ public interface QueryCustomerRepository {
     List<CustomerModel> findMy(String manager, Pageable pageable);
     List<CustomerModel> findAll(CustomerSearchDTO customerSearchDTO, Pageable pageable);
     Optional<CustomerModel> findById(long customerId);
+    long countAll(CustomerSearchDTO customerSearchDTO);
+    long countMy(String manager);
+
     boolean existById(Long customerId);
 }

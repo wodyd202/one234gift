@@ -47,6 +47,15 @@ public class QuerydslQueryCustomerRepository implements QueryCustomerRepository 
     }
 
     @Override
+    public long countMy(String manager) {
+        return jpaQueryFactory.selectOne()
+                .from(customer)
+                .join(responsible).on(customer.id.eq(responsible.customerId))
+                .where(responsible.manager.eq(manager))
+                .fetchCount();
+    }
+
+    @Override
     public List<CustomerModel> findAll(CustomerSearchDTO customerSearchDTO, Pageable pageable) {
         return jpaQueryFactory.select(Projections.constructor(CustomerModel.class,
                                 customer.id,
@@ -65,6 +74,17 @@ public class QuerydslQueryCustomerRepository implements QueryCustomerRepository 
                 .limit(pageable.getSize())
                 .offset(pageable.getPage() * pageable.getSize())
                 .fetch();
+    }
+
+    @Override
+    public long countAll(CustomerSearchDTO customerSearchDTO) {
+        return jpaQueryFactory.selectOne()
+                .from(customer)
+                .where(eqBusinessName(customerSearchDTO.getBusinessName()),
+                        eqLocation(customerSearchDTO.getLocation()),
+                        eqCategory(customerSearchDTO.getCategory()),
+                        eqState(customerSearchDTO.getState()))
+                .fetchCount();
     }
 
     @Override

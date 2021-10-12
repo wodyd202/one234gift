@@ -19,9 +19,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
-import java.util.List;
 
-import static com.one234gift.customerservice.domain.CustomerFixture.*;
+import static com.one234gift.customerservice.domain.CustomerFixture.aAddPurchasingManager;
+import static com.one234gift.customerservice.domain.CustomerFixture.aRegisterCustomer;
 import static com.one234gift.customerservice.domain.value.SaleState.SALE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -317,7 +317,6 @@ public class Customer_Test {
         assertEquals(customerModel.getCategory(), "은행");
         assertEquals(customerModel.getBusinessInfo().getName(),"사업체명");
         assertEquals(customerModel.getBusinessInfo().getNumber(),"000-00-00000");
-        List<PurchasingManagerModel> purchasingManagerModelList = customerModel.getPurchasingManagers();
 
         assertEquals(customerModel.getAddress().getLocation(),"지역");
         assertEquals(customerModel.getAddress().getAddressDetail(),"상세주소");
