@@ -2,15 +2,11 @@ package com.one234gift.customerservice.command.presentation;
 
 import com.one234gift.customerservice.command.application.ChangeCustomerService;
 import com.one234gift.customerservice.command.application.ChangeSaleStateService;
-import com.one234gift.customerservice.common.APIResponse;
 import com.one234gift.customerservice.common.CommandException;
-import com.one234gift.customerservice.domain.model.ChangeAddressDetail;
-import com.one234gift.customerservice.domain.model.ChangeBusinessName;
-import com.one234gift.customerservice.domain.model.ChangeBusinessNumber;
-import com.one234gift.customerservice.domain.model.ChangeFax;
+import com.one234gift.customerservice.domain.model.*;
 import com.one234gift.customerservice.domain.read.CustomerModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,19 +20,19 @@ public class ChangeCustomerAPI {
     @Autowired private ChangeSaleStateService changeSaleStateService;
 
     @PutMapping("business-name")
-    public APIResponse changeBusinessName(@Valid @RequestBody ChangeBusinessName businessName,
-                                          Errors errors,
-                                          @PathVariable Long customerId,
-                                          Principal principal){
+    public ResponseEntity<CustomerModel> changeBusinessName(@Valid @RequestBody ChangeBusinessName businessName,
+                                             Errors errors,
+                                             @PathVariable Long customerId,
+                                             Principal principal){
         if(errors.hasErrors()){
             throw new CommandException(errors);
         }
         CustomerModel customerModel = changeCustomerService.changeBusinessName(customerId, businessName);
-        return new APIResponse(customerModel, HttpStatus.OK);
+        return ResponseEntity.ok(customerModel);
     }
 
     @PutMapping("address-detail")
-    public APIResponse changeAddressDetail(@Valid @RequestBody ChangeAddressDetail addressDetail,
+    public ResponseEntity<CustomerModel> changeAddressDetail(@Valid @RequestBody ChangeAddressDetail addressDetail,
                                            Errors errors,
                                            @PathVariable Long customerId,
                                            Principal principal){
@@ -44,11 +40,11 @@ public class ChangeCustomerAPI {
             throw new CommandException(errors);
         }
         CustomerModel customerModel = changeCustomerService.changeAddressDetail(customerId, addressDetail);
-        return new APIResponse(customerModel, HttpStatus.OK);
+        return ResponseEntity.ok(customerModel);
     }
 
     @PutMapping("business-number")
-    public APIResponse changeBusinessNumber(@Valid @RequestBody ChangeBusinessNumber businessNumber,
+    public ResponseEntity<CustomerModel> changeBusinessNumber(@Valid @RequestBody ChangeBusinessNumber businessNumber,
                                             Errors errors,
                                             @PathVariable Long customerId,
                                             Principal principal){
@@ -56,11 +52,11 @@ public class ChangeCustomerAPI {
             throw new CommandException(errors);
         }
         CustomerModel customerModel = changeCustomerService.changeBusinessNumber(customerId, businessNumber);
-        return new APIResponse(customerModel, HttpStatus.OK);
+        return ResponseEntity.ok(customerModel);
     }
 
     @PutMapping("fax")
-    public APIResponse changeFax(@Valid @RequestBody ChangeFax fax,
+    public ResponseEntity<CustomerModel> changeFax(@Valid @RequestBody ChangeFax fax,
                                  Errors errors,
                                  @PathVariable Long customerId,
                                  Principal principal){
@@ -68,21 +64,32 @@ public class ChangeCustomerAPI {
             throw new CommandException(errors);
         }
         CustomerModel customerModel = changeCustomerService.changeFax(customerId, fax);
-        return new APIResponse(customerModel, HttpStatus.OK);
+        return ResponseEntity.ok(customerModel);
     }
 
     @PutMapping("sale")
-    public APIResponse sale(@PathVariable Long customerId,
+    public ResponseEntity<Void> sale(@PathVariable Long customerId,
                             Principal principal){
         changeSaleStateService.sale(customerId);
-        return new APIResponse(HttpStatus.OK);
+        return ResponseEntity.ok(null);
     }
 
     @PutMapping("sale-stop")
-    public APIResponse saleStop(@PathVariable Long customerId,
+    public ResponseEntity<Void> saleStop(@PathVariable Long customerId,
                             Principal principal){
         changeSaleStateService.saleStop(customerId);
-        return new APIResponse(HttpStatus.OK);
+        return ResponseEntity.ok(null);
+    }
+
+    @PutMapping("purchasing-manager")
+    public ResponseEntity<CustomerModel> addPurchasingManager(@PathVariable Long customerId,
+                                                              @Valid @RequestBody ChangePurchasingManager purchasingManager,
+                                                              Errors errors){
+        if(errors.hasErrors()){
+            throw new CommandException(errors);
+        }
+        CustomerModel customerModel = changeCustomerService.addPurchasingManager(customerId, purchasingManager);
+        return ResponseEntity.ok(customerModel);
     }
 
 }

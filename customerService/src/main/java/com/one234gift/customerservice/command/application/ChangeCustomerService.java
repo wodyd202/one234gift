@@ -1,14 +1,8 @@
 package com.one234gift.customerservice.command.application;
 
-import com.one234gift.customerservice.command.application.event.ChangedAddressDetailEvent;
-import com.one234gift.customerservice.command.application.event.ChangedBusinessNameEvent;
-import com.one234gift.customerservice.command.application.event.ChangedBusinessNumberEvent;
-import com.one234gift.customerservice.command.application.event.ChangedFaxEvent;
+import com.one234gift.customerservice.command.application.event.*;
 import com.one234gift.customerservice.domain.Customer;
-import com.one234gift.customerservice.domain.model.ChangeAddressDetail;
-import com.one234gift.customerservice.domain.model.ChangeBusinessName;
-import com.one234gift.customerservice.domain.model.ChangeBusinessNumber;
-import com.one234gift.customerservice.domain.model.ChangeFax;
+import com.one234gift.customerservice.domain.model.*;
 import com.one234gift.customerservice.domain.read.CustomerModel;
 import com.one234gift.customerservice.domain.value.Manager;
 import lombok.Setter;
@@ -16,7 +10,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.one234gift.customerservice.command.application.CustomerServiceHelper.findCustomer;
+import static com.one234gift.customerservice.command.application.CustomerServiceHelper.findUser;
 
 @Service
 @Transactional
@@ -33,7 +27,7 @@ public class ChangeCustomerService {
     }
 
     public CustomerModel changeBusinessName(Long id, ChangeBusinessName businessName) {
-        Manager manager = findCustomer(userRepository);
+        Manager manager = findUser(userRepository);
         Customer customer = CustomerServiceHelper.findCustomer(customerRepository, id);
         customer.changeBusinessName(businessName);
         customerRepository.save(customer);
@@ -42,7 +36,7 @@ public class ChangeCustomerService {
     }
 
     public CustomerModel changeAddressDetail(Long id, ChangeAddressDetail addressDetail) {
-        Manager manager = findCustomer(userRepository);
+        Manager manager = findUser(userRepository);
         Customer customer = CustomerServiceHelper.findCustomer(customerRepository, id);
         customer.changeAddressDetail(addressDetail);
         customerRepository.save(customer);
@@ -51,7 +45,7 @@ public class ChangeCustomerService {
     }
 
     public CustomerModel changeBusinessNumber(Long id, ChangeBusinessNumber businessNumber) {
-        Manager manager = findCustomer(userRepository);
+        Manager manager = findUser(userRepository);
         Customer customer = CustomerServiceHelper.findCustomer(customerRepository, id);
         customer.changeBusinessNumber(businessNumber);
         customerRepository.save(customer);
@@ -60,11 +54,29 @@ public class ChangeCustomerService {
     }
 
     public CustomerModel changeFax(Long id, ChangeFax fax) {
-        Manager manager = findCustomer(userRepository);
+        Manager manager = findUser(userRepository);
         Customer customer = CustomerServiceHelper.findCustomer(customerRepository, id);
         customer.changeFax(fax);
         customerRepository.save(customer);
         applicationEventPublisher.publishEvent(new ChangedFaxEvent(fax.getFax(), id, manager));
+        return customer.toModel();
+    }
+
+    public CustomerModel addPurchasingManager(Long id, ChangePurchasingManager purchasingManager) {
+        Manager manager = findUser(userRepository);
+        Customer customer = CustomerServiceHelper.findCustomer(customerRepository, id);
+        customer.addPurchasingManger(purchasingManager);
+        customerRepository.save(customer);
+        applicationEventPublisher.publishEvent(new AddedPurcgasubgManager(purchasingManager, id, manager));
+        return customer.toModel();
+    }
+
+    public CustomerModel removePurchasingManager(Long id, RemovePurchasingManager purchasingManager){
+        Manager manager = findUser(userRepository);
+        Customer customer = CustomerServiceHelper.findCustomer(customerRepository, id);
+        customer.removePurchasingManager(purchasingManager);
+        customerRepository.save(customer);
+        applicationEventPublisher.publishEvent(new RemovedPurcgasubgManager(purchasingManager, id, manager));
         return customer.toModel();
     }
 }

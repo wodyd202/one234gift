@@ -1,9 +1,13 @@
 package com.one234gift.customerservice.domain.value;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+@Access(AccessType.FIELD)
 public class JobTitle {
+    private static JobTitle INSTANCE = new JobTitle();
     private final String jobTitle;
 
     protected JobTitle(){jobTitle=null;}
@@ -13,7 +17,12 @@ public class JobTitle {
         this.jobTitle = jobTitle;
     }
 
+    public static JobTitle getInstance() {
+        return INSTANCE;
+    }
+
     private final static Pattern PATTERN = Pattern.compile("^[가-힣]{1,10}$");
+
     private void jobTitleValidation(String jobTitle) {
         if(!PATTERN.matcher(jobTitle).matches()){
             throw new IllegalArgumentException("직위는 한글조합 1자이상 10자 이하로 입력해주세요.");

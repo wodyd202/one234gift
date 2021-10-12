@@ -3,11 +3,11 @@ package com.one234gift.customerservice.domain.value;
 import com.one234gift.customerservice.domain.model.ChangeContact;
 import com.one234gift.customerservice.domain.read.ContectModel;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
+import javax.persistence.*;
 
+@Access(AccessType.FIELD)
 public class Contact {
+
     @Embedded
     @AttributeOverride(name = "tel", column = @Column(name = "main_tel", nullable = false, length = 13))
     private Tel mainTel;
@@ -36,7 +36,7 @@ public class Contact {
 
     private void setSubTel(String subTel) {
         if(subTel == null){
-            this.subTel = new Tel();
+            this.subTel = Tel.getInstance();
         }else{
             this.subTel = new Tel(subTel);
         }
@@ -45,7 +45,11 @@ public class Contact {
     public ContectModel toModel() {
         return ContectModel.builder()
                 .mainTel(mainTel.get())
-                .subTel(subTel.get())
+                .subTel(getSubTel().get())
                 .build();
+    }
+
+    private Tel getSubTel() {
+        return subTel == null ? Tel.getInstance() : subTel;
     }
 }

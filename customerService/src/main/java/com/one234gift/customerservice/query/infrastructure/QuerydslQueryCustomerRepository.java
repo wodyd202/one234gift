@@ -1,6 +1,7 @@
 package com.one234gift.customerservice.query.infrastructure;
 
 import com.one234gift.customerservice.common.Pageable;
+import com.one234gift.customerservice.domain.Customer;
 import com.one234gift.customerservice.domain.read.CustomerModel;
 import com.one234gift.customerservice.domain.value.SaleState;
 import com.one234gift.customerservice.query.application.QueryCustomerRepository;
@@ -12,28 +13,49 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
 import static com.one234gift.customerservice.domain.QCustomer.customer;
-import static com.querydsl.core.types.dsl.Expressions.asSimple;
+import static com.one234gift.customerservice.domain.QResponsible.responsible;
 
 @Repository
 @Transactional(readOnly = true)
 public class QuerydslQueryCustomerRepository implements QueryCustomerRepository {
     @Autowired private JPAQueryFactory jpaQueryFactory;
+    @PersistenceContext private EntityManager entityManager;
 
     @Override
-    public List<CustomerModel> findAll(CustomerSearchDTO customerSearchDTO, Pageable pageable) {
+    public List<CustomerModel> findMy(String manager, Pageable pageable) {
         return jpaQueryFactory.select(Projections.constructor(CustomerModel.class,
                         customer.id,
                         customer.category(),
                         customer.businessInfo(),
                         customer.address(),
                         customer.saleState,
-                        customer.manager(),
                         customer.fax(),
                         customer.createDateTime)
+                )
+                .from(customer)
+                .join(responsible).on(customer.id.eq(responsible.customerId))
+                .where(responsible.manager.eq(manager))
+                .limit(pageable.getSize())
+                .offset(pageable.getPage() * pageable.getSize())
+                .fetch();
+    }
+
+    @Override
+    public List<CustomerModel> findAll(CustomerSearchDTO customerSearchDTO, Pageable pageable) {
+        return jpaQueryFactory.select(Projections.constructor(CustomerModel.class,
+                                customer.id,
+                                customer.category(),
+                                customer.businessInfo(),
+                                customer.address(),
+                                customer.saleState,
+                                customer.fax(),
+                                customer.createDateTime)
                 )
                 .from(customer)
                 .where(eqBusinessName(customerSearchDTO.getBusinessName()),
@@ -43,6 +65,23 @@ public class QuerydslQueryCustomerRepository implements QueryCustomerRepository 
                 .limit(pageable.getSize())
                 .offset(pageable.getPage() * pageable.getSize())
                 .fetch();
+    }
+
+    @Override
+    public Optional<CustomerModel> findById(long customerId) {
+        Customer customer = entityManager.find(Customer.class, customerId);
+        if(customer != null){
+            return Optional.ofNullable(customer.toModel());
+        }else{
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public boolean existById(Long customerId) {
+        return jpaQueryFactory.selectOne()
+                .from(customer)
+                .fetchFirst() != null;
     }
 
     private BooleanExpression eqBusinessName(String businessName) {
@@ -71,30 +110,5 @@ public class QuerydslQueryCustomerRepository implements QueryCustomerRepository 
             return customer.saleState.eq(state);
         }
         return null;
-    }
-
-    @Override
-    public Optional<CustomerModel> findById(long customerId) {
-        return Optional.ofNullable(
-                jpaQueryFactory.select(Projections.constructor(CustomerModel.class,
-                                asSimple(customerId),
-                                customer.category(),
-                                customer.businessInfo(),
-                                customer.address(),
-                                customer.saleState,
-                                customer.manager(),
-                                customer.fax(),
-                                customer.createDateTime))
-                        .from(customer)
-                        .where(customer.id.eq(customerId))
-                        .fetchFirst()
-        );
-    }
-
-    @Override
-    public boolean existById(Long customerId) {
-        return jpaQueryFactory.selectOne()
-                .from(customer)
-                .fetchFirst() != null;
     }
 }

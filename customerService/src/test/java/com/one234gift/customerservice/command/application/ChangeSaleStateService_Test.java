@@ -26,12 +26,11 @@ public class ChangeSaleStateService_Test {
     void setUp(){
         StubUserRepository userRepository = new StubUserRepository();
         changeSaleStateService.setUserRepository(userRepository);
-        registerCustomerService.setUserRepository(userRepository);
     }
 
     @Test
     void 영업_중단(){
-        CustomerModel customer = registerCustomerService.register(aRegisterCustomer().build(), "userId");
+        CustomerModel customer = registerCustomerService.register(aRegisterCustomer().build());
         changeSaleStateService.saleStop(customer.getId());
 
         CustomerModel findCustomer = CustomerServiceHelper.findCustomer(customerRepository, customer.getId()).toModel();
@@ -40,7 +39,7 @@ public class ChangeSaleStateService_Test {
 
     @Test
     void 영업중으로_변경(){
-        CustomerModel customer = registerCustomerService.register(aRegisterCustomer().build(), "userId");
+        CustomerModel customer = registerCustomerService.register(aRegisterCustomer().build());
         changeSaleStateService.saleStop(customer.getId());
         changeSaleStateService.sale(customer.getId());
 

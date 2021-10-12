@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface QueryCustomerRepository {
+    List<CustomerModel> findMy(String manager, Pageable pageable);
     List<CustomerModel> findAll(CustomerSearchDTO customerSearchDTO, Pageable pageable);
     Optional<CustomerModel> findById(long customerId);
     boolean existById(Long customerId);

@@ -1,8 +1,11 @@
 package com.one234gift.customerservice.domain.value;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+@Access(AccessType.FIELD)
 public class Tel {
     private static final Tel INSTANCE = new Tel();
     private final String tel;

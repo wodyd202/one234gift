@@ -11,6 +11,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CustomerSearchAPI_Test extends APITest {
 
     @Test
+    void 내가_담당하고_있는_고객_보기() throws Exception {
+        mockMvc.perform(get("/api/customer/responsible")
+                        .param("size", "10")
+                        .param("page", "0"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     void existByCustomerId() throws Exception {
         mockMvc.perform(get("/api/customer/{customerId}/exist",1))
                 .andExpect(status().isOk());

@@ -1,11 +1,14 @@
 package com.one234gift.customerservice.domain.value;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Embeddable;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-@Embeddable
+@Access(AccessType.FIELD)
 public class Email {
+    private static Email INSTANCE = new Email();
     private final String email;
 
     protected Email(){email = null;}
@@ -16,6 +19,11 @@ public class Email {
     }
 
     private final static Pattern PATTERN = Pattern.compile("^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$");
+
+    public static Email getInstance() {
+        return INSTANCE;
+    }
+
     private void emailValidation(String email) {
         if(!PATTERN.matcher(email).matches()){
             throw new IllegalArgumentException("이메일 형식이 올바르지 않습니다.");

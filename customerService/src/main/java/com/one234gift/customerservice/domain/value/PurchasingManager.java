@@ -2,23 +2,14 @@ package com.one234gift.customerservice.domain.value;
 
 import com.one234gift.customerservice.domain.Customer;
 import com.one234gift.customerservice.domain.model.ChangePurchasingManager;
+import com.one234gift.customerservice.domain.model.RemovePurchasingManager;
 import com.one234gift.customerservice.domain.read.PurchasingManagerModel;
 
 import javax.persistence.*;
 import java.util.Objects;
 
-import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.GenerationType.AUTO;
-
-@Entity
-@Table(name = "customer_purchasing_manager")
+@Embeddable
 public class PurchasingManager {
-    @Id
-    @GeneratedValue(strategy = AUTO)
-    private Long seq;
-
-    @ManyToOne(fetch = LAZY)
-    private Customer customer;
 
     @Embedded
     @AttributeOverride(name = "managerName", column = @Column(name = "name", length = 10))
@@ -41,12 +32,17 @@ public class PurchasingManager {
     @Embedded
     private Contact contact;
 
+    public void setName(ManagerName name) {
+        this.name = name;
+    }
+
+    protected PurchasingManager(){}
+
     public PurchasingManager(ChangePurchasingManager purchasingManager, Customer customer) {
         setManagerName(purchasingManager);
         setEmail(purchasingManager);
         setJobTitle(purchasingManager);
         setContect(purchasingManager);
-        this.customer = customer;
     }
 
     private void setManagerName(ChangePurchasingManager purchasingManager) {
@@ -58,7 +54,7 @@ public class PurchasingManager {
         if(purchasingManager.getEmail() != null){
             email = new Email(purchasingManager.getEmail());
         }else{
-            email = new Email();
+            email = Email.getInstance();
         }
     }
 
@@ -66,7 +62,7 @@ public class PurchasingManager {
         if(purchasingManager.getJobTitle() != null){
             jobTitle = new JobTitle(purchasingManager.getJobTitle());
         }else{
-            jobTitle = new JobTitle();
+            jobTitle = JobTitle.getInstance();
         }
     }
 
@@ -86,10 +82,32 @@ public class PurchasingManager {
     public PurchasingManagerModel toModel() {
         return PurchasingManagerModel.builder()
                 .name(name.get())
-                .email(email.get())
-                .jobTitle(jobTitle.get())
+                .email(getEmail().get())
+                .jobTitle(getJobTitle().get())
                 .contact(contact.toModel())
                 .build();
+    }
+
+    private Email getEmail() {
+        return email == null ? Email.getInstance() : email;
+    }
+
+    private JobTitle getJobTitle() {
+        return jobTitle == null ? JobTitle.getInstance() : jobTitle;
+    }
+
+    public boolean isTarget(RemovePurchasingManager removePurchasingManager) {
+        return removePurchasingManager.getMainTel().equals(contact.toModel().getMainTel()) && removePurchasingManager.getName().equals(name.get());
+    }
+
+    @Override
+    public String toString() {
+        return "PurchasingManager{" +
+                "name=" + name +
+                ", email=" + email +
+                ", jobTitle=" + jobTitle +
+                ", contact=" + contact +
+                '}';
     }
 
     @Override
@@ -97,21 +115,11 @@ public class PurchasingManager {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PurchasingManager that = (PurchasingManager) o;
-        return Objects.equals(name, that.name) && Objects.equals(email, that.email) && Objects.equals(jobTitle, that.jobTitle);
+        return Objects.equals(name, that.name) && Objects.equals(email, that.email) && Objects.equals(jobTitle, that.jobTitle) && Objects.equals(contact, that.contact);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, email, jobTitle);
-    }
-
-    @Override
-    public String toString() {
-        return "PurchasingManager{" +
-                "seq=" + seq +
-                ", name=" + name +
-                ", email=" + email +
-                ", jobTitle=" + jobTitle +
-                '}';
+        return Objects.hash(name, email, jobTitle, contact);
     }
 }

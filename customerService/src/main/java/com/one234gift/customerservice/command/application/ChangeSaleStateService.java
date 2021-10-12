@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.one234gift.customerservice.command.application.CustomerServiceHelper.findCustomer;
+import static com.one234gift.customerservice.command.application.CustomerServiceHelper.findUser;
 
 @Service
 @Transactional
@@ -26,7 +26,7 @@ public class ChangeSaleStateService {
     }
 
     public void saleStop(Long id) {
-        Manager manager = findCustomer(userRepository);
+        Manager manager = findUser(userRepository);
         Customer customer = CustomerServiceHelper.findCustomer(customerRepository, id);
         customer.saleStop();
         customerRepository.save(customer);
@@ -34,7 +34,7 @@ public class ChangeSaleStateService {
     }
 
     public void sale(Long id) {
-        Manager manager = findCustomer(userRepository);
+        Manager manager = findUser(userRepository);
         Customer customer = CustomerServiceHelper.findCustomer(customerRepository, id);
         customer.sale();
         customerRepository.save(customer);

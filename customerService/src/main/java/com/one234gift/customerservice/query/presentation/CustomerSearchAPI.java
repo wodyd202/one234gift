@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -18,6 +19,12 @@ public class CustomerSearchAPI {
     @GetMapping
     public ResponseEntity<List<CustomerModel>> findAll(CustomerSearchDTO customerSearchDTO, Pageable pageable){
         List<CustomerModel> customerModels = queryCustomerService.findAll(customerSearchDTO, pageable);
+        return ResponseEntity.ok(customerModels);
+    }
+
+    @GetMapping("responsible")
+    public ResponseEntity<List<CustomerModel>> responsible(Pageable pageable, Principal principal){
+        List<CustomerModel> customerModels = queryCustomerService.findMy(principal.getName(), pageable);
         return ResponseEntity.ok(customerModels);
     }
 

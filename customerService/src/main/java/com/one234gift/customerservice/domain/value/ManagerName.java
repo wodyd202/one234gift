@@ -1,8 +1,12 @@
 package com.one234gift.customerservice.domain.value;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Embeddable;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+@Access(AccessType.FIELD)
 public class ManagerName {
     private final String managerName;
 

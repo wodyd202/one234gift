@@ -68,7 +68,11 @@ public class BusinessInfo {
     public BusinessInfoModel toModel() {
         return BusinessInfoModel.builder()
                 .name(name.get())
-                .number(number.get())
+                .number(getNumber().get())
                 .build();
+    }
+
+    private BusinessNumber getNumber() {
+        return number == null ? new BusinessNumber() : number;
     }
 }

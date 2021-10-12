@@ -17,12 +17,11 @@ public class RegisterCustomerService_Test {
 
     @BeforeEach
     void setUp(){
-        registerCustomerService.setUserRepository(new StubUserRepository());
     }
 
     @Test
     void 고객_등록(){
-        CustomerModel customerModel = registerCustomerService.register(aRegisterCustomer().build(), "requester");
+        CustomerModel customerModel = registerCustomerService.register(aRegisterCustomer().build());
         Customer customer = customerRepository.findById(customerModel.getId()).get();
         assertNotNull(customer);
     }

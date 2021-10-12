@@ -33,4 +33,14 @@ public class CustomerFixture {
                         .addressDetail("상세주소")
                         .build());
     }
+
+    public static ChangePurchasingManager.ChangePurchasingManagerBuilder aAddPurchasingManager(){
+        return ChangePurchasingManager.builder()
+                .name("이름")
+                .email("test@google.com")
+                .jobTitle("직위")
+                .contact(ChangeContact.builder()
+                        .mainTel("000-0000-0000")
+                        .build());
+    }
 }

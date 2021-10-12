@@ -3,7 +3,6 @@ package com.one234gift.customerservice;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.one234gift.customerservice.command.application.RegisterCustomerService;
-import com.one234gift.customerservice.command.application.StubUserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,7 +23,6 @@ public class APITest {
 
     @BeforeEach
     void setUp() {
-        registerCustomerService.setUserRepository(new StubUserRepository());
     }
 
     protected String toJson(Object obj) throws JsonProcessingException {

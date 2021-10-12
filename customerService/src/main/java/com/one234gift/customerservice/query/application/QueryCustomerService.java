@@ -29,4 +29,8 @@ public class QueryCustomerService {
     public boolean existById(Long customerId) {
         return customerRepository.existById(customerId);
     }
+
+    public List<CustomerModel> findMy(String manager, Pageable pageable) {
+        return customerRepository.findMy(manager, pageable);
+    }
 }

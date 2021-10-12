@@ -6,7 +6,7 @@ import com.one234gift.customerservice.domain.Customer;
 import com.one234gift.customerservice.domain.value.Manager;
 
 public class CustomerServiceHelper {
-    public static Manager findCustomer(UserRepository userRepository){
+    public static Manager findUser(UserRepository userRepository){
         return userRepository.findUser().orElseThrow(UserNotFoundException::new);
     }
 

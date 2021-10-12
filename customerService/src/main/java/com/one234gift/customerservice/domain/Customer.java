@@ -10,6 +10,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 import static com.one234gift.customerservice.domain.value.SaleState.SALE;
 import static com.one234gift.customerservice.domain.value.SaleState.STOP;
@@ -23,7 +24,6 @@ import static javax.persistence.EnumType.STRING;
         indexes = {
                 @Index(name = "customer_category", columnList = "category"),
                 @Index(name = "customer_location", columnList = "location"),
-                @Index(name = "customer_manager", columnList = "manager_phone"),
                 @Index(name = "customer_state", columnList = "saleState")
         })
 @DynamicUpdate
@@ -49,17 +49,6 @@ public class Customer {
     private final Category category;
 
     /**
-     * 해당 고객(업체) 담당자[필수]
-     * # 해당 업체 담당자는 변경될 수 있음
-     */
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "name", column = @Column(name = "manager_name", nullable = false, length = 10)),
-            @AttributeOverride(name = "phone", column = @Column(name = "manager_phone", nullable = false, length = 13))
-    })
-    private Manager manager;
-
-    /**
      * 고객(업체) 정보
      * - 업체명[필수]
      * - 사업자번호
@@ -73,6 +62,7 @@ public class Customer {
      * - 이메일
      * - 직위
      */
+    @Embedded
     private PurchasingManagers purchasingManagers;
 
     @Embedded
@@ -108,7 +98,7 @@ public class Customer {
         category = null;
     }
 
-    private Customer(RegisterCustomer registerCustomer, Manager manager) {
+    private Customer(RegisterCustomer registerCustomer) {
         categoryValidation(registerCustomer.getCategory());
         category = new Category(registerCustomer.getCategory());
 
@@ -127,7 +117,6 @@ public class Customer {
         addressValidation(registerCustomer.getAddress());
         address = new Address(registerCustomer.getAddress());
 
-        this.manager = manager;
         createDateTime = LocalDateTime.now();
     }
 
@@ -155,8 +144,8 @@ public class Customer {
         }
     }
 
-    public static Customer registerWith(RegisterCustomer registerCustomer, Manager manager) {
-        return new Customer(registerCustomer, manager);
+    public static Customer registerWith(RegisterCustomer registerCustomer) {
+        return new Customer(registerCustomer);
     }
 
     /**
@@ -206,14 +195,6 @@ public class Customer {
     }
 
     /**
-     * @param manager
-     * - 담당자 수정
-     */
-    public void changeManager(Manager manager) {
-        this.manager = manager;
-    }
-
-    /**
      * - 영업 중지
      */
     public void saleStop() {
@@ -238,15 +219,31 @@ public class Customer {
         }
     }
 
+    /**
+     * @param purchasingManager
+     * - 담당자 추가
+     */
+    public void addPurchasingManger(ChangePurchasingManager purchasingManager) {
+        this.purchasingManagers.add(this, purchasingManager);
+    }
+
+    /**
+     * @param removePurchasingManager
+     * - 담당자 삭제
+     */
+    public void removePurchasingManager(RemovePurchasingManager removePurchasingManager) {
+        this.purchasingManagers.remove(removePurchasingManager);
+    }
+
     public CustomerModel toModel() {
         return CustomerModel.builder()
                 .id(id)
-                .category(category.get())
-                .businessInfo(businessInfo.toModel())
-                .address(address.toModel())
+                .category(category)
+                .businessInfo(businessInfo)
+                .purchasingManagers(purchasingManagers)
+                .address(address)
                 .saleState(saleState)
-                .manager(manager.toModel())
-                .fax(fax.get())
+                .fax(fax)
                 .createDateTime(createDateTime)
                 .build();
     }
@@ -256,12 +253,24 @@ public class Customer {
         return "Customer{" +
                 "id=" + id +
                 ", category=" + category +
-                ", manager=" + manager +
                 ", businessInfo=" + businessInfo +
                 ", purchasingManager=" + purchasingManagers +
                 ", address=" + address +
                 ", saleState=" + saleState +
                 ", createDateTime=" + createDateTime +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return Objects.equals(id, customer.id) && Objects.equals(category, customer.category) && Objects.equals(businessInfo, customer.businessInfo) && Objects.equals(purchasingManagers, customer.purchasingManagers) && Objects.equals(fax, customer.fax) && Objects.equals(address, customer.address) && saleState == customer.saleState && Objects.equals(createDateTime, customer.createDateTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, category, businessInfo, purchasingManagers, fax, address, saleState, createDateTime);
     }
 }
