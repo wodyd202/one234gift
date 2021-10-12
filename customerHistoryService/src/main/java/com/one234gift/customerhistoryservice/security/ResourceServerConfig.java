@@ -1,4 +1,4 @@
-package com.one234gift.customerservice.security;
+package com.one234gift.customerhistoryservice.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

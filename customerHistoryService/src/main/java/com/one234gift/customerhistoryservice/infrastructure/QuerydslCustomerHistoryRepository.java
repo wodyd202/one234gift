@@ -7,6 +7,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,6 +17,7 @@ import static com.one234gift.customerhistoryservice.domain.QCustomerHistory.cust
 import static com.querydsl.core.types.dsl.Expressions.asSimple;
 
 @Repository
+@Transactional
 public class QuerydslCustomerHistoryRepository implements CustomerHistoryRepository {
 
     @Autowired
