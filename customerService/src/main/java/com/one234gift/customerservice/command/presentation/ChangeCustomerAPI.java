@@ -92,4 +92,15 @@ public class ChangeCustomerAPI {
         return ResponseEntity.ok(customerModel);
     }
 
+    @DeleteMapping("purchasing-manager")
+    public ResponseEntity<CustomerModel> removePurchasingManager(@PathVariable Long customerId,
+                                                                 @Valid @RequestBody RemovePurchasingManager purchasingManager,
+                                                                 Errors errors){
+        if(errors.hasErrors()){
+            throw new CommandException(errors);
+        }
+        CustomerModel customerModel = changeCustomerService.removePurchasingManager(customerId, purchasingManager);
+        return ResponseEntity.ok(customerModel);
+    }
+
 }
