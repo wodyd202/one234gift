@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Slf4j
 @Component
-public class UserFallbackFactory implements FallbackFactory<UserRepository> {
+public class UserRepositoryFallbackFactory implements FallbackFactory<UserRepository> {
     @Override
     public UserRepository create(Throwable throwable) {
         return new UserRepository() {

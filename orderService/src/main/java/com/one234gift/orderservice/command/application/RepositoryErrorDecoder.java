@@ -7,7 +7,7 @@ import feign.Response;
 import feign.codec.ErrorDecoder;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class RepositoryErrorDecoder implements ErrorDecoder {
     @Override
     public Exception decode(String methodName, Response response) {

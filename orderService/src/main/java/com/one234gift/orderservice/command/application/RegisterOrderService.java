@@ -34,8 +34,8 @@ public class RegisterOrderService {
     }
 
     public OrderModel register(RegisterOrder registerOrder) {
-        CustomerInfo customerInfo = findById(customerRepository, registerOrder.getCustomerId());
         SalesUser salesUser = findUser(userRepository);
+        CustomerInfo customerInfo = findById(customerRepository, registerOrder.getCustomerId());
 
         Order order = Order.register(customerInfo, salesUser, registerOrder);
         order.place();
@@ -44,4 +44,5 @@ public class RegisterOrderService {
         applicationEventPublisher.publishEvent(new OrderedEvent(orderModel));
         return orderModel;
     }
+
 }

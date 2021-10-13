@@ -1,7 +1,6 @@
 package com.one234gift.orderservice.domain.read;
 
-import com.one234gift.orderservice.domain.value.OrderState;
-import com.one234gift.orderservice.domain.value.OrderType;
+import com.one234gift.orderservice.domain.value.*;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -19,28 +18,44 @@ public class OrderModel {
     private LocalDateTime createDateTime;
     private OrderState state;
 
+    public OrderModel(Long id,
+                      Product product,
+                      CustomerInfo customerInfo,
+                      OrderQuantity orderQuantity,
+                      Price salePrice,
+                      OrderState state,
+                      LocalDateTime createDateTime){
+        this.id = id;
+        this.product = product.get();
+        this.customerInfo = customerInfo.toModel();
+        this.quantity = orderQuantity.get();
+        this.salePrice = salePrice.get();
+        this.state = state;
+        this.createDateTime = createDateTime;
+    }
+
     @Builder
     public OrderModel(Long id,
-                      String product,
-                      CustomerInfoModel customerInfo,
-                      SalesUserModel salesUser,
-                      String content,
-                      String delivery,
-                      long quantity,
-                      long purchasePrice,
-                      long salePrice,
+                      Product product,
+                      CustomerInfo customerInfo,
+                      SalesUser salesUser,
+                      Content content,
+                      Delivery delivery,
+                      OrderQuantity quantity,
+                      Price purchasePrice,
+                      Price salePrice,
                       OrderType type,
                       LocalDateTime createDateTime,
                       OrderState state) {
         this.id = id;
-        this.product = product;
-        this.customerInfo = customerInfo;
-        this.salesUser = salesUser;
-        this.content = content;
-        this.delivery = delivery;
-        this.quantity = quantity;
-        this.purchasePrice = purchasePrice;
-        this.salePrice = salePrice;
+        this.product = product.get();
+        this.customerInfo = customerInfo.toModel();
+        this.salesUser = salesUser.toModel();
+        this.content = content == null ? null : content.get();
+        this.delivery = delivery.get();
+        this.quantity = quantity.get();
+        this.purchasePrice = purchasePrice.get();
+        this.salePrice = salePrice.get();
         this.type = type;
         this.createDateTime = createDateTime;
         this.state = state;

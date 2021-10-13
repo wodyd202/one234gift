@@ -1,6 +1,7 @@
 package com.one234gift.orderservice.command.presentation;
 
 import com.one234gift.orderservice.command.application.exception.CustomerNotFoundException;
+import com.one234gift.orderservice.command.application.exception.SalesUserNotFoundException;
 import com.one234gift.orderservice.command.application.exception.UserNotFoundException;
 import com.one234gift.orderservice.common.APIResponse;
 import com.one234gift.orderservice.domain.exception.AlreadyCenceledException;
@@ -15,7 +16,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class OrderExceptionHandler {
     @ExceptionHandler({
             CustomerNotFoundException.class,
-            UserNotFoundException.class
+            UserNotFoundException.class,
+            SalesUserNotFoundException.class
     })
     public APIResponse error(RuntimeException e){
         return new APIResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
