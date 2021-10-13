@@ -1,0 +1,12 @@
+server:
+  port: 8086
+spring:
+  application:
+    name: happy-call-service
+  profiles:
+    include: database, kafka, eureka
+    active: dev
+security:
+  oauth2:
+    resource:
+      userInfoUri: http://127.0.0.1:8080/user
