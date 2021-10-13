@@ -1,13 +1,12 @@
 package com.one234gift.saleshistoryservice.command.application;
 
-import com.one234gift.saleshistoryservice.command.StubUserRepository;
+import com.one234gift.saleshistoryservice.APITest;
 import com.one234gift.saleshistoryservice.domain.model.ChangeCallReservationDate;
 import com.one234gift.saleshistoryservice.domain.model.ChangeCustomerReactivity;
 import com.one234gift.saleshistoryservice.domain.model.ChangeSalesHistoryContent;
 import com.one234gift.saleshistoryservice.domain.model.RegisterSalesHistory;
 import com.one234gift.saleshistoryservice.domain.read.SalesHistoryModel;
 import com.one234gift.saleshistoryservice.domain.value.CustomerReactivity;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @SpringBootTest
-public class ChangeSalesHistoryService_Test {
+public class ChangeSalesHistoryService_Test extends APITest {
     @Autowired
     ChangeSalesHistoryService changeSalesHistoryService;
     @Autowired
@@ -27,10 +26,8 @@ public class ChangeSalesHistoryService_Test {
     SalesHistoryModel salesHistory;
 
 
-    @BeforeEach
-    void setUp() {
-        registerSalesHistoryService.setUserRepository(new StubUserRepository());
-
+    @Override
+    public void init() {
         RegisterSalesHistory registerSalesHistory = aRegisterSalesHistory().build();
         this.salesHistory = registerSalesHistoryService.register(registerSalesHistory);
     }

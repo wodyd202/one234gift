@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class APITest {
+abstract public class APITest {
     @Autowired
     protected MockMvc mockMvc;
 
@@ -23,10 +23,15 @@ public class APITest {
     @Autowired
     protected RegisterSalesHistoryService registerSalesHistoryService;
 
+    public void init(){
+
+    }
+
     @BeforeEach
     void setUp() {
         registerSalesHistoryService.setCustomerRepository(new StubCustomerRepository());
         registerSalesHistoryService.setUserRepository(new StubUserRepository());
+        init();
     }
 
     protected String toJson(Object obj) throws JsonProcessingException {

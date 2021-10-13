@@ -1,33 +1,27 @@
 package com.one234gift.saleshistoryservice.command.application;
 
-import com.one234gift.saleshistoryservice.command.StubUserRepository;
+import com.one234gift.saleshistoryservice.APITest;
 import com.one234gift.saleshistoryservice.command.application.exception.SalesHistoryNotFoundException;
 import com.one234gift.saleshistoryservice.domain.model.RegisterSalesHistory;
 import com.one234gift.saleshistoryservice.domain.read.SalesHistoryModel;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static com.one234gift.saleshistoryservice.domain.SalesHistoryFixture.aRegisterSalesHistory;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 
-@SpringBootTest
-public class RemoveSalesHistoryService_Test {
+public class RemoveSalesHistoryService_Test extends APITest {
     @Autowired
     RemoveSalesHistoryService removeSalesHistoryService;
-    @Autowired
-    RegisterSalesHistoryService registerSalesHistoryService;
+
     @Autowired
     SalesHistoryRepository salesHistoryRepository;
 
     SalesHistoryModel salesHistory;
 
-    @BeforeEach
-    void setUp() {
-        registerSalesHistoryService.setUserRepository(new StubUserRepository());
-
+    @Override
+    public void init() {
         RegisterSalesHistory registerSalesHistory = aRegisterSalesHistory().build();
         this.salesHistory = registerSalesHistoryService.register(registerSalesHistory);
     }

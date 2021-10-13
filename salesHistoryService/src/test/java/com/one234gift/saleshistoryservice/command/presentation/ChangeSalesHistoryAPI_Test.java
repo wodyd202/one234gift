@@ -7,7 +7,6 @@ import com.one234gift.saleshistoryservice.domain.model.ChangeSalesHistoryContent
 import com.one234gift.saleshistoryservice.domain.model.RegisterSalesHistory;
 import com.one234gift.saleshistoryservice.domain.read.SalesHistoryModel;
 import com.one234gift.saleshistoryservice.domain.value.CustomerReactivity;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -24,8 +23,8 @@ public class ChangeSalesHistoryAPI_Test extends APITest {
 
     SalesHistoryModel salesHistory;
 
-    @BeforeEach
-    void setUp() {
+    @Override
+    public void init() {
         RegisterSalesHistory salesHistory = aRegisterSalesHistory().build();
         this.salesHistory = registerSalesHistoryService.register(salesHistory);
     }
