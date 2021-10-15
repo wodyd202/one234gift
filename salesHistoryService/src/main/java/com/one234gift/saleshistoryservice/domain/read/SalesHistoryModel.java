@@ -1,6 +1,7 @@
 package com.one234gift.saleshistoryservice.domain.read;
 
 import com.one234gift.saleshistoryservice.domain.value.CustomerReactivity;
+import com.one234gift.saleshistoryservice.domain.value.Writer;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,10 +17,18 @@ public class SalesHistoryModel {
     private LocalDate callReservationDate;
     private CustomerReactivity reactivity;
     private LocalDateTime createDateTime;
-    private ManagerModel manager;
+    private WriterModel manager;
 
     @Builder
-    public SalesHistoryModel(Long id, Long customerId, String content, boolean sample, boolean catalogue, LocalDate callReservationDate, CustomerReactivity reactivity, LocalDateTime createDateTime, ManagerModel manager) {
+    public SalesHistoryModel(Long id,
+                             Long customerId,
+                             String content,
+                             boolean sample,
+                             boolean catalogue,
+                             LocalDate callReservationDate,
+                             CustomerReactivity reactivity,
+                             LocalDateTime createDateTime,
+                             Writer manager) {
         this.id = id;
         this.customerId = customerId;
         this.content = content;
@@ -28,6 +37,6 @@ public class SalesHistoryModel {
         this.callReservationDate = callReservationDate;
         this.reactivity = reactivity;
         this.createDateTime = createDateTime;
-        this.manager = manager;
+        this.manager = manager.toModel();
     }
 }

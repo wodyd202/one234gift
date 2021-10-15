@@ -132,7 +132,7 @@ public class SalesHistory {
                 .callReservationDate(callReservationDate)
                 .reactivity(reactivity)
                 .createDateTime(createDateTime)
-                .manager(writer.toModel())
+                .manager(writer)
                 .build();
     }
 }

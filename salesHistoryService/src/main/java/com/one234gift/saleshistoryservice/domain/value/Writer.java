@@ -1,6 +1,6 @@
 package com.one234gift.saleshistoryservice.domain.value;
 
-import com.one234gift.saleshistoryservice.domain.read.ManagerModel;
+import com.one234gift.saleshistoryservice.domain.read.WriterModel;
 import lombok.Builder;
 import lombok.Setter;
 
@@ -17,8 +17,8 @@ public class Writer {
         this.phone = phone;
     }
 
-    public ManagerModel toModel(){
-        return ManagerModel.builder()
+    public WriterModel toModel(){
+        return WriterModel.builder()
                 .name(username)
                 .phone(phone)
                 .build();

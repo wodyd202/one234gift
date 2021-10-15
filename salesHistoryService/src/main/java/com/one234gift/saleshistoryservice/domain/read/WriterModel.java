@@ -4,11 +4,11 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class ManagerModel {
+public class WriterModel {
     private String name, phone;
 
     @Builder
-    public ManagerModel(String name, String phone) {
+    public WriterModel(String name, String phone) {
         this.name = name;
         this.phone = phone;
     }
