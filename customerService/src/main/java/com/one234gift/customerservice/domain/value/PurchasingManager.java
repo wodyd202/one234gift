@@ -8,8 +8,19 @@ import com.one234gift.customerservice.domain.read.PurchasingManagerModel;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Embeddable
+import static javax.persistence.GenerationType.IDENTITY;
+
+@Entity
+@Table(name = "customer_purchasing_manager")
 public class PurchasingManager {
+
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
     @Embedded
     @AttributeOverride(name = "managerName", column = @Column(name = "name", length = 10))
@@ -32,10 +43,6 @@ public class PurchasingManager {
     @Embedded
     private Contact contact;
 
-    public void setName(ManagerName name) {
-        this.name = name;
-    }
-
     protected PurchasingManager(){}
 
     public PurchasingManager(ChangePurchasingManager purchasingManager, Customer customer) {
@@ -43,6 +50,7 @@ public class PurchasingManager {
         setEmail(purchasingManager);
         setJobTitle(purchasingManager);
         setContect(purchasingManager);
+        this.customer = customer;
     }
 
     private void setManagerName(ChangePurchasingManager purchasingManager) {
@@ -81,6 +89,7 @@ public class PurchasingManager {
 
     public PurchasingManagerModel toModel() {
         return PurchasingManagerModel.builder()
+                .id(id)
                 .name(name.get())
                 .email(getEmail().get())
                 .jobTitle(getJobTitle().get())
@@ -96,14 +105,11 @@ public class PurchasingManager {
         return jobTitle == null ? JobTitle.getInstance() : jobTitle;
     }
 
-    public boolean isTarget(RemovePurchasingManager removePurchasingManager) {
-        return removePurchasingManager.getMainTel().equals(contact.toModel().getMainTel()) && removePurchasingManager.getName().equals(name.get());
-    }
-
     @Override
     public String toString() {
         return "PurchasingManager{" +
-                "name=" + name +
+                "id=" + id +
+                ", name=" + name +
                 ", email=" + email +
                 ", jobTitle=" + jobTitle +
                 ", contact=" + contact +
@@ -115,11 +121,15 @@ public class PurchasingManager {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PurchasingManager that = (PurchasingManager) o;
-        return Objects.equals(name, that.name) && Objects.equals(email, that.email) && Objects.equals(jobTitle, that.jobTitle) && Objects.equals(contact, that.contact);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(email, that.email) && Objects.equals(jobTitle, that.jobTitle) && Objects.equals(contact, that.contact);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, email, jobTitle, contact);
+        return Objects.hash(id, name, email, jobTitle, contact);
+    }
+
+    public boolean isTarget(RemovePurchasingManager removePurchasingManager) {
+        return removePurchasingManager.getId().equals(id);
     }
 }

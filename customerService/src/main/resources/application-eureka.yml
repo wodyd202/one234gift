@@ -1,11 +1,3 @@
-server:
-  port: 8081
-spring:
-  application:
-    name: customer-service
-  profiles:
-    include: database, kafka
-    active: dev
 eureka:
   server:
     username: one234gift
@@ -17,7 +9,3 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://${eureka.server.username}:${eureka.server.password}@127.0.0.1:8761/eureka
-security:
-  oauth2:
-    resource:
-      userInfoUri: http://127.0.0.1:8080/user

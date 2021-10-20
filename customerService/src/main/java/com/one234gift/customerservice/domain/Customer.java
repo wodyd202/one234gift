@@ -15,6 +15,7 @@ import java.util.Objects;
 import static com.one234gift.customerservice.domain.value.SaleState.SALE;
 import static com.one234gift.customerservice.domain.value.SaleState.STOP;
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * 고객(업체)
@@ -33,7 +34,7 @@ public class Customer {
      * 고객(업체) 고유 번호
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     public Long getId() {
@@ -92,6 +93,9 @@ public class Customer {
      */
     @Column(nullable = false)
     private final LocalDateTime createDateTime;
+
+    @Version
+    private long version;
 
     protected Customer(){
         createDateTime = null;
@@ -230,9 +234,10 @@ public class Customer {
     /**
      * @param removePurchasingManager
      * - 담당자 삭제
+     * @return
      */
-    public void removePurchasingManager(RemovePurchasingManager removePurchasingManager) {
-        this.purchasingManagers.remove(removePurchasingManager);
+    public PurchasingManager removePurchasingManager(RemovePurchasingManager removePurchasingManager) {
+        return this.purchasingManagers.remove(removePurchasingManager);
     }
 
     public CustomerModel toModel() {

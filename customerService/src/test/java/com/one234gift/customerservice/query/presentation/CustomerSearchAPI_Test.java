@@ -19,13 +19,13 @@ public class CustomerSearchAPI_Test extends APITest {
     }
 
     @Test
-    void existByCustomerId() throws Exception {
+    void 해당_고객이_존재하는지_확인() throws Exception {
         mockMvc.perform(get("/api/customer/{customerId}/exist",1))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void findAll() throws Exception {
+    void 전체_고객_보기() throws Exception {
         mockMvc.perform(get("/api/customer")
                 .param("size", "10")
                 .param("page", "0"))
@@ -33,7 +33,7 @@ public class CustomerSearchAPI_Test extends APITest {
     }
 
     @Test
-    void searchForBusinessName() throws Exception {
+    void 상호명으로_검색() throws Exception {
         mockMvc.perform(get("/api/customer")
                         .param("businessName", "businessName")
                         .param("size", "10")
@@ -42,7 +42,7 @@ public class CustomerSearchAPI_Test extends APITest {
     }
 
     @Test
-    void searchForLocation() throws Exception {
+    void 지역으로_검색() throws Exception {
         mockMvc.perform(get("/api/customer")
                         .param("location", "location")
                         .param("size", "10")
@@ -51,7 +51,7 @@ public class CustomerSearchAPI_Test extends APITest {
     }
 
     @Test
-    void searchForCategory() throws Exception {
+    void 분류로_검색() throws Exception {
         mockMvc.perform(get("/api/customer")
                         .param("category", "category")
                         .param("size", "10")
@@ -60,7 +60,7 @@ public class CustomerSearchAPI_Test extends APITest {
     }
 
     @Test
-    void searchForState() throws Exception {
+    void 상태로_검색() throws Exception {
         mockMvc.perform(get("/api/customer")
                         .param("state", "SALE")
                         .param("size", "10")

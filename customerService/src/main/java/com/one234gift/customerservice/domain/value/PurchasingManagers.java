@@ -1,6 +1,7 @@
 package com.one234gift.customerservice.domain.value;
 
 import com.one234gift.customerservice.domain.Customer;
+import com.one234gift.customerservice.domain.exception.PurchasingManagerNotFoundException;
 import com.one234gift.customerservice.domain.model.ChangePurchasingManager;
 import com.one234gift.customerservice.domain.model.RemovePurchasingManager;
 import com.one234gift.customerservice.domain.read.PurchasingManagerModel;
@@ -11,11 +12,11 @@ import java.util.List;
 import java.util.Objects;
 
 import static java.util.stream.Collectors.toList;
+import static javax.persistence.CascadeType.*;
 
 public class PurchasingManagers {
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "purchasing_managers", joinColumns = @JoinColumn(name = "id"))
+    @OneToMany(mappedBy = "customer", cascade = {ALL}, orphanRemoval = true)
     private final List<PurchasingManager> purchasingManagers = new ArrayList<>();
 
     protected PurchasingManagers(){}
@@ -30,13 +31,14 @@ public class PurchasingManagers {
         purchasingManagers.add(new PurchasingManager(purchasingManager, customer));
     }
 
-    public void remove(RemovePurchasingManager removePurchasingManager) {
+    public PurchasingManager remove(RemovePurchasingManager removePurchasingManager) {
         for (PurchasingManager purchasingManager : purchasingManagers) {
             if(purchasingManager.isTarget(removePurchasingManager)){
                 purchasingManagers.remove(purchasingManager);
-                return;
+                return purchasingManager;
             }
         }
+        throw new PurchasingManagerNotFoundException();
     }
 
     public List<PurchasingManagerModel> toModel(){

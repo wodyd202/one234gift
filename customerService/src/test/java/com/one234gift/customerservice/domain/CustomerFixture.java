@@ -1,15 +1,16 @@
 package com.one234gift.customerservice.domain;
 
 import com.one234gift.customerservice.domain.model.*;
-import com.one234gift.customerservice.domain.value.Manager;
 
 import java.util.Arrays;
 
+import static org.mockito.Mockito.mock;
+
 public class CustomerFixture {
-    public static Manager.ManagerBuilder aManager(){
-        return Manager.builder()
-                .name("고객 담당자")
-                .phone("휴대폰번호");
+    public static Customer aCustomer(){
+        Customer customer = Customer.registerWith(aRegisterCustomer().build());
+        customer.register(mock(RegisterCustomerValidator.class));
+        return customer;
     }
 
     public static RegisterCustomer.RegisterCustomerBuilder aRegisterCustomer() {

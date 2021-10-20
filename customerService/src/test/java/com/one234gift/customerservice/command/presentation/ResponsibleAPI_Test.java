@@ -1,6 +1,6 @@
 package com.one234gift.customerservice.command.presentation;
 
-import com.one234gift.customerservice.APITest;
+import com.one234gift.customerservice.CustomerAPITest;
 import com.one234gift.customerservice.domain.read.CustomerModel;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -10,11 +10,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WithMockUser(username = "000-0000-0000", roles = {"SalesUser"})
-public class ResponsibleAPI_Test extends APITest {
+public class ResponsibleAPI_Test extends CustomerAPITest {
 
     @Test
     void 고객담당_등록() throws Exception {
-        CustomerModel customer = registerCustomerService.register(aRegisterCustomer().build());
+        CustomerModel customer = registerCustomer(aRegisterCustomer().build());
 
         mockMvc.perform(post("/api/customer/{customerId}/responsible", customer.getId()))
                 .andExpect(status().isOk());

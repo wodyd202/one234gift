@@ -32,7 +32,7 @@ public class CustomerSearchAPI {
     }
 
     @GetMapping("{customerId}")
-    public ResponseEntity<CustomerModel> customerModel(@PathVariable Long customerId){
+    public ResponseEntity<CustomerModel> customerModel(@PathVariable Long customerId) {
         CustomerModel customerModel = queryCustomerService.findById(customerId);
         return ResponseEntity.ok(customerModel);
     }

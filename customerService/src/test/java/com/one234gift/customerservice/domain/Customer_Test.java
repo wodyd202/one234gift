@@ -20,9 +20,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
 
-import static com.one234gift.customerservice.domain.CustomerFixture.aAddPurchasingManager;
-import static com.one234gift.customerservice.domain.CustomerFixture.aRegisterCustomer;
+import static com.one234gift.customerservice.domain.CustomerFixture.*;
 import static com.one234gift.customerservice.domain.value.SaleState.SALE;
+import static com.one234gift.customerservice.domain.value.SaleState.STOP;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -374,108 +374,106 @@ public class Customer_Test {
 
     @Test
     public void 업체명_수정() {
-        RegisterCustomer registerCustomer = aRegisterCustomer().build();
-        Customer customer = Customer.registerWith(registerCustomer);
+        // given
+        Customer customer = aCustomer();
+
+        // when
         customer.changeBusinessName(ChangeBusinessName.builder()
                         .name("업체명 수정")
                 .build());
+
+        // then
         assertEquals(customer.toModel().getBusinessInfo().getName(),"업체명 수정");
     }
 
     @Test
     public void 상세주소_수정() {
-        RegisterCustomer registerCustomer = aRegisterCustomer().build();
-        Customer customer = Customer.registerWith(registerCustomer);
+        // given
+        Customer customer = aCustomer();
+
+        // when
         customer.changeAddressDetail(ChangeAddressDetail.builder()
                         .detail("상세 주소 변경")
                 .build());
+
+        // then
         assertEquals(customer.toModel().getAddress().getAddressDetail(), "상세 주소 변경");
     }
 
     @Test
     public void 사업자번호_수정(){
-        RegisterCustomer registerCustomer = aRegisterCustomer().build();
-        Customer customer = Customer.registerWith(registerCustomer);
+        // given
+        Customer customer = aCustomer();
+
+        // when
         customer.changeBusinessNumber(ChangeBusinessNumber.builder()
                         .businessNumber("000-00-12345")
                 .build());
+
+        // then
         assertEquals(customer.toModel().getBusinessInfo().getNumber(), "000-00-12345");
     }
 
     @Test
     public void 팩스번호_변경(){
-        RegisterCustomer registerCustomer = aRegisterCustomer().build();
-        Customer customer = Customer.registerWith(registerCustomer);
+        // given
+        Customer customer = aCustomer();
+
+        // when
         customer.changeFax(ChangeFax.builder().fax("123-1234-1234").build());
+
+        // then
         assertEquals(customer.toModel().getFax(), "123-1234-1234");
     }
 
     @Test
     public void 영업중단(){
-        RegisterCustomer registerCustomer = aRegisterCustomer().build();
-        Customer customer = Customer.registerWith(registerCustomer);
-        customer.register(mock(RegisterCustomerValidator.class));
+        // given
+        Customer customer = aCustomer();
 
+        // when
         customer.saleStop();
+
+        //then
+        assertEquals(customer.toModel().getSaleState(), STOP);
     }
 
     @Test(expected = AlreadySaleStopException.class)
     public void 이미_영업중단한_고객(){
-        RegisterCustomer registerCustomer = aRegisterCustomer().build();
-        Customer customer = Customer.registerWith(registerCustomer);
-        customer.register(mock(RegisterCustomerValidator.class));
-
+        // given
+        Customer customer = aCustomer();
         customer.saleStop();
+
+        // when
         customer.saleStop();
     }
 
     @Test(expected = AlreadySaleException.class)
     public void 이미_영업중인_고객(){
-        RegisterCustomer registerCustomer = aRegisterCustomer().build();
-        Customer customer = Customer.registerWith(registerCustomer);
-        customer.register(mock(RegisterCustomerValidator.class));
+        // given
+        Customer customer = aCustomer();
 
+        // when
         customer.sale();
     }
 
     @Test
     public void 담당자_추가(){
-        RegisterCustomer registerCustomer = aRegisterCustomer().build();
-        Customer customer = Customer.registerWith(registerCustomer);
-        customer.register(mock(RegisterCustomerValidator.class));
+        // given
+        Customer customer = aCustomer();
 
+        // when
         assertDoesNotThrow(()-> {
             customer.addPurchasingManger(aAddPurchasingManager().build());
         });
     }
 
     @Test
-    public void 담당자_삭제() {
-        RegisterCustomer registerCustomer = aRegisterCustomer().build();
-        Customer customer = Customer.registerWith(registerCustomer);
-        customer.register(mock(RegisterCustomerValidator.class));
-
-        customer.addPurchasingManger(aAddPurchasingManager()
-                        .name("이름삭제")
-                        .contact(ChangeContact.builder()
-                                .mainTel("000-0000-0000")
-                                .build())
-                .build());
-
-        assertDoesNotThrow(()->{
-            customer.removePurchasingManager(RemovePurchasingManager.builder()
-                    .name("이름삭제")
-                    .mainTel("000-0000-0000")
-                    .build());
-        });
-    }
-
-    @Test
     public void 담당고객_등록() {
-        RegisterCustomer registerCustomer = aRegisterCustomer().build();
-        Customer customer = Customer.registerWith(registerCustomer);
-        customer.register(mock(RegisterCustomerValidator.class));
+        // given
+        Customer customer = aCustomer();
 
+        // when
         assertDoesNotThrow(()->{
             Responsible.of(customer.getId(), "manager");
         });

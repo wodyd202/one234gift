@@ -1,6 +1,6 @@
 package com.one234gift.customerservice.command.presentation;
 
-import com.one234gift.customerservice.APITest;
+import com.one234gift.customerservice.CustomerAPITest;
 import com.one234gift.customerservice.domain.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WithMockUser(username = "000-0000-0000", roles = {"SalesUser"})
-public class RegisterCustomerAPI_Test extends APITest {
+public class RegisterCustomerAPI_Test extends CustomerAPITest {
 
     @Test
     void 고객_등록() throws Exception{

@@ -1,82 +1,108 @@
 package com.one234gift.customerservice.command.application;
 
 import com.one234gift.customerservice.command.application.event.*;
-import com.one234gift.customerservice.domain.Customer;
 import com.one234gift.customerservice.domain.model.*;
 import com.one234gift.customerservice.domain.read.CustomerModel;
-import com.one234gift.customerservice.domain.value.Manager;
-import lombok.Setter;
+import com.one234gift.customerservice.domain.read.PurchasingManagerModel;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.one234gift.customerservice.command.application.CustomerServiceHelper.findUser;
+import java.sql.SQLException;
 
 @Service
 @Transactional
-@Setter
-public class ChangeCustomerService {
-    private final CustomerRepository customerRepository;
-    private UserRepository userRepository;
-    private final ApplicationEventPublisher applicationEventPublisher;
+@Retryable(maxAttempts = 3, include = SQLException.class, backoff = @Backoff(delay = 500))
+public class ChangeCustomerService extends AbstractChangeCustomerService{
 
-    public ChangeCustomerService(CustomerRepository customerRepository, UserRepository userRepository, ApplicationEventPublisher applicationEventPublisher) {
-        this.customerRepository = customerRepository;
-        this.userRepository = userRepository;
-        this.applicationEventPublisher = applicationEventPublisher;
+    public ChangeCustomerService(UserRepository userRepository, CustomerRepository customerRepository, ApplicationEventPublisher applicationEventPublisher) {
+        super(userRepository, customerRepository, applicationEventPublisher);
     }
 
-    public CustomerModel changeBusinessName(Long id, ChangeBusinessName businessName) {
-        Manager manager = findUser(userRepository);
-        Customer customer = CustomerServiceHelper.findCustomer(customerRepository, id);
-        customer.changeBusinessName(businessName);
-        customerRepository.save(customer);
-        applicationEventPublisher.publishEvent(new ChangedBusinessNameEvent(businessName.getName(), id, manager));
-        return customer.toModel();
+    /**
+     * 상호명 변경
+     *
+     * @param customerId    고객 고유 번호
+     * @param businessName  변경할 상호명
+     */
+    private final String BUSINESS_NAME = "business name";
+    public CustomerModel changeBusinessName(Long customerId, ChangeBusinessName businessName) {
+        return action((customer, manager) -> {
+            customer.changeBusinessName(businessName);
+            return new ChangedBusinessNameEvent(businessName.getName(), customerId, manager);
+        }, customerId, BUSINESS_NAME);
     }
 
-    public CustomerModel changeAddressDetail(Long id, ChangeAddressDetail addressDetail) {
-        Manager manager = findUser(userRepository);
-        Customer customer = CustomerServiceHelper.findCustomer(customerRepository, id);
-        customer.changeAddressDetail(addressDetail);
-        customerRepository.save(customer);
-        applicationEventPublisher.publishEvent(new ChangedAddressDetailEvent(addressDetail.getDetail(), id, manager));
-        return customer.toModel();
+    /**
+     * 고객 상세주소 변경
+     *
+     * @param customerId    고객 고유 번호
+     * @param addressDetail 변경할 상세주소
+     */
+    private final String ADDRESS_DETAIL = "address detail";
+    public CustomerModel changeAddressDetail(Long customerId, ChangeAddressDetail addressDetail) {
+        return action((customer, manager) -> {
+            customer.changeAddressDetail(addressDetail);
+            return new ChangedAddressDetailEvent(addressDetail.getDetail(), customerId, manager);
+        }, customerId, ADDRESS_DETAIL);
     }
 
-    public CustomerModel changeBusinessNumber(Long id, ChangeBusinessNumber businessNumber) {
-        Manager manager = findUser(userRepository);
-        Customer customer = CustomerServiceHelper.findCustomer(customerRepository, id);
-        customer.changeBusinessNumber(businessNumber);
-        customerRepository.save(customer);
-        applicationEventPublisher.publishEvent(new ChangedBusinessNumberEvent(businessNumber.getBusinessNumber(), id, manager));
-        return customer.toModel();
+    /**
+     * 사업자번호 변경
+     *
+     * @param customerId        고객 고유 번호
+     * @param businessNumber    변경할 사업자번호
+     */
+    private final String BUSIESS_NUMBER = "business number";
+    public CustomerModel changeBusinessNumber(Long customerId, ChangeBusinessNumber businessNumber) {
+        return action((customer, manager) -> {
+            customer.changeBusinessNumber(businessNumber);
+            return new ChangedBusinessNumberEvent(businessNumber.getBusinessNumber(), customerId, manager);
+        }, customerId, BUSIESS_NUMBER);
     }
 
-    public CustomerModel changeFax(Long id, ChangeFax fax) {
-        Manager manager = findUser(userRepository);
-        Customer customer = CustomerServiceHelper.findCustomer(customerRepository, id);
-        customer.changeFax(fax);
-        customerRepository.save(customer);
-        applicationEventPublisher.publishEvent(new ChangedFaxEvent(fax.getFax(), id, manager));
-        return customer.toModel();
+    /**
+     * 팩스 변경
+     *
+     * @param customerId    고객 고유 번호
+     * @param fax           변경할 팩스번호
+     */
+    private final String FAX = "fax";
+    public CustomerModel changeFax(Long customerId, ChangeFax fax) {
+        return action((customer, manager) -> {
+            customer.changeFax(fax);
+            return new ChangedFaxEvent(fax.getFax(), customerId, manager);
+        }, customerId, "fax");
     }
 
-    public CustomerModel addPurchasingManager(Long id, ChangePurchasingManager purchasingManager) {
-        Manager manager = findUser(userRepository);
-        Customer customer = CustomerServiceHelper.findCustomer(customerRepository, id);
-        customer.addPurchasingManger(purchasingManager);
-        customerRepository.save(customer);
-        applicationEventPublisher.publishEvent(new AddedPurcgasubgManager(purchasingManager, id, manager));
-        return customer.toModel();
+    /**
+     * 구매담당자 추가
+     *
+     * @param customerId            고객 고유 번호
+     * @param purchasingManager     구매담당자 정보
+     */
+    private final String PURCHASING_MANAGER = "purchasing manager";
+    public CustomerModel addPurchasingManager(Long customerId, ChangePurchasingManager purchasingManager) {
+        return action((customer, manager) -> {
+            customer.addPurchasingManger(purchasingManager);
+            return new AddedPurcgasubgManager(purchasingManager, customerId, manager);
+        }, customerId, PURCHASING_MANAGER);
     }
 
-    public CustomerModel removePurchasingManager(Long id, RemovePurchasingManager purchasingManager){
-        Manager manager = findUser(userRepository);
-        Customer customer = CustomerServiceHelper.findCustomer(customerRepository, id);
-        customer.removePurchasingManager(purchasingManager);
-        customerRepository.save(customer);
-        applicationEventPublisher.publishEvent(new RemovedPurcgasubgManager(purchasingManager, id, manager));
-        return customer.toModel();
+    /**
+     * 구매담당자 삭제
+     *
+     * @param customerId            고객 고유 번호
+     * @param purchasingManager     구매담당자 정보
+     * @return
+     */
+    public CustomerModel removePurchasingManager(Long customerId, RemovePurchasingManager purchasingManager){
+        return action((customer, manager) -> {
+            PurchasingManagerModel purchasingManagerModel = customer.removePurchasingManager(purchasingManager).toModel();
+            return new RemovedPurcgasubgManager(purchasingManagerModel, customerId, manager);
+        }, customerId, PURCHASING_MANAGER);
     }
+
 }

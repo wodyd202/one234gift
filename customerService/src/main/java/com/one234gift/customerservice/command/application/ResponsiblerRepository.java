@@ -1,6 +1,6 @@
 package com.one234gift.customerservice.command.application;
 
-import com.one234gift.customerservice.domain.Responsible;
+import com.one234gift.customerservice.domain.value.Responsible;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,35 +1,32 @@
 package com.one234gift.customerservice.query.infrastructure;
 
 import com.one234gift.customerservice.common.Pageable;
-import com.one234gift.customerservice.domain.Customer;
 import com.one234gift.customerservice.domain.read.CustomerModel;
 import com.one234gift.customerservice.domain.value.SaleState;
 import com.one234gift.customerservice.query.application.QueryCustomerRepository;
 import com.one234gift.customerservice.query.model.CustomerSearchDTO;
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
 import static com.one234gift.customerservice.domain.QCustomer.customer;
 import static com.one234gift.customerservice.domain.QResponsible.responsible;
+import static com.one234gift.customerservice.domain.value.QPurchasingManager.purchasingManager;
+import static com.querydsl.core.types.Projections.constructor;
 
 @Repository
 @Transactional(readOnly = true)
 public class QuerydslQueryCustomerRepository implements QueryCustomerRepository {
     @Autowired private JPAQueryFactory jpaQueryFactory;
-    @PersistenceContext private EntityManager entityManager;
 
     @Override
     public List<CustomerModel> findMy(String manager, Pageable pageable) {
-        return jpaQueryFactory.select(Projections.constructor(CustomerModel.class,
+        return jpaQueryFactory.select(constructor(CustomerModel.class,
                         customer.id,
                         customer.category(),
                         customer.businessInfo(),
@@ -57,7 +54,7 @@ public class QuerydslQueryCustomerRepository implements QueryCustomerRepository 
 
     @Override
     public List<CustomerModel> findAll(CustomerSearchDTO customerSearchDTO, Pageable pageable) {
-        return jpaQueryFactory.select(Projections.constructor(CustomerModel.class,
+        return jpaQueryFactory.select(constructor(CustomerModel.class,
                                 customer.id,
                                 customer.category(),
                                 customer.businessInfo(),
@@ -89,12 +86,13 @@ public class QuerydslQueryCustomerRepository implements QueryCustomerRepository 
 
     @Override
     public Optional<CustomerModel> findById(long customerId) {
-        Customer customer = entityManager.find(Customer.class, customerId);
-        if(customer != null){
-            return Optional.ofNullable(customer.toModel());
-        }else{
-            return Optional.empty();
-        }
+        CustomerModel customerModel = jpaQueryFactory.select(customer)
+                .from(customer)
+                .leftJoin(customer.purchasingManagers().purchasingManagers, purchasingManager)
+                .fetchJoin()
+                .where(customer.id.eq(customerId))
+                .fetchFirst().toModel();
+        return Optional.ofNullable(customerModel);
     }
 
     @Override

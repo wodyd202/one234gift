@@ -1,6 +1,7 @@
 package com.one234gift.customerservice.command.application;
 
-import com.one234gift.customerservice.domain.Responsible;
+import com.one234gift.customerservice.domain.value.Responsible;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,14 +11,10 @@ import static com.one234gift.customerservice.command.application.CustomerService
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class ResponsibleService {
     private CustomerRepository customerRepository;
     private ResponsiblerRepository responsiblerRepository;
-
-    public ResponsibleService(CustomerRepository customerRepository, ResponsiblerRepository responsiblerRepository) {
-        this.customerRepository = customerRepository;
-        this.responsiblerRepository = responsiblerRepository;
-    }
 
     public void flag(Long customerId, String manager) {
         findCustomer(customerRepository, customerId);
