@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class CustomerHistoryEventListener {
     @Autowired
-    private CustomerHistoryRepository customerHistoryRepository;
+    private CustomerHistoryService customerHistoryService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -25,8 +25,7 @@ public class CustomerHistoryEventListener {
     void handle(String event) {
         try{
             CustomerHistoryEvent customerHistoryEvent = objectMapper.readValue(event, CustomerHistoryEvent.class);
-            CustomerHistory customerHistory = CustomerHistory.register(customerHistoryEvent);
-            customerHistoryRepository.save(customerHistory);
+            customerHistoryService.save(customerHistoryEvent);
             log.info("save customer history : {}", customerHistoryEvent);
         }catch (Exception e){
         }
