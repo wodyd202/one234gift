@@ -5,11 +5,13 @@ import com.one234gift.customerhistoryservice.domain.CustomerHistory;
 import com.one234gift.customerhistoryservice.domain.model.CustomerHistoryEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Profile("!test")
 @Slf4j
 public class CustomerHistoryEventListener {
     @Autowired
@@ -30,3 +32,4 @@ public class CustomerHistoryEventListener {
         }
     }
 }
+

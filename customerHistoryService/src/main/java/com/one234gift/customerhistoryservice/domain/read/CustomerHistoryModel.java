@@ -21,4 +21,15 @@ public class CustomerHistoryModel {
         this.type = type;
         this.createDateTime = createDateTime;
     }
+
+    @Override
+    public String toString() {
+        return "CustomerHistoryModel{" +
+                "customerId='" + customerId + '\'' +
+                ", manager='" + manager + '\'' +
+                ", payload='" + payload + '\'' +
+                ", type='" + type + '\'' +
+                ", createDateTime=" + createDateTime +
+                '}';
+    }
 }

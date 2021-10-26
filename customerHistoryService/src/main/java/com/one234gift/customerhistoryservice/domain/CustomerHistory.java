@@ -53,4 +53,8 @@ public class CustomerHistory {
                 .type(type)
                 .build();
     }
+
+    public String getCustomerId() {
+        return customerId;
+    }
 }

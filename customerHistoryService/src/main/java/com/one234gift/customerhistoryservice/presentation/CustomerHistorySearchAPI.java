@@ -1,6 +1,7 @@
 package com.one234gift.customerhistoryservice.presentation;
 
 import com.one234gift.customerhistoryservice.application.CustomerHistoryService;
+import com.one234gift.customerhistoryservice.common.Pageable;
 import com.one234gift.customerhistoryservice.domain.read.CustomerHistoryModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,8 @@ public class CustomerHistorySearchAPI {
     private CustomerHistoryService customerHistoryService;
 
     @GetMapping
-    public ResponseEntity<List<CustomerHistoryModel>> findAll(@PathVariable String customerId){
-        List<CustomerHistoryModel> customerHistoryModels = customerHistoryService.findAll(customerId);
+    public ResponseEntity<List<CustomerHistoryModel>> findAll(@PathVariable String customerId, Pageable pageable){
+        List<CustomerHistoryModel> customerHistoryModels = customerHistoryService.findAll(customerId, pageable);
         return ResponseEntity.ok(customerHistoryModels);
     }
 }

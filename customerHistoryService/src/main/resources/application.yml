@@ -4,7 +4,7 @@ spring:
   application:
     name: customer-history-service
   profiles:
-    include: database, kafka
+    include: database, kafka, redis
 eureka:
   server:
     username: one234gift

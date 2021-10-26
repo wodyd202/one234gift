@@ -1,12 +1,12 @@
 package com.one234gift.customerhistoryservice.infrastructure;
 
 import com.one234gift.customerhistoryservice.application.CustomerHistoryRepository;
+import com.one234gift.customerhistoryservice.common.Pageable;
 import com.one234gift.customerhistoryservice.domain.CustomerHistory;
 import com.one234gift.customerhistoryservice.domain.read.CustomerHistoryModel;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -16,7 +16,6 @@ import java.util.List;
 import static com.one234gift.customerhistoryservice.domain.QCustomerHistory.customerHistory;
 import static com.querydsl.core.types.dsl.Expressions.asSimple;
 
-@Repository
 @Transactional
 public class QuerydslCustomerHistoryRepository implements CustomerHistoryRepository {
 
@@ -27,7 +26,7 @@ public class QuerydslCustomerHistoryRepository implements CustomerHistoryReposit
     private EntityManager entityManager;
 
     @Override
-    public List<CustomerHistoryModel> findAll(String customerId) {
+    public List<CustomerHistoryModel> findAll(String customerId, Pageable pageable) {
         return jpaQueryFactory.select(Projections.constructor(CustomerHistoryModel.class,
                         asSimple(customerId),
                         customerHistory.manager,
@@ -36,6 +35,8 @@ public class QuerydslCustomerHistoryRepository implements CustomerHistoryReposit
                         customerHistory.createDateTime))
                 .from(customerHistory)
                 .where(customerHistory.customerId.eq(customerId))
+                .limit(pageable.getSize())
+                .offset(pageable.getPage() * pageable.getSize())
                 .fetch();
     }
 
