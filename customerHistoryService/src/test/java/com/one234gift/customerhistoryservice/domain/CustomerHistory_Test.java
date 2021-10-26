@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 public class CustomerHistory_Test {
 
     @Test
-    void 고객_변경_이력_등록(){
+    void 고객_변경_이력_생성(){
         CustomerHistoryEvent customerHistoryEvent = CustomerHistoryEvent.builder()
                 .customerId("1")
                 .manager("manager")
