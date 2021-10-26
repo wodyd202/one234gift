@@ -1,7 +1,6 @@
 package com.one234gift.customerhistoryservice.application;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.one234gift.customerhistoryservice.domain.CustomerHistory;
 import com.one234gift.customerhistoryservice.domain.model.CustomerHistoryEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +21,9 @@ public class CustomerHistoryEventListener {
 
     @Transactional
     @KafkaListener(topics = "${customer-history.topic}", groupId = "${customer-history.topic}")
-    void handle(String event) {
-        try{
-            CustomerHistoryEvent customerHistoryEvent = objectMapper.readValue(event, CustomerHistoryEvent.class);
-            customerHistoryService.save(customerHistoryEvent);
-            log.info("save customer history : {}", customerHistoryEvent);
-        }catch (Exception e){
-        }
+    void handle(String event) throws Exception {
+        CustomerHistoryEvent customerHistoryEvent = objectMapper.readValue(event, CustomerHistoryEvent.class);
+        customerHistoryService.save(customerHistoryEvent);
     }
 }
 
