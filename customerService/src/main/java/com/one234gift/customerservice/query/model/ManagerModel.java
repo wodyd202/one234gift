@@ -1,9 +1,10 @@
-package com.one234gift.customerservice.domain.read;
+package com.one234gift.customerservice.query.model;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ManagerModel {
     private String name, phone;
 

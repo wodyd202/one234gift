@@ -16,7 +16,6 @@ import java.sql.SQLException;
 @Transactional
 @Retryable(maxAttempts = 3, include = SQLException.class, backoff = @Backoff(delay = 500))
 public class ChangeCustomerService extends AbstractChangeCustomerService{
-
     public ChangeCustomerService(UserRepository userRepository, CustomerRepository customerRepository, ApplicationEventPublisher applicationEventPublisher) {
         super(userRepository, customerRepository, applicationEventPublisher);
     }

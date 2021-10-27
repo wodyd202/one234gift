@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Repository
 public class RedisCustomerHistoryRepository implements CustomerHistoryRepository {
-    @Autowired private RedisTemplate<String,CustomerHistory> redisTemplate;
+    @Autowired private RedisTemplate<String, CustomerHistory> redisTemplate;
     private ListOperations<String, CustomerHistory> listOperations;
 
     @Value("${redis.customer-history.key}")
@@ -31,8 +31,14 @@ public class RedisCustomerHistoryRepository implements CustomerHistoryRepository
     }
 
     @Override
-    public List<CustomerHistoryModel> findAll(String customerId, Pageable pageable) {
-        return listOperations.range(customerHistoryKey(customerId), pageable.getPage() * pageable.getSize() , pageable.getSize()).stream().map(CustomerHistory::toModel).collect(Collectors.toList());
+    public List<CustomerHistoryModel> findByCustomerId(String customerId, Pageable pageable) {
+        return listOperations.range(customerHistoryKey(customerId), pageable.getPage() * pageable.getSize() , pageable.getSize()).stream()
+                .map(CustomerHistory::toModel).collect(Collectors.toList());
+    }
+
+    @Override
+    public long countByCustomerId(String customerId) {
+        return listOperations.size(customerHistoryKey(customerId));
     }
 
     private String customerHistoryKey(String customerId) {

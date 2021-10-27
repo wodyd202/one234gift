@@ -1,6 +1,5 @@
-package com.one234gift.customerservice.domain.read;
+package com.one234gift.customerservice.query.model;
 
-import com.one234gift.customerservice.domain.value.Manager;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -10,14 +9,14 @@ public class CustomerHistoryModel {
     private long customerId;
     private String type;
     private String payload;
-    private ManagerModel manager;
+    private String changer;
     private LocalDateTime createDateTime;
 
-    public CustomerHistoryModel(long customerId, String type, String payload, Manager manager, LocalDateTime createDateTime) {
+    public CustomerHistoryModel(long customerId, String type, String payload, String manager, LocalDateTime createDateTime) {
         this.customerId = customerId;
         this.type = type;
         this.payload = payload;
-        this.manager = manager.toModel();
+        this.changer = manager;
         this.createDateTime = createDateTime;
     }
 }

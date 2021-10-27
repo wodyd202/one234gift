@@ -1,7 +1,15 @@
 package com.one234gift.customerservice.config;
 
+import com.netflix.hystrix.HystrixCommand;
+import com.netflix.hystrix.HystrixCommandGroupKey;
+import com.netflix.hystrix.HystrixCommandKey;
+import com.netflix.hystrix.HystrixCommandProperties;
+import feign.Feign;
+import feign.Logger;
 import feign.RequestInterceptor;
 import feign.Retryer;
+import feign.hystrix.HystrixFeign;
+import feign.hystrix.SetterFactory;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +21,9 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 
 @Profile("!test")
 @Configuration
-@EnableFeignClients
+@EnableFeignClients(basePackages = "com.one234gift.customerservice")
 public class FeignClientConfig {
+
     @Bean
     Retryer retryer(){
         return Retryer.NEVER_RETRY;
@@ -32,5 +41,20 @@ public class FeignClientConfig {
                 requestTemplate.header(AUTHORIZATION_HEADER, String.format("%s %s", TOKEN_TYPE, token.getTokenValue()));
             }
         };
+    }
+
+    @Bean
+    Feign.Builder feignBuilder(){
+        SetterFactory setterFactory = (target, method) -> HystrixCommand.Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey(target.name()))
+                .andCommandKey(HystrixCommandKey.Factory.asKey(Feign.configKey(target.type(), method)))
+                .andCommandPropertiesDefaults(HystrixCommandProperties.defaultSetter()
+                        .withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.SEMAPHORE)
+                        .withMetricsRollingStatisticalWindowInMilliseconds(10000) // 기준시간
+                        .withCircuitBreakerSleepWindowInMilliseconds(3000) // 서킷 열려있는 시간
+                        .withCircuitBreakerErrorThresholdPercentage(50) // 에러 비율 기준 퍼센트
+                        .withCircuitBreakerRequestVolumeThreshold(5)); // 최소 호출 횟수
+        return HystrixFeign.builder()
+                .logLevel(Logger.Level.BASIC)
+                .setterFactory(setterFactory);
     }
 }

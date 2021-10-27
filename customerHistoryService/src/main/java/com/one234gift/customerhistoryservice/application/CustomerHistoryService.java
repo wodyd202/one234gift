@@ -21,15 +21,18 @@ public class CustomerHistoryService {
     private RetryTemplate retryTemplate;
 
     @Transactional(readOnly = true)
-    public List<CustomerHistoryModel> findAll(String customerId, Pageable pageable) {
-        List<CustomerHistoryModel> customerHistoryModel = retryTemplate.execute(retryContext -> {
+    public CustomerHistoryModels findAll(String customerId, Pageable pageable) {
+        List<CustomerHistoryModel> customerHistoryModels = retryTemplate.execute(retryContext -> {
             log.info("load customer history : {}", customerId);
-            return customerHistoryRepository.findAll(customerId, pageable);
+            return customerHistoryRepository.findByCustomerId(customerId, pageable);
         }, retryContext -> {
             log.error("retry error reson : {}", retryContext.getLastThrowable());
             return new ArrayList<>();
         });
-        return customerHistoryModel;
+        return CustomerHistoryModels.builder()
+                .customerHistoryModels(customerHistoryModels)
+                .totalElement(customerHistoryRepository.countByCustomerId(customerId))
+                .build();
     }
 
     @Transactional

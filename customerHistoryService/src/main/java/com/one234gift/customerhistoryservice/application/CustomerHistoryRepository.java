@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface CustomerHistoryRepository {
     void save(CustomerHistory customerHistory);
-    List<CustomerHistoryModel> findAll(String customerId, Pageable pageable);
+    List<CustomerHistoryModel> findByCustomerId(String customerId, Pageable pageable);
+    long countByCustomerId(String customerId);
 }

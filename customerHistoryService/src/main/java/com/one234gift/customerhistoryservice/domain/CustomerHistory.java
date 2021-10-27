@@ -78,4 +78,16 @@ public class CustomerHistory {
     public String getCustomerId() {
         return customerId;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getPayload() {
+        return payload;
+    }
+
+    public String getManager() {
+        return manager;
+    }
 }

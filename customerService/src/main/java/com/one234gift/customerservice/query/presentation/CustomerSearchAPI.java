@@ -27,7 +27,7 @@ public class CustomerSearchAPI {
 
     @GetMapping("responsible")
     public ResponseEntity<CustomerModels> responsible(Pageable pageable, Principal principal){
-        CustomerModels customerModels = queryCustomerService.findMy(principal.getName(), pageable);
+        CustomerModels customerModels = queryCustomerService.findByManager(principal.getName(), pageable);
         return ResponseEntity.ok(customerModels);
     }
 

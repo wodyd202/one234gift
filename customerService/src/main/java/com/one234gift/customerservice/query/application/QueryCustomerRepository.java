@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface QueryCustomerRepository {
-    List<CustomerModel> findMy(String manager, Pageable pageable);
+    List<CustomerModel> findByManager(String manager, Pageable pageable);
     List<CustomerModel> findAll(CustomerSearchDTO customerSearchDTO, Pageable pageable);
     Optional<CustomerModel> findById(long customerId);
     long countAll(CustomerSearchDTO customerSearchDTO);
-    long countMy(String manager);
+    long countByManager(String manager);
 
     boolean existById(Long customerId);
 }

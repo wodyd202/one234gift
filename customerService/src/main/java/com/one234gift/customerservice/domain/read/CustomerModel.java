@@ -1,6 +1,8 @@
 package com.one234gift.customerservice.domain.read;
 
 import com.one234gift.customerservice.domain.value.*;
+import com.one234gift.customerservice.query.model.CustomerHistoryModel;
+import com.one234gift.customerservice.query.model.CustomerHistoryModels;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -17,6 +19,15 @@ public class CustomerModel {
     private SaleState saleState;
     private String fax;
     private LocalDateTime createDateTime;
+
+    /**
+     * 고객 최근 수정 이력
+     */
+    private CustomerHistoryModels latelyHistorys;
+
+    public void addLatelyHistorys(CustomerHistoryModels latelyHistorys) {
+        this.latelyHistorys = latelyHistorys;
+    }
 
     @Builder
     public CustomerModel(Long id,

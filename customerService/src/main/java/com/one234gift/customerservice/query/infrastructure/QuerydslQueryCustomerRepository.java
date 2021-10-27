@@ -1,6 +1,7 @@
 package com.one234gift.customerservice.query.infrastructure;
 
 import com.one234gift.customerservice.common.Pageable;
+import com.one234gift.customerservice.domain.Customer;
 import com.one234gift.customerservice.domain.read.CustomerModel;
 import com.one234gift.customerservice.domain.value.SaleState;
 import com.one234gift.customerservice.query.application.QueryCustomerRepository;
@@ -25,7 +26,7 @@ public class QuerydslQueryCustomerRepository implements QueryCustomerRepository 
     @Autowired private JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<CustomerModel> findMy(String manager, Pageable pageable) {
+    public List<CustomerModel> findByManager(String manager, Pageable pageable) {
         return jpaQueryFactory.select(constructor(CustomerModel.class,
                         customer.id,
                         customer.category(),
@@ -44,7 +45,7 @@ public class QuerydslQueryCustomerRepository implements QueryCustomerRepository 
     }
 
     @Override
-    public long countMy(String manager) {
+    public long countByManager(String manager) {
         return jpaQueryFactory.selectOne()
                 .from(customer)
                 .join(responsible).on(customer.id.eq(responsible.customerId))
@@ -86,13 +87,16 @@ public class QuerydslQueryCustomerRepository implements QueryCustomerRepository 
 
     @Override
     public Optional<CustomerModel> findById(long customerId) {
-        CustomerModel customerModel = jpaQueryFactory.select(customer)
+        List<Customer> fetch = jpaQueryFactory.select(customer)
                 .from(customer)
                 .leftJoin(customer.purchasingManagers().purchasingManagers, purchasingManager)
                 .fetchJoin()
                 .where(customer.id.eq(customerId))
-                .fetchFirst().toModel();
-        return Optional.ofNullable(customerModel);
+                .fetch();
+        if(fetch.size() != 0){
+            return Optional.of(fetch.get(0).toModel());
+        }
+        return Optional.empty();
     }
 
     @Override

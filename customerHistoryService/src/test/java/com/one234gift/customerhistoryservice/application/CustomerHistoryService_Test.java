@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-
 import static com.one234gift.customerhistoryservice.CustomerHistoryFixture.aCustomerHistoryEvent;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -27,7 +25,7 @@ public class CustomerHistoryService_Test {
     @Test
     void 고객_이력_조회(){
         customerHistoryService.save(aCustomerHistoryEvent().customerId("2").build());
-        List<CustomerHistoryModel> customerHistoryModels = customerHistoryService.findAll("2", new Pageable(0, 10));
-        assertEquals(customerHistoryModels.size(), 1);
+        CustomerHistoryModels customerHistoryModels = customerHistoryService.findAll("2", new Pageable(0, 10));
+        assertEquals(customerHistoryModels.getTotalElement(), 1);
     }
 }
