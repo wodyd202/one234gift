@@ -13,20 +13,33 @@ import java.time.LocalDateTime;
 
 import static com.one234gift.orderservice.domain.value.OrderState.*;
 import static javax.persistence.EnumType.STRING;
-import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
 
+/**
+ * 주문
+ */
 @Entity
 @Table(name = "orders")
 @DynamicUpdate
 public class Order {
+
+    /**
+     * 주문 고유 번호
+     */
     @Id
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    /**
+     * 주문 상품 정보
+     */
     @Embedded
     @AttributeOverride(name = "product", column = @Column(name = "product", nullable = false, length = 20))
     private Product product;
 
+    /**
+     * 주문 고객 정보
+     */
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "id", column = @Column(name = "customer_id",nullable = false)),
@@ -35,6 +48,9 @@ public class Order {
     })
     private CustomerInfo customerInfo;
 
+    /**
+     * 영업자 정보
+     */
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "name", column = @Column(name = "sales_user_name", nullable = false, length = 10)),
@@ -42,39 +58,67 @@ public class Order {
     })
     private SalesUser salesUser;
 
+    /**
+     * 배송지 정보
+     */
     @Embedded
     @AttributeOverride(name = "addressDetail", column = @Column(name = "delivery", nullable = false, length = 50))
     private Delivery delivery;
 
+    /**
+     * 비고
+     */
     @Embedded
     @AttributeOverride(name = "content", column = @Column(name = "content", length = 100))
     private Content content;
 
+    /**
+     * 주문 수량
+     */
     @Embedded
     @AttributeOverride(name = "quantity", column = @Column(name = "quantity", nullable = false))
     private OrderQuantity quantity;
 
+    /**
+     * 매입 단가
+     */
     @Embedded
     @AttributeOverride(name = "price", column = @Column(name = "purchase_price", nullable = false))
     private Price purchasePrice;
 
+    /**
+     * 매출 단가
+     */
     @Embedded
     @AttributeOverride(name = "price", column = @Column(name = "sale_price", nullable = false))
     private Price salePrice;
 
+    /**
+     * 주문 타입
+     * #SAMPLE  샘플 발주
+     * #PRODUCT 상품 발주
+     */
     @Enumerated(STRING)
     @Column(nullable = false)
     private OrderType type;
 
+    /**
+     * 주문일자
+     */
     @Column(nullable = false)
     private LocalDateTime createDatetime;
 
+    /**
+     * 주문 상태
+     * #REGISTER    주문 등록
+     * #CENCEL      주문 취소
+     * #FINISH      거래 완료
+     */
     @Enumerated(STRING)
     @Column(nullable = false)
     private OrderState state;
 
-    protected Order(){
-    }
+    protected Order(){}
 
     private Order(CustomerInfo customerInfo, SalesUser salesUser, RegisterOrder registerOrder) {
         this.product = new Product(registerOrder.getProduct());
@@ -87,14 +131,6 @@ public class Order {
         this.salePrice = new Price(registerOrder.getSalePrice());
         this.type = registerOrder.getType();
         createDatetime = LocalDateTime.now();
-    }
-
-    private void setContent(String content) {
-        if(content == null){
-            this.content = Content.getInstance();
-        }else{
-            this.content = new Content(content);
-        }
     }
 
     public static Order register(CustomerInfo customerInfo, SalesUser salesUser, RegisterOrder registerOrder) {
@@ -159,5 +195,13 @@ public class Order {
 
     private Content getContent() {
         return content == null ? Content.getInstance() : content;
+    }
+
+    private void setContent(String content) {
+        if(content == null){
+            this.content = Content.getInstance();
+        }else{
+            this.content = new Content(content);
+        }
     }
 }
