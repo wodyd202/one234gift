@@ -12,4 +12,12 @@ public class SalesUserModel {
         this.phone = phone;
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "SalesUserModel{" +
+                "phone='" + phone + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

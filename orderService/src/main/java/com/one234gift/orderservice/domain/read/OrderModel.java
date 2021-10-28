@@ -60,4 +60,22 @@ public class OrderModel {
         this.createDateTime = createDateTime;
         this.state = state;
     }
+
+    @Override
+    public String toString() {
+        return "OrderModel{" +
+                "id=" + id +
+                ", product='" + product + '\'' +
+                ", customerInfo=" + customerInfo +
+                ", salesUser=" + salesUser +
+                ", content='" + content + '\'' +
+                ", delivery='" + delivery + '\'' +
+                ", quantity=" + quantity +
+                ", purchasePrice=" + purchasePrice +
+                ", salePrice=" + salePrice +
+                ", type=" + type +
+                ", createDateTime=" + createDateTime +
+                ", state=" + state +
+                '}';
+    }
 }

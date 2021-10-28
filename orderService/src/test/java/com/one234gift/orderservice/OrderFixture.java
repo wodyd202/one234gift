@@ -1,5 +1,6 @@
-package com.one234gift.orderservice.domain;
+package com.one234gift.orderservice;
 
+import com.one234gift.orderservice.domain.Order;
 import com.one234gift.orderservice.domain.model.ChangeDelivery;
 import com.one234gift.orderservice.domain.model.RegisterOrder;
 import com.one234gift.orderservice.domain.value.CustomerInfo;
@@ -35,9 +36,16 @@ public class OrderFixture {
                 .type(OrderType.SAMPLE);
     }
 
-    public static Order aOrder(){
+    public static SalesUser aSalesUser(String userId){
+        return SalesUser.builder()
+                .phone(userId)
+                .name(userId)
+                .build();
+    }
+
+    public static Order aOrder(SalesUser salesUser){
         RegisterOrder registerOrder = OrderFixture.aRegisterOrder().build();
-        Order order = Order.register(aCustomerInfo().build(), aSaleUser().build(), registerOrder);
+        Order order = Order.register(aCustomerInfo().build(), salesUser, registerOrder);
         order.place();
         return order;
     }

@@ -1,19 +1,31 @@
 package com.one234gift.orderservice.command.presentation;
 
-import com.one234gift.orderservice.APITest;
+import com.one234gift.orderservice.OrderAPITest;
+import com.one234gift.orderservice.command.application.StubUserRepository;
 import com.one234gift.orderservice.domain.model.ChangeDelivery;
 import com.one234gift.orderservice.domain.model.RegisterOrder;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.ResultMatcher;
 
-import static com.one234gift.orderservice.domain.OrderFixture.aRegisterOrder;
+import static com.one234gift.orderservice.OrderFixture.aRegisterOrder;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WithMockUser
-public class RegisterOrderAPI_Test extends APITest {
+/**
+ * 주문 등록 API 테스트
+ */
+@WithMockUser(username = "000-0000-0000")
+public class RegisterOrderAPI_Test extends OrderAPITest {
+    @Autowired
+    StubUserRepository stubUserRepository;
+
+    @Override
+    public void init() {
+        stubUserRepository.save("000-0000-0000");
+    }
 
     @Test
     void 주문_등록() throws Exception{

@@ -14,4 +14,13 @@ public class CustomerInfoModel {
         this.name = name;
         this.category = category;
     }
+
+    @Override
+    public String toString() {
+        return "CustomerInfoModel{" +
+                "customerId=" + customerId +
+                ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                '}';
+    }
 }
