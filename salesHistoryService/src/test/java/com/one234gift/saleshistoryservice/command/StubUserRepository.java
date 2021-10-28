@@ -8,11 +8,17 @@ import java.util.Optional;
 
 @Repository
 public class StubUserRepository implements UserRepository {
+    private Writer writer;
+
     @Override
     public Optional<Writer> findUser() {
-        return Optional.of(Writer.builder()
-                        .name("작성자")
-                        .phone("000-0000-0000")
-                .build());
+        return Optional.of(writer);
+    }
+
+    public void save(String userId){
+        writer = Writer.builder()
+                .phone(userId)
+                .name(userId)
+                .build();
     }
 }

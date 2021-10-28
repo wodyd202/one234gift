@@ -39,4 +39,8 @@ public class SalesHistoryModel {
         this.createDateTime = createDateTime;
         this.manager = manager.toModel();
     }
+
+    public boolean existCallReservation() {
+        return this.callReservationDate != null;
+    }
 }

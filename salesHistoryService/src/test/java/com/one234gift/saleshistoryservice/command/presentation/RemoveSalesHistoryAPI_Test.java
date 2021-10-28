@@ -1,7 +1,6 @@
 package com.one234gift.saleshistoryservice.command.presentation;
 
-import com.one234gift.saleshistoryservice.APITest;
-import com.one234gift.saleshistoryservice.domain.model.RegisterSalesHistory;
+import com.one234gift.saleshistoryservice.SalesHistoryAPITest;
 import com.one234gift.saleshistoryservice.domain.read.SalesHistoryModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,19 +10,26 @@ import static com.one234gift.saleshistoryservice.domain.SalesHistoryFixture.aReg
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * 영업기록 삭제 API 테스트
+ */
 @WithMockUser(username = "000-0000-0000")
-public class RemoveSalesHistoryAPI_Test extends APITest {
-    SalesHistoryModel salesHistory;
+public class RemoveSalesHistoryAPI_Test extends SalesHistoryAPITest {
 
     @BeforeEach
-    void setUp() {
-        RegisterSalesHistory salesHistory = aRegisterSalesHistory().build();
-        this.salesHistory = registerSalesHistoryService.register(salesHistory);
+    void setUp(){
+        newUser("000-0000-0000");
     }
 
     @Test
     void 영업기록_삭제() throws Exception {
-        mockMvc.perform(delete("/api/sales-history/{salesHistoryId}",salesHistory.getId()))
-                .andExpect(status().isOk());
+        // given
+        SalesHistoryModel salesHistoryModel = newSalesHistory(aRegisterSalesHistory().build());
+
+        // when
+        mockMvc.perform(delete("/api/sales-history/{salesHistoryId}",salesHistoryModel.getId()))
+
+        // then
+        .andExpect(status().isOk());
     }
 }

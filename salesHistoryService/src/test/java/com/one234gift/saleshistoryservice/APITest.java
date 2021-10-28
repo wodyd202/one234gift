@@ -24,13 +24,10 @@ abstract public class APITest {
     protected RegisterSalesHistoryService registerSalesHistoryService;
 
     public void init(){
-
     }
 
     @BeforeEach
     void setUp() {
-        registerSalesHistoryService.setCustomerRepository(new StubCustomerRepository());
-        registerSalesHistoryService.setUserRepository(new StubUserRepository());
         init();
     }
 

@@ -9,43 +9,75 @@ import com.one234gift.saleshistoryservice.domain.value.CustomerReactivity;
 import com.one234gift.saleshistoryservice.domain.value.HistoryContent;
 import com.one234gift.saleshistoryservice.domain.value.Writer;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static javax.persistence.EnumType.STRING;
-import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
 
+/**
+ * 영업 기록
+ */
 @Entity
 @Table(name = "sales_history")
 @DynamicUpdate
 public class SalesHistory {
+
+    /**
+     * 영업 기록 고유 번호
+     */
     @Id
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    /**
+     * 고객 고유 번호
+     */
     @Column(nullable = false, name = "customer_id")
     private Long customerId;
 
+    /**
+     * 영업 내용
+     */
     @Embedded
     @AttributeOverride(name = "content", column = @Column(name = "content", nullable = false, length = 200))
     private HistoryContent content;
 
+    /**
+     * 샘플 지급 유무
+     */
     @Column(nullable = false)
     private boolean sample;
 
+    /**
+     * 카탈로그 지급 유무
+     */
     @Column(nullable = false)
     private boolean catalogue;
 
+    /**
+     * 예약콜
+     */
     private LocalDate callReservationDate;
 
+    /**
+     * 반응도
+     */
     @Enumerated(STRING)
     private CustomerReactivity reactivity;
 
+    /**
+     * 기록 생성일
+     */
     @Column(nullable = false)
     private final LocalDateTime createDateTime;
 
+    /**
+     * 작성자
+     */
     @Embedded
     private final Writer writer;
 
