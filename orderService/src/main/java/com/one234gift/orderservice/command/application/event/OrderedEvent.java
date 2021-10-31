@@ -1,6 +1,5 @@
 package com.one234gift.orderservice.command.application.event;
 
-import com.one234gift.orderservice.domain.read.CustomerInfoModel;
 import com.one234gift.orderservice.domain.read.OrderModel;
 import com.one234gift.orderservice.domain.read.SalesUserModel;
 import com.one234gift.orderservice.domain.value.OrderState;
@@ -13,7 +12,7 @@ import java.time.LocalDateTime;
 public class OrderedEvent {
     private Long id;
     private String product;
-    private CustomerInfoModel customerInfo;
+    private long customerId;
     private SalesUserModel salesUser;
     private String content, delivery;
     private long quantity, purchasePrice, salePrice;
@@ -24,7 +23,7 @@ public class OrderedEvent {
     public OrderedEvent(OrderModel orderModel) {
         this.id = orderModel.getId();
         this.product = orderModel.getProduct();
-        this.customerInfo = orderModel.getCustomerInfo();
+        customerId = orderModel.getCustomerInfo().getCustomerId();
         this.salesUser = orderModel.getSalesUser();
         this.content = orderModel.getContent();
         this.delivery = orderModel.getDelivery();
