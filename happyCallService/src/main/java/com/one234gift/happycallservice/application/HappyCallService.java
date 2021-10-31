@@ -1,16 +1,16 @@
 package com.one234gift.happycallservice.application;
 
 import com.one234gift.happycallservice.application.exception.HappyCallNotFoundException;
+import com.one234gift.happycallservice.common.Pageable;
 import com.one234gift.happycallservice.domain.HappyCall;
 import com.one234gift.happycallservice.domain.model.RegisterHappyCall;
 import com.one234gift.happycallservice.domain.read.HappyCallModel;
 import com.one234gift.happycallservice.domain.value.SalesUserInfo;
+import com.one234gift.happycallservice.presentation.model.HappyCallModels;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * 예약콜 서비스
@@ -48,16 +48,19 @@ public class HappyCallService {
         return happyCallModel;
     }
 
-    @Transactional(readOnly = true)
-    public List<HappyCallModel> findTodayHappyCallsByUserId(SalesUserInfo salesUser) {
-        return happyCallRepository.findTodayHappyCallsByUserId(salesUser);
-    }
-
     @Transactional
     public void read(long happyCallId, SalesUserInfo salesUser){
         HappyCall happyCall = happyCallRepository.findByIdAndSalesUser(happyCallId, salesUser).orElseThrow(HappyCallNotFoundException::new);
         happyCall.read();
         happyCallRepository.save(happyCall);
         log.info("read happy call : {}", happyCallId);
+    }
+
+    @Transactional(readOnly = true)
+    public HappyCallModels findTodayHappyCall(Pageable pageable, SalesUserInfo salesUserInfo) {
+        return HappyCallModels.builder()
+                .happyCallModels(happyCallRepository.findTodayHappyCall(pageable, salesUserInfo))
+                .totalElement(happyCallRepository.countTodayCallReservation(salesUserInfo))
+                .build();
     }
 }

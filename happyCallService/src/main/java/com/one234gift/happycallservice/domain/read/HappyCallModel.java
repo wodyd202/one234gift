@@ -15,7 +15,7 @@ abstract public class HappyCallModel {
     protected CustomerInfoModel targetCustomer;
     protected boolean read;
 
-    protected HappyCallModel(Long seq,
+    public HappyCallModel(Long seq,
                              LocalDate when,
                              SalesUserInfo salesUser,
                              CustomerInfo targetCustomer,
