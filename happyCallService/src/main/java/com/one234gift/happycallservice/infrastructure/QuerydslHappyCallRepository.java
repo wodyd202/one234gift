@@ -3,6 +3,7 @@ package com.one234gift.happycallservice.infrastructure;
 import com.one234gift.happycallservice.application.HappyCallRepository;
 import com.one234gift.happycallservice.domain.HappyCall;
 import com.one234gift.happycallservice.domain.read.HappyCallModel;
+import com.one234gift.happycallservice.domain.value.SalesUserInfo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,26 +23,24 @@ public class QuerydslHappyCallRepository implements HappyCallRepository {
     @Autowired private JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Optional<HappyCall> findByIdAndUserId(long seq, String userId) {
+    public Optional<HappyCall> findByIdAndSalesUser(long seq, SalesUserInfo salesUser) {
         return Optional.ofNullable(
                 jpaQueryFactory.selectFrom(happyCall)
-                        .where(happyCall.userId.eq(userId).and(happyCall.seq.eq(seq)))
+                        .where(happyCall.salesUser().eq(salesUser).and(happyCall.seq.eq(seq)))
                         .fetchFirst()
         );
     }
 
     @Override
-    public List<HappyCallModel> findTodayHappyCallsByUserId(String userId) {
+    public List<HappyCallModel> findTodayHappyCallsByUserId(SalesUserInfo salesUserInfo) {
         return jpaQueryFactory.select(constructor(HappyCallModel.class,
                         happyCall.seq,
-                        happyCall.userId,
-                        happyCall.orderId,
-                        happyCall.customerName,
-                        happyCall.customerCategory,
-                        happyCall.callDate,
+                        happyCall.when,
+                        happyCall.salesUser(),
+                        happyCall.targetCustomer(),
                         happyCall.read))
                 .from(happyCall)
-                .where(happyCall.userId.eq(userId).and(happyCall.callDate.eq(LocalDate.now())))
+                .where(happyCall.salesUser().eq(salesUserInfo).and(happyCall.when.eq(LocalDate.now())))
                 .orderBy(happyCall.read.desc())
                 .fetch();
     }

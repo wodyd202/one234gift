@@ -2,6 +2,7 @@ package com.one234gift.happycallservice.presentation;
 
 import com.one234gift.happycallservice.application.HappyCallService;
 import com.one234gift.happycallservice.domain.read.HappyCallModel;
+import com.one234gift.happycallservice.domain.value.SalesUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,13 +21,13 @@ public class HappyCallAPI {
 
     @GetMapping
     public ResponseEntity<List<HappyCallModel>> findTodayHappyCalls(Principal principal){
-        List<HappyCallModel> happyCalls = happyCallService.findTodayHappyCallsByUserId(principal.getName());
+        List<HappyCallModel> happyCalls = happyCallService.findTodayHappyCallsByUserId(new SalesUserInfo(principal.getName()));
         return ResponseEntity.ok(happyCalls);
     }
 
     @GetMapping("{happycallId}")
     public ResponseEntity<Void> read(@PathVariable Long happycallId, Principal principal){
-        happyCallService.read(happycallId, principal.getName());
+        happyCallService.read(happycallId, new SalesUserInfo(principal.getName()));
         return ResponseEntity.ok(null);
     }
 

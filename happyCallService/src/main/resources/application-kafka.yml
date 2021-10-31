@@ -7,3 +7,5 @@ spring:
 
 happy-call:
   topic: order
+sales-history:
+  topic: salesHistory

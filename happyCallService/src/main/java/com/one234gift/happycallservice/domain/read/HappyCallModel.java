@@ -1,44 +1,39 @@
 package com.one234gift.happycallservice.domain.read;
 
-import lombok.Builder;
+import com.one234gift.happycallservice.domain.model.SalesUser;
+import com.one234gift.happycallservice.domain.value.CustomerInfo;
+import com.one234gift.happycallservice.domain.value.SalesUserInfo;
+import lombok.Getter;
 
 import java.time.LocalDate;
 
-public class HappyCallModel {
-    private long seq;
-    private String userId;
-    private long orderId;
-    private LocalDate callDate;
-    private boolean read;
-    private String customerName, customerCategory;
+@Getter
+abstract public class HappyCallModel {
+    protected Long seq;
+    protected LocalDate when;
+    protected SalesUser salesUser;
+    protected CustomerInfoModel targetCustomer;
+    protected boolean read;
 
-    @Builder
-    public HappyCallModel(long seq,
-                          String userId,
-                          long orderId,
-                          String customerName,
-                          String customerCategory,
-                          LocalDate callDate,
-                          boolean read) {
+    protected HappyCallModel(Long seq,
+                             LocalDate when,
+                             SalesUserInfo salesUser,
+                             CustomerInfo targetCustomer,
+                             boolean read) {
         this.seq = seq;
-        this.userId = userId;
-        this.orderId = orderId;
-        this.callDate = callDate;
+        this.when = when;
+        this.salesUser = salesUser.toModel();
+        this.targetCustomer = targetCustomer.toModel();
         this.read = read;
-        this.customerCategory = customerCategory;
-        this.customerName = customerName;
     }
 
     @Override
     public String toString() {
         return "HappyCallModel{" +
                 "seq=" + seq +
-                ", userId='" + userId + '\'' +
-                ", orderId=" + orderId +
-                ", callDate=" + callDate +
-                ", read=" + read +
-                ", customerName='" + customerName + '\'' +
-                ", customerCategory='" + customerCategory + '\'' +
+                ", when=" + when +
+                ", salesUser=" + salesUser +
+                ", targetCustomer=" + targetCustomer +
                 '}';
     }
 }
