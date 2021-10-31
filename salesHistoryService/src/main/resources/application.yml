@@ -4,7 +4,7 @@ spring:
   application:
     name: saleshistory-service
   profiles:
-    include: database
+    include: database, kafka
     active: dev
 eureka:
   instance:
