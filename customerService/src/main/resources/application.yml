@@ -4,9 +4,9 @@ spring:
   application:
     name: customer-service
   profiles:
-    include: database, kafka, eureka
+    include: database, kafka, eureka, redis
     active: dev
 security:
   oauth2:
     resource:
-      userInfoUri: http://127.0.0.1:8080/user
+      userInfoUri: http://One234gift-userservice:8080/user

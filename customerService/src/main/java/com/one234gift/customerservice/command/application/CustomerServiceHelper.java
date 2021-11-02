@@ -2,6 +2,7 @@ package com.one234gift.customerservice.command.application;
 
 import com.one234gift.customerservice.command.application.exception.CustomerNotFoundException;
 import com.one234gift.customerservice.command.application.exception.UserNotFoundException;
+import com.one234gift.customerservice.command.application.external.UserRepository;
 import com.one234gift.customerservice.domain.Customer;
 import com.one234gift.customerservice.domain.value.Manager;
 

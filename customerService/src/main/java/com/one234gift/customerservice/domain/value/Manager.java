@@ -1,6 +1,6 @@
 package com.one234gift.customerservice.domain.value;
 
-import com.one234gift.customerservice.query.model.ManagerModel;
+import com.one234gift.customerservice.query.application.external.ManagerModel;
 import lombok.Builder;
 import lombok.Setter;
 

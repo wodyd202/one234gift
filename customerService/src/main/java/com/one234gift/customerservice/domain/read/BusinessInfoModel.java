@@ -1,9 +1,12 @@
 package com.one234gift.customerservice.domain.read;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BusinessInfoModel {
     private String name;
     private String number;
@@ -12,5 +15,13 @@ public class BusinessInfoModel {
     public BusinessInfoModel(String name, String number) {
         this.name = name;
         this.number = number;
+    }
+
+    @Override
+    public String toString() {
+        return "BusinessInfoModel{" +
+                "name='" + name + '\'' +
+                ", number='" + number + '\'' +
+                '}';
     }
 }

@@ -1,6 +1,6 @@
 package com.one234gift.customerservice.command.infrastructure;
 
-import com.one234gift.customerservice.command.application.UserRepository;
+import com.one234gift.customerservice.command.application.external.UserRepository;
 import com.one234gift.customerservice.domain.value.Manager;
 import org.springframework.stereotype.Repository;
 

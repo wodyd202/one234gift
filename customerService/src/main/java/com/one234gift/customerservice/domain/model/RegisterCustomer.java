@@ -1,7 +1,9 @@
 package com.one234gift.customerservice.domain.model;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -10,6 +12,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RegisterCustomer {
     @NotBlank(message = "분류를 입력해주세요.")
     @Pattern(message = "분류는 한글조합 1자 이상 15자 이하만 허용합니다.", regexp = "^[가-힣]{1,15}$")

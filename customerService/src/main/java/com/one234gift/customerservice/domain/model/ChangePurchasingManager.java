@@ -1,13 +1,16 @@
 package com.one234gift.customerservice.domain.model;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChangePurchasingManager {
     @NotBlank(message = "구매담당자 이름을 입력해주세요.")
     @Pattern(message = "구매담당자 이름은 한글조합 1자 이상 10자 이하로 입력해주세요.", regexp = "^[가-힣]{1,10}$")

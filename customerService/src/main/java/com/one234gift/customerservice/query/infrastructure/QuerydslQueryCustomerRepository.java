@@ -4,8 +4,8 @@ import com.one234gift.customerservice.common.Pageable;
 import com.one234gift.customerservice.domain.Customer;
 import com.one234gift.customerservice.domain.read.CustomerModel;
 import com.one234gift.customerservice.domain.value.SaleState;
-import com.one234gift.customerservice.query.application.QueryCustomerRepository;
-import com.one234gift.customerservice.query.model.CustomerSearchDTO;
+import com.one234gift.customerservice.query.application.QueryCustomerListRepository;
+import com.one234gift.customerservice.query.application.model.CustomerSearchDTO;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import static com.querydsl.core.types.Projections.constructor;
 
 @Repository
 @Transactional(readOnly = true)
-public class QuerydslQueryCustomerRepository implements QueryCustomerRepository {
+public class QuerydslQueryCustomerRepository implements QueryCustomerListRepository {
     @Autowired private JPAQueryFactory jpaQueryFactory;
 
     @Override

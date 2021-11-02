@@ -3,9 +3,13 @@ package com.one234gift.customerservice.query.application;
 import com.one234gift.customerservice.command.application.exception.CustomerNotFoundException;
 import com.one234gift.customerservice.common.Pageable;
 import com.one234gift.customerservice.domain.read.CustomerModel;
-import com.one234gift.customerservice.query.model.CustomerModels;
-import com.one234gift.customerservice.query.model.CustomerSearchDTO;
+import com.one234gift.customerservice.query.application.external.CustomerHistoryRepository;
+import com.one234gift.customerservice.query.application.external.SalesHistoryRepository;
+import com.one234gift.customerservice.query.application.model.CustomerModels;
+import com.one234gift.customerservice.query.application.model.CustomerSearchDTO;
 import lombok.AllArgsConstructor;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,9 +19,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @AllArgsConstructor
+@Retryable(maxAttempts = 3, value = RuntimeException.class, backoff = @Backoff(delay = 1000))
 public class QueryCustomerService {
+    private QueryCustomerListRepository customerListRepository;
+
+    // 캐시 스토어
     private QueryCustomerRepository customerRepository;
+
+    // 외부 모듈
     private CustomerHistoryRepository customerHistoryRepository;
+    private SalesHistoryRepository salesHistoryRepository;
 
     /**
      * 모든 고객 조회
@@ -26,8 +37,8 @@ public class QueryCustomerService {
      */
     public CustomerModels findAll(CustomerSearchDTO customerSearchDTO, Pageable pageable) {
         return CustomerModels.builder()
-                .customers(customerRepository.findAll(customerSearchDTO, pageable))
-                .totalElement(customerRepository.countAll(customerSearchDTO))
+                .customers(customerListRepository.findAll(customerSearchDTO, pageable))
+                .totalElement(customerListRepository.countAll(customerSearchDTO))
                 .pageable(pageable)
                 .build();
     }
@@ -39,8 +50,8 @@ public class QueryCustomerService {
      */
     public CustomerModels findByManager(String manager, Pageable pageable) {
         return CustomerModels.builder()
-                .customers(customerRepository.findByManager(manager, pageable))
-                .totalElement(customerRepository.countByManager(manager))
+                .customers(customerListRepository.findByManager(manager, pageable))
+                .totalElement(customerListRepository.countByManager(manager))
                 .pageable(pageable)
                 .build();
     }
@@ -51,7 +62,9 @@ public class QueryCustomerService {
      */
     public CustomerModel findById(Long customerId) {
         CustomerModel customerModel = customerRepository.findById(customerId).orElseThrow(CustomerNotFoundException::new);
-        customerModel.addLatelyHistorys(customerHistoryRepository.findLatelyByCustomerId(customerId, new Pageable(0, 10)));
+        Pageable latelyPageable = new Pageable(0, 10);
+        customerModel.addLatelyHistorys(customerHistoryRepository.findLatelyByCustomerId(customerId, latelyPageable));
+        customerModel.addLatelySalesHistorys(salesHistoryRepository.findLatelyByCustomerId(customerId, latelyPageable));
         return customerModel;
     }
 

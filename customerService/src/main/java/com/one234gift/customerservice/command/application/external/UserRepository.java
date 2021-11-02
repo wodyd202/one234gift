@@ -1,4 +1,4 @@
-package com.one234gift.customerservice.command.application;
+package com.one234gift.customerservice.command.application.external;
 
 import com.one234gift.customerservice.domain.value.Manager;
 import org.springframework.cloud.openfeign.FeignClient;

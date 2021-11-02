@@ -4,5 +4,5 @@ spring:
   application:
     name: customer-service
   profiles:
-    include: database
+    include: database, redis
     active: test

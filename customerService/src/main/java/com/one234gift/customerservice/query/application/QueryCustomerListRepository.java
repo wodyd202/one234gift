@@ -7,7 +7,7 @@ import com.one234gift.customerservice.query.application.model.CustomerSearchDTO;
 import java.util.List;
 import java.util.Optional;
 
-public interface QueryCustomerRepository {
+public interface QueryCustomerListRepository {
     List<CustomerModel> findByManager(String manager, Pageable pageable);
     List<CustomerModel> findAll(CustomerSearchDTO customerSearchDTO, Pageable pageable);
     Optional<CustomerModel> findById(long customerId);

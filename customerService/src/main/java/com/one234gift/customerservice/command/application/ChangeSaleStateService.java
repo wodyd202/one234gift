@@ -1,6 +1,7 @@
 package com.one234gift.customerservice.command.application;
 
 import com.one234gift.customerservice.command.application.event.ChangedStateEvent;
+import com.one234gift.customerservice.command.application.external.UserRepository;
 import com.one234gift.customerservice.domain.value.SaleState;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.retry.annotation.Backoff;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 
 @Service
 @Transactional
-@Retryable(maxAttempts = 3, include = SQLException.class, backoff = @Backoff(delay = 500))
+@Retryable(maxAttempts = 3, include = Exception.class, backoff = @Backoff(delay = 1000))
 public class ChangeSaleStateService extends AbstractChangeCustomerService{
 
     public ChangeSaleStateService(UserRepository userRepository, CustomerRepository customerRepository, ApplicationEventPublisher applicationEventPublisher) {

@@ -1,4 +1,4 @@
-package com.one234gift.customerservice.query.application.model.external;
+package com.one234gift.customerservice.query.application.external;
 
 import lombok.Builder;
 import lombok.Getter;

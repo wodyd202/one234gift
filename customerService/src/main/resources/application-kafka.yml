@@ -1,7 +1,7 @@
 spring:
   kafka:
     producer:
-      bootstrap-servers: 127.0.0.1:9092
+      bootstrap-servers: kafka:9092
 
 customer-history:
   topic: customer-history

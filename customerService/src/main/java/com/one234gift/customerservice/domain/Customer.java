@@ -37,10 +37,6 @@ public class Customer {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    public Long getId() {
-        return id;
-    }
-
     /**
      * 고객(업체) 분류(은행, 우체국 등)[필수]
      * # 서버에서 제공하는 분류만 허용함
@@ -277,5 +273,9 @@ public class Customer {
     @Override
     public int hashCode() {
         return Objects.hash(id, category, businessInfo, purchasingManagers, fax, address, saleState, createDateTime);
+    }
+
+    public Long getId() {
+        return id;
     }
 }

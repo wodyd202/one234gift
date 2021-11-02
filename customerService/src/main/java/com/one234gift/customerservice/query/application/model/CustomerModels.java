@@ -1,4 +1,4 @@
-package com.one234gift.customerservice.query.model;
+package com.one234gift.customerservice.query.application.model;
 
 import com.one234gift.customerservice.common.Pageable;
 import com.one234gift.customerservice.domain.read.CustomerModel;
