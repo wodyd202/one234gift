@@ -1,4 +1,4 @@
-package com.one234gift.customerservice.query.model;
+package com.one234gift.customerservice.query.application.model.external;
 
 import lombok.*;
 

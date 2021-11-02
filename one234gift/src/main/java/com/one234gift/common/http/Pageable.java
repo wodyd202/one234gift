@@ -1,10 +1,12 @@
-package com.one234gift.orderservice.common;
+package com.one234gift.customerservice.common;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class Pageable {
     private int page;
     private int size;

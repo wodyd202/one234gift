@@ -1,4 +1,4 @@
-package com.one234gift.orderservice.common;
+package com.one234gift.userservice.common;
 
 import org.springframework.validation.Errors;
 

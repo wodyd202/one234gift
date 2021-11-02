@@ -1,7 +1,8 @@
 package com.one234gift.customerservice.query.application;
 
 import com.one234gift.customerservice.common.Pageable;
-import com.one234gift.customerservice.query.model.CustomerHistoryModels;
+import com.one234gift.customerservice.query.application.external.CustomerHistoryModels;
+import com.one234gift.customerservice.query.application.external.CustomerHistoryRepository;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

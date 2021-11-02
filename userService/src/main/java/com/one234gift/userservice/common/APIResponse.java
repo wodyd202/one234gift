@@ -1,4 +1,4 @@
-package com.one234gift.userservice.common;
+package com.one234gift.common.http;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

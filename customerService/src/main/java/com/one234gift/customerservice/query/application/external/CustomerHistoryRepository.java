@@ -2,7 +2,7 @@ package com.one234gift.customerservice.query.application;
 
 import com.one234gift.customerservice.common.Pageable;
 import com.one234gift.customerservice.config.FeignClientConfig;
-import com.one234gift.customerservice.query.model.CustomerHistoryModels;
+import com.one234gift.customerservice.query.application.model.external.CustomerHistoryModels;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
