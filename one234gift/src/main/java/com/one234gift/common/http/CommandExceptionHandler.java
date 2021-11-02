@@ -1,4 +1,4 @@
-package com.one234gift.userservice.common;
+package com.one234gift.common.http;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
