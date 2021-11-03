@@ -62,10 +62,18 @@ public class QueryCustomerService {
      */
     public CustomerModel findById(Long customerId) {
         CustomerModel customerModel = customerRepository.findById(customerId).orElseThrow(CustomerNotFoundException::new);
-        Pageable latelyPageable = new Pageable(0, 10);
+        Pageable latelyPageable = getTop10Pageable();
+
+        // 최근 변경 이력 조회
         customerModel.addLatelyHistorys(customerHistoryRepository.findLatelyByCustomerId(customerId, latelyPageable));
+
+        // 최근 메모 이력 조회
         customerModel.addLatelySalesHistorys(salesHistoryRepository.findLatelyByCustomerId(customerId, latelyPageable));
         return customerModel;
+    }
+
+    private Pageable getTop10Pageable() {
+        return new Pageable(0, 10);
     }
 
     /**

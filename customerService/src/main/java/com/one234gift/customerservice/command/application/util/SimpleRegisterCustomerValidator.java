@@ -8,17 +8,14 @@ import com.one234gift.customerservice.domain.RegisterCustomerValidator;
 import com.one234gift.customerservice.domain.value.Address;
 import com.one234gift.customerservice.domain.value.Category;
 import com.one234gift.customerservice.domain.value.Location;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class SimpleRegisterCustomerValidator implements RegisterCustomerValidator {
-    private final CategoryRepository categoryRepository;
-    private final LocationRepository locationRepository;
-
-    public SimpleRegisterCustomerValidator(CategoryRepository categoryRepository, LocationRepository locationRepository) {
-        this.categoryRepository = categoryRepository;
-        this.locationRepository = locationRepository;
-    }
+    private CategoryRepository categoryRepository;
+    private LocationRepository locationRepository;
 
     @Override
     public void validation(Category category, Address address) {
