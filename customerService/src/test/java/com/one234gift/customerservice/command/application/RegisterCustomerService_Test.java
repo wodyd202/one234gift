@@ -17,10 +17,14 @@ public class RegisterCustomerService_Test {
 
     @Test
     void 고객_등록(){
+        // given
         RegisterCustomer registerCustomer = aRegisterCustomer().build();
         CustomerModel customerModel = registerCustomerService.register(registerCustomer);
 
+        // when
         CustomerModel customer = customerRepository.findById(customerModel.getId()).get();
+
+        // then
         assertNotNull(customer);
     }
 }

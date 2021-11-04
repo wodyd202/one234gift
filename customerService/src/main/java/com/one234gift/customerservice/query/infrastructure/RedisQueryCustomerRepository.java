@@ -2,6 +2,7 @@ package com.one234gift.customerservice.query.infrastructure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.one234gift.customerservice.domain.read.CustomerModel;
+import com.one234gift.customerservice.domain.read.ResponsibleModel;
 import com.one234gift.customerservice.query.application.QueryCustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.Optional;
 
 @Repository

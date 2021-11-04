@@ -3,9 +3,12 @@ package com.one234gift.customerservice.query.infrastructure;
 import com.one234gift.customerservice.common.Pageable;
 import com.one234gift.customerservice.domain.Customer;
 import com.one234gift.customerservice.domain.read.CustomerModel;
+import com.one234gift.customerservice.domain.read.ResponsibleModel;
 import com.one234gift.customerservice.domain.value.SaleState;
 import com.one234gift.customerservice.query.application.QueryCustomerListRepository;
 import com.one234gift.customerservice.query.application.model.CustomerSearchDTO;
+import com.querydsl.core.types.ConstructorExpression;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +19,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.one234gift.customerservice.domain.QCustomer.customer;
-import static com.one234gift.customerservice.domain.QResponsible.responsible;
 import static com.one234gift.customerservice.domain.value.QPurchasingManager.purchasingManager;
+import static com.one234gift.customerservice.domain.value.QResponsible.responsible;
 import static com.querydsl.core.types.Projections.constructor;
 
 @Repository
@@ -26,43 +29,38 @@ public class QuerydslQueryCustomerRepository implements QueryCustomerListReposit
     @Autowired private JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<CustomerModel> findByManager(String manager, Pageable pageable) {
-        return jpaQueryFactory.select(constructor(CustomerModel.class,
-                        customer.id,
-                        customer.category(),
-                        customer.businessInfo(),
-                        customer.address(),
-                        customer.saleState,
-                        customer.fax(),
-                        customer.createDateTime)
-                )
+    public List<CustomerModel> findByResponsibleUser(CustomerSearchDTO customerSearchDTO, String manager, Pageable pageable) {
+        return jpaQueryFactory.select(customerListModels())
                 .from(customer)
                 .join(responsible).on(customer.id.eq(responsible.customerId))
-                .where(responsible.manager.eq(manager))
+                .where(eqManager(manager),
+                        eqBusinessName(customerSearchDTO.getBusinessName()),
+                        eqLocation(customerSearchDTO.getLocation()),
+                        eqCategory(customerSearchDTO.getCategory()),
+                        eqState(customerSearchDTO.getState())
+                )
                 .limit(pageable.getSize())
                 .offset(pageable.getPage() * pageable.getSize())
                 .fetch();
     }
 
     @Override
-    public long countByManager(String manager) {
+    public long countByManager(CustomerSearchDTO customerSearchDTO, String manager) {
         return jpaQueryFactory.selectOne()
                 .from(customer)
                 .join(responsible).on(customer.id.eq(responsible.customerId))
-                .where(responsible.manager.eq(manager))
+                .where(eqManager(manager),
+                        eqBusinessName(customerSearchDTO.getBusinessName()),
+                        eqLocation(customerSearchDTO.getLocation()),
+                        eqCategory(customerSearchDTO.getCategory()),
+                        eqState(customerSearchDTO.getState())
+                )
                 .fetchCount();
     }
 
     @Override
     public List<CustomerModel> findAll(CustomerSearchDTO customerSearchDTO, Pageable pageable) {
-        return jpaQueryFactory.select(constructor(CustomerModel.class,
-                                customer.id,
-                                customer.category(),
-                                customer.businessInfo(),
-                                customer.address(),
-                                customer.saleState,
-                                customer.fax(),
-                                customer.createDateTime)
+        return jpaQueryFactory.select(customerListModels()
                 )
                 .from(customer)
                 .where(eqBusinessName(customerSearchDTO.getBusinessName()),
@@ -91,7 +89,7 @@ public class QuerydslQueryCustomerRepository implements QueryCustomerListReposit
                 .from(customer)
                 .leftJoin(customer.purchasingManagers().purchasingManagers, purchasingManager)
                 .fetchJoin()
-                .where(customer.id.eq(customerId))
+                .where(eqId(customerId))
                 .fetch();
         if(fetch.size() != 0){
             return Optional.of(fetch.get(0).toModel());
@@ -104,6 +102,26 @@ public class QuerydslQueryCustomerRepository implements QueryCustomerListReposit
         return jpaQueryFactory.selectOne()
                 .from(customer)
                 .fetchFirst() != null;
+    }
+
+    @Override
+    public List<ResponsibleModel> findResponsibleUsers(Long customerId) {
+        return jpaQueryFactory.select(Projections.constructor(ResponsibleModel.class,
+                        responsible.manager))
+                .from(responsible)
+                .where(responsible.customerId.eq(customerId))
+                .fetch();
+    }
+
+    private BooleanExpression eqId(long customerId){
+        return customer.id.eq(customerId);
+    }
+
+    private BooleanExpression eqManager(String manager){
+        if(manager != null){
+            return responsible.manager.eq(manager);
+        }
+        return null;
     }
 
     private BooleanExpression eqBusinessName(String businessName) {
@@ -132,5 +150,14 @@ public class QuerydslQueryCustomerRepository implements QueryCustomerListReposit
             return customer.saleState.eq(state);
         }
         return null;
+    }
+
+    private ConstructorExpression<CustomerModel> customerListModels() {
+        return constructor(CustomerModel.class,
+                customer.id,
+                customer.category(),
+                customer.businessInfo().name(),
+                customer.address().location(),
+                customer.saleState);
     }
 }

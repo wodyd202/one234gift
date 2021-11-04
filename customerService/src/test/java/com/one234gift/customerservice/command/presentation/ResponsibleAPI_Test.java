@@ -14,9 +14,13 @@ public class ResponsibleAPI_Test extends CustomerAPITest {
 
     @Test
     void 고객담당_등록() throws Exception {
+        // given
         CustomerModel customer = registerCustomer(aRegisterCustomer().build());
 
+        // when
         mockMvc.perform(post("/api/customer/{customerId}/responsible", customer.getId()))
-                .andExpect(status().isOk());
+
+        // then
+        .andExpect(status().isOk());
     }
 }

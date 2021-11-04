@@ -1,5 +1,6 @@
 package com.one234gift.customerservice.domain.read;
 
+import com.one234gift.customerservice.domain.value.BusinessName;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

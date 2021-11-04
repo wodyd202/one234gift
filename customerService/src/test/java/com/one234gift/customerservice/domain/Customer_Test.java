@@ -52,6 +52,7 @@ public class Customer_Test {
     @Test
     public void 분류_입력(){
         Category category = new Category("은행");
+
         assertEquals(category ,new Category("은행"));
         assertEquals(category.get(), "은행");
     }

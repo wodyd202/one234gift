@@ -4,6 +4,7 @@ import com.one234gift.customerservice.command.application.exception.CustomerNotF
 import com.one234gift.customerservice.common.Pageable;
 import com.one234gift.customerservice.domain.read.CustomerModel;
 import com.one234gift.customerservice.query.application.external.CustomerHistoryRepository;
+import com.one234gift.customerservice.query.application.external.OrderRepository;
 import com.one234gift.customerservice.query.application.external.SalesHistoryRepository;
 import com.one234gift.customerservice.query.application.model.CustomerModels;
 import com.one234gift.customerservice.query.application.model.CustomerSearchDTO;
@@ -29,13 +30,14 @@ public class QueryCustomerService {
     // 외부 모듈
     private CustomerHistoryRepository customerHistoryRepository;
     private SalesHistoryRepository salesHistoryRepository;
+    private OrderRepository orderRepository;
 
     /**
      * 모든 고객 조회
      * @param customerSearchDTO
      * @param pageable
      */
-    public CustomerModels findAll(CustomerSearchDTO customerSearchDTO, Pageable pageable) {
+    public CustomerModels getCustomerModels(CustomerSearchDTO customerSearchDTO, Pageable pageable) {
         return CustomerModels.builder()
                 .customers(customerListRepository.findAll(customerSearchDTO, pageable))
                 .totalElement(customerListRepository.countAll(customerSearchDTO))
@@ -45,13 +47,14 @@ public class QueryCustomerService {
 
     /**
      * 나의 고객 조회
+     * @param customerSearchDTO
      * @param manager
      * @param pageable
      */
-    public CustomerModels findByManager(String manager, Pageable pageable) {
+    public CustomerModels getCustomerModelsByTargetResponsibleUser(CustomerSearchDTO customerSearchDTO, String manager, Pageable pageable) {
         return CustomerModels.builder()
-                .customers(customerListRepository.findByManager(manager, pageable))
-                .totalElement(customerListRepository.countByManager(manager))
+                .customers(customerListRepository.findByResponsibleUser(customerSearchDTO, manager, pageable))
+                .totalElement(customerListRepository.countByManager(customerSearchDTO, manager))
                 .pageable(pageable)
                 .build();
     }
@@ -60,7 +63,7 @@ public class QueryCustomerService {
      * 고객 단건조회
      * @param customerId
      */
-    public CustomerModel findById(Long customerId) {
+    public CustomerModel getCustomerModel(Long customerId) {
         CustomerModel customerModel = customerRepository.findById(customerId).orElseThrow(CustomerNotFoundException::new);
         Pageable latelyPageable = getTop10Pageable();
 
@@ -69,6 +72,12 @@ public class QueryCustomerService {
 
         // 최근 메모 이력 조회
         customerModel.addLatelySalesHistorys(salesHistoryRepository.findLatelyByCustomerId(customerId, latelyPageable));
+
+        // 최근 주문 이력 조회
+        customerModel.addLatelyOrders(orderRepository.findByCustomerId(customerId, latelyPageable));
+
+        // 해당 고객 담당자 조회
+        customerModel.addResponsibleUsers(customerListRepository.findResponsibleUsers(customerId));
         return customerModel;
     }
 
@@ -80,7 +89,7 @@ public class QueryCustomerService {
      * 고객 존재여부 확인
      * @param customerId
      */
-    public boolean existById(Long customerId) {
+    public boolean existCustomer(Long customerId) {
         return customerRepository.existById(customerId);
     }
 }

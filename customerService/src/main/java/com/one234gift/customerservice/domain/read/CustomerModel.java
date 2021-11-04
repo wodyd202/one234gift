@@ -2,6 +2,7 @@ package com.one234gift.customerservice.domain.read;
 
 import com.one234gift.customerservice.domain.value.*;
 import com.one234gift.customerservice.query.application.external.CustomerHistoryModels;
+import com.one234gift.customerservice.query.application.external.OrderModels;
 import com.one234gift.customerservice.query.application.external.SalesHistoryModels;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -35,11 +36,27 @@ public class CustomerModel {
      */
     private SalesHistoryModels latelySalesHistorys;
 
+    /**
+     * 최근 주문 이력
+     */
+    private OrderModels latelyOrders;
+
+    /**
+     * 고객 담당자
+     */
+    private List<ResponsibleModel> responsibleModels;
+
     public void addLatelyHistorys(CustomerHistoryModels latelyHistorys) {
         this.latelyHistorys = latelyHistorys;
     }
 
     public void addLatelySalesHistorys(SalesHistoryModels latelySalesHistorys) { this.latelySalesHistorys = latelySalesHistorys;}
+
+    public void addLatelyOrders(OrderModels latelyOrders) { this.latelyOrders = latelyOrders; }
+
+    public void addResponsibleUsers(List<ResponsibleModel> responsibleUsers) {
+        this.responsibleModels = responsibleUsers;
+    }
 
     @Builder
     public CustomerModel(Long id,
@@ -61,21 +78,24 @@ public class CustomerModel {
         this.createDateTime = createDateTime;
     }
 
+    /**
+     * 고객 리스트 조회시 사용
+     */
     @Builder
     public CustomerModel(Long id,
                          Category category,
-                         BusinessInfo businessInfo,
-                         Address address,
-                         SaleState saleState,
-                         Tel fax,
-                         LocalDateTime createDateTime) {
+                         BusinessName businessName,
+                         Location location,
+                         SaleState saleState) {
         this.id = id;
         this.category = category.get();
-        this.businessInfo = businessInfo.toModel();
-        this.address = address.toModel();
+        this.businessInfo = BusinessInfoModel.builder()
+                                .name(businessName.get())
+                                .build();
+        this.address = AddressModel.builder()
+                                .location(location.get())
+                                .build();
         this.saleState = saleState;
-        this.fax = fax.get();
-        this.createDateTime = createDateTime;
     }
 
     @Override

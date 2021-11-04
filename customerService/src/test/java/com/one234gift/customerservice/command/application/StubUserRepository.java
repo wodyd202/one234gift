@@ -1,4 +1,4 @@
-package com.one234gift.customerservice.command.infrastructure;
+package com.one234gift.customerservice.command.application;
 
 import com.one234gift.customerservice.command.application.external.UserRepository;
 import com.one234gift.customerservice.domain.value.Manager;

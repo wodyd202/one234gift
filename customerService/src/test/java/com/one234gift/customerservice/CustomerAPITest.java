@@ -2,7 +2,7 @@ package com.one234gift.customerservice;
 
 import com.one234gift.customerservice.command.application.RegisterCustomerService;
 import com.one234gift.customerservice.command.application.exception.CustomerNotFoundException;
-import com.one234gift.customerservice.command.infrastructure.StubUserRepository;
+import com.one234gift.customerservice.command.application.StubUserRepository;
 import com.one234gift.customerservice.domain.model.RegisterCustomer;
 import com.one234gift.customerservice.domain.read.CustomerModel;
 import com.one234gift.customerservice.query.infrastructure.QuerydslQueryCustomerRepository;
