@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 public class CallReservationModel extends HappyCallModel {
     @Builder
-    public CallReservationModel(Long seq, LocalDate when, SalesUserInfo salesUser, CustomerInfo targetCustomer, boolean read) {
-        super(seq,when,salesUser,targetCustomer,read);
+    public CallReservationModel(Long seq, LocalDate when, SalesUserInfo salesUser, CustomerInfo targetCustomer) {
+        super(seq,when,salesUser,targetCustomer,"callReservation");
     }
 }

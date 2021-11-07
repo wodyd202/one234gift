@@ -9,8 +9,8 @@ import java.time.LocalDate;
 public class OrderHappyCallModel extends HappyCallModel {
 
     @Builder
-    public OrderHappyCallModel(Long seq, LocalDate when, SalesUserInfo salesUser, CustomerInfo targetCustomer, boolean read) {
-        super(seq,when,salesUser,targetCustomer, read);
+    public OrderHappyCallModel(Long seq, LocalDate when, SalesUserInfo salesUser, CustomerInfo targetCustomer) {
+        super(seq,when,salesUser,targetCustomer, "orderHappyCall");
     }
 
 }

@@ -13,18 +13,18 @@ abstract public class HappyCallModel {
     protected LocalDate when;
     protected SalesUser salesUser;
     protected CustomerInfoModel targetCustomer;
-    protected boolean read;
+    protected String type;
 
     public HappyCallModel(Long seq,
                              LocalDate when,
                              SalesUserInfo salesUser,
                              CustomerInfo targetCustomer,
-                             boolean read) {
+                            String type) {
         this.seq = seq;
         this.when = when;
         this.salesUser = salesUser.toModel();
         this.targetCustomer = targetCustomer.toModel();
-        this.read = read;
+        this.type = type;
     }
 
     @Override
