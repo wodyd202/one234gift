@@ -14,7 +14,9 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
  * 예약콜
  */
 @Entity
-@Table(name = "happy_call")
+@Table(name = "happy_call", indexes = {
+        @Index(columnList = "phone, when")
+})
 @Inheritance(strategy = SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
 abstract public class HappyCall {
