@@ -22,12 +22,22 @@ public class HappyCallAPI {
     @Autowired
     private HappyCallService happyCallService;
 
+    /**
+     * @param pageable
+     * @param principal
+     * # 해피콜 목록 조회
+     */
     @GetMapping
     public ResponseEntity<HappyCallModels> findTodayHappyCall(Pageable pageable, Principal principal){
         HappyCallModels happyCallModels = happyCallService.findTodayHappyCall(pageable, new SalesUserInfo(principal.getName()));
         return ResponseEntity.ok(happyCallModels);
     }
 
+    /**
+     * @param happycallId
+     * @param principal
+     * # 해피콜 읽음
+     */
     @GetMapping("{happycallId}")
     public ResponseEntity<Void> read(@PathVariable Long happycallId, Principal principal){
         happyCallService.read(happycallId, new SalesUserInfo(principal.getName()));
