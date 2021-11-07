@@ -1,4 +1,4 @@
-package com.one234gift.happycallservice.application.exception;
+package com.one234gift.happycallservice.domain.exception;
 
 public class HappyCallNotFoundException extends RuntimeException {
     public HappyCallNotFoundException(){

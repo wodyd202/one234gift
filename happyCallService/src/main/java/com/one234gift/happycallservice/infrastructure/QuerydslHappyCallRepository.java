@@ -37,10 +37,10 @@ public class QuerydslHappyCallRepository implements HappyCallRepository {
     public List<HappyCallModel> findTodayHappyCall(Pageable pageable, SalesUserInfo salesUser) {
         return jpaQueryFactory.select(happyCall)
                 .from(happyCall)
-                .where(eqSalesUser(salesUser), eqWhen(LocalDate.now()))
+                .where(eqSalesUser(salesUser), lteWhen(LocalDate.now()), notRead())
                 .limit(pageable.getSize())
                 .offset(pageable.getSize() * pageable.getPage())
-                .orderBy(happyCall.read.desc())
+                .orderBy(happyCall.when.asc())
                 .fetch().stream().map(HappyCall::toModel).collect(Collectors.toList());
     }
 
@@ -48,7 +48,7 @@ public class QuerydslHappyCallRepository implements HappyCallRepository {
     public long countTodayCallReservation(SalesUserInfo salesUser) {
         return jpaQueryFactory.selectOne()
                 .from(happyCall)
-                .where(eqSalesUser(salesUser), eqWhen(LocalDate.now()))
+                .where(eqSalesUser(salesUser), lteWhen(LocalDate.now()), notRead())
                 .orderBy(happyCall.read.desc())
                 .fetchCount();
     }
@@ -57,12 +57,16 @@ public class QuerydslHappyCallRepository implements HappyCallRepository {
         return happyCall.seq.eq(seq);
     }
 
-    private BooleanExpression eqWhen(LocalDate localDate){
-        return happyCall.when.eq(localDate);
+    private BooleanExpression lteWhen(LocalDate localDate){
+        return happyCall.when.loe(localDate);
     }
 
     private BooleanExpression eqSalesUser(SalesUserInfo salesUserInfo){
         return happyCall.salesUser().eq(salesUserInfo);
+    }
+
+    private BooleanExpression notRead(){
+        return happyCall.read.eq(false);
     }
 
     @Override

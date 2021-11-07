@@ -1,5 +1,8 @@
 package com.one234gift.happycallservice.domain.model;
 
+import lombok.Setter;
+
+@Setter
 public class SalesUser {
     private String phone;
 

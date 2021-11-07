@@ -1,4 +1,4 @@
-package com.one234gift.happycallservice.application;
+package com.one234gift.happycallservice.application.external;
 
 import com.one234gift.happycallservice.config.FeignClientConfig;
 import com.one234gift.happycallservice.domain.value.CustomerInfo;

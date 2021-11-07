@@ -1,23 +1,21 @@
 package com.one234gift.happycallservice.domain.model;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
+@Setter
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RegisterHappyCall {
-    private SalesUser salesUser;
+    private SalesUser writer;
     private long customerId;
-    private LocalDate when;
+    private LocalDate callReservationDate;
 
     @Builder
-    public RegisterHappyCall(SalesUser salesUser, long customerId, LocalDate when) {
-        this.salesUser = salesUser;
+    public RegisterHappyCall(SalesUser writer, long customerId, LocalDate callReservationDate) {
+        this.writer = writer;
         this.customerId = customerId;
-        this.when = when;
+        this.callReservationDate = callReservationDate;
     }
 }

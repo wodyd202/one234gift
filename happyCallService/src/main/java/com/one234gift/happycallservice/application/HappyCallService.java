@@ -1,12 +1,12 @@
 package com.one234gift.happycallservice.application;
 
-import com.one234gift.happycallservice.application.exception.HappyCallNotFoundException;
+import com.one234gift.happycallservice.domain.exception.HappyCallNotFoundException;
 import com.one234gift.happycallservice.common.Pageable;
 import com.one234gift.happycallservice.domain.HappyCall;
 import com.one234gift.happycallservice.domain.model.RegisterHappyCall;
 import com.one234gift.happycallservice.domain.read.HappyCallModel;
 import com.one234gift.happycallservice.domain.value.SalesUserInfo;
-import com.one234gift.happycallservice.presentation.model.HappyCallModels;
+import com.one234gift.happycallservice.application.model.HappyCallModels;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,9 +28,7 @@ public class HappyCallService {
      */
     @Transactional
     public HappyCallModel registerOrderHappyCall(RegisterHappyCall registerHappyCall) {
-        HappyCall orderHappyCall = happyCallFactory.newOrderHappyCall(registerHappyCall);
-        happyCallRepository.save(orderHappyCall);
-        HappyCallModel happyCallModel = orderHappyCall.toModel();
+        HappyCallModel happyCallModel = registerHappyCall(happyCallFactory.newOrderHappyCall(registerHappyCall));
         log.info("save order happy call : {}", happyCallModel);
         return happyCallModel;
     }
@@ -41,13 +39,21 @@ public class HappyCallService {
      */
     @Transactional
     public HappyCallModel registerCallReservation(RegisterHappyCall registerHappyCall) {
-        HappyCall orderHappyCall = happyCallFactory.newCallReservation(registerHappyCall);
-        happyCallRepository.save(orderHappyCall);
-        HappyCallModel happyCallModel = orderHappyCall.toModel();
+        HappyCallModel happyCallModel = registerHappyCall(happyCallFactory.newCallReservation(registerHappyCall));
         log.info("save call reservation : {}", happyCallModel);
         return happyCallModel;
     }
 
+    private HappyCallModel registerHappyCall(HappyCall happyCall){
+        happyCallRepository.save(happyCall);
+        return happyCall.toModel();
+    }
+
+    /**
+     * @param happyCallId
+     * @param salesUser
+     * # 해피콜 읽음
+     */
     @Transactional
     public void read(long happyCallId, SalesUserInfo salesUser){
         HappyCall happyCall = happyCallRepository.findByIdAndSalesUser(happyCallId, salesUser).orElseThrow(HappyCallNotFoundException::new);
@@ -56,11 +62,17 @@ public class HappyCallService {
         log.info("read happy call : {}", happyCallId);
     }
 
+    /**
+     * @param pageable
+     * @param salesUserInfo
+     * # 전화 해야하는 해피콜 목록 가져오기
+     */
     @Transactional(readOnly = true)
     public HappyCallModels findTodayHappyCall(Pageable pageable, SalesUserInfo salesUserInfo) {
         return HappyCallModels.builder()
                 .happyCallModels(happyCallRepository.findTodayHappyCall(pageable, salesUserInfo))
                 .totalElement(happyCallRepository.countTodayCallReservation(salesUserInfo))
+                .pageable(pageable)
                 .build();
     }
 }

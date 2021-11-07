@@ -45,7 +45,7 @@ public class HappyCallService_Test {
     @Test
     void 읽음() {
         // given
-        RegisterHappyCall registerHappyCall = aRegisterHappyCall().salesUser(new SalesUser("담당자")).build();
+        RegisterHappyCall registerHappyCall = aRegisterHappyCall().writer(new SalesUser("담당자")).build();
         HappyCallModel happyCallModel = happyCallService.registerOrderHappyCall(registerHappyCall);
 
         // when
