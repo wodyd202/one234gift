@@ -1,6 +1,6 @@
-package com.one234gift.saleshistoryservice.command;
+package com.one234gift.saleshistoryservice.command.application;
 
-import com.one234gift.saleshistoryservice.command.application.UserRepository;
+import com.one234gift.saleshistoryservice.command.application.external.UserRepository;
 import com.one234gift.saleshistoryservice.domain.value.Writer;
 import org.springframework.stereotype.Repository;
 

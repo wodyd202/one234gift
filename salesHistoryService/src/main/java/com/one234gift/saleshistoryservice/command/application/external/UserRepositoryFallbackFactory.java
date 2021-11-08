@@ -1,4 +1,4 @@
-package com.one234gift.saleshistoryservice.command.application;
+package com.one234gift.saleshistoryservice.command.application.external;
 import com.one234gift.saleshistoryservice.domain.value.Writer;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;

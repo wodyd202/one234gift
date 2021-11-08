@@ -2,8 +2,6 @@ package com.one234gift.saleshistoryservice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.one234gift.saleshistoryservice.command.StubCustomerRepository;
-import com.one234gift.saleshistoryservice.command.StubUserRepository;
 import com.one234gift.saleshistoryservice.command.application.RegisterSalesHistoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;

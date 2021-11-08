@@ -13,7 +13,7 @@ public class CallReserved {
     private final LocalDate callReservationDate;
 
     public CallReserved(SalesHistoryModel salesHistoryModel) {
-        this.writer = salesHistoryModel.getManager();
+        this.writer = salesHistoryModel.getWriter();
         this.customerId = salesHistoryModel.getCustomerId();
         this.callReservationDate = salesHistoryModel.getCallReservationDate();
     }

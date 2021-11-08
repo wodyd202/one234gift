@@ -3,8 +3,7 @@ package com.one234gift.saleshistoryservice.command.presentation;
 import com.one234gift.saleshistoryservice.command.application.exception.CustomerNotFoundException;
 import com.one234gift.saleshistoryservice.command.application.exception.SalesHistoryNotFoundException;
 import com.one234gift.saleshistoryservice.command.application.exception.UserNotFoundException;
-import com.one234gift.saleshistoryservice.common.APIResponse;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -15,12 +14,12 @@ public class SalesHistoryExceptionHandler {
             UserNotFoundException.class,
             SalesHistoryNotFoundException.class
     })
-    public APIResponse error(RuntimeException e){
-        return new APIResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> error(RuntimeException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public APIResponse error(IllegalArgumentException e){
-        return new APIResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> error(IllegalArgumentException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }

@@ -3,6 +3,7 @@ package com.one234gift.saleshistoryservice.query.infrastructure;
 import com.one234gift.saleshistoryservice.common.Pageable;
 import com.one234gift.saleshistoryservice.domain.read.SalesHistoryModel;
 import com.one234gift.saleshistoryservice.query.application.QuerySaleshistoryRepository;
+import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import java.util.Optional;
 
 import static com.one234gift.saleshistoryservice.domain.QSalesHistory.salesHistory;
 import static com.querydsl.core.types.Projections.constructor;
-import static com.querydsl.core.types.dsl.Expressions.asSimple;
 
 @Repository
 @Transactional(readOnly = true)
@@ -23,17 +23,7 @@ public class QuerydslQuerySalesHistoryRepository implements QuerySaleshistoryRep
 
     @Override
     public List<SalesHistoryModel> findAll(long customerId, Pageable pageable) {
-        return jpaQueryFactory.select(constructor(SalesHistoryModel.class,
-                            salesHistory.id,
-                            asSimple(customerId),
-                            salesHistory.content().content,
-                            salesHistory.sample,
-                            salesHistory.catalogue,
-                            salesHistory.callReservationDate,
-                            salesHistory.reactivity,
-                            salesHistory.createDateTime,
-                            salesHistory.writer()
-                        ))
+        return jpaQueryFactory.select(salesHistoryListModel())
                 .from(salesHistory)
                 .where(eqCustomerId(customerId))
                 .limit(pageable.getSize())
@@ -52,17 +42,7 @@ public class QuerydslQuerySalesHistoryRepository implements QuerySaleshistoryRep
     @Override
     public Optional<SalesHistoryModel> findBySalesHistoryId(long salesHistoryId) {
         return Optional.ofNullable(
-                jpaQueryFactory.select(constructor(SalesHistoryModel.class,
-                                salesHistory.id,
-                                salesHistory.customerId,
-                                salesHistory.content().content,
-                                salesHistory.sample,
-                                salesHistory.catalogue,
-                                salesHistory.callReservationDate,
-                                salesHistory.reactivity,
-                                salesHistory.createDateTime,
-                                salesHistory.writer()
-                        ))
+                jpaQueryFactory.select(salesHistoryListModel())
                         .from(salesHistory)
                         .where(eqSalesHistoryId(salesHistoryId))
                         .fetchFirst()
@@ -75,5 +55,14 @@ public class QuerydslQuerySalesHistoryRepository implements QuerySaleshistoryRep
 
     private BooleanExpression eqSalesHistoryId(long salesHistoryId){
         return salesHistory.id.eq(salesHistoryId);
+    }
+
+    private ConstructorExpression<SalesHistoryModel> salesHistoryListModel() {
+        return constructor(SalesHistoryModel.class,
+                salesHistory.id,
+                salesHistory.content(),
+                salesHistory.createDateTime,
+                salesHistory.writer()
+        );
     }
 }

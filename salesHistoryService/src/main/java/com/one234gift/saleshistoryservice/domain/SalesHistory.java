@@ -9,7 +9,6 @@ import com.one234gift.saleshistoryservice.domain.value.CustomerReactivity;
 import com.one234gift.saleshistoryservice.domain.value.HistoryContent;
 import com.one234gift.saleshistoryservice.domain.value.Writer;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -158,13 +157,13 @@ public class SalesHistory {
         return SalesHistoryModel.builder()
                 .id(id)
                 .customerId(customerId)
-                .content(content.get())
+                .content(content)
                 .sample(sample)
                 .catalogue(catalogue)
                 .callReservationDate(callReservationDate)
                 .reactivity(reactivity)
                 .createDateTime(createDateTime)
-                .manager(writer)
+                .writer(writer)
                 .build();
     }
 }

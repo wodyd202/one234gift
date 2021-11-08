@@ -1,6 +1,6 @@
 package com.one234gift.saleshistoryservice;
 
-import com.one234gift.saleshistoryservice.command.StubUserRepository;
+import com.one234gift.saleshistoryservice.command.application.StubUserRepository;
 import com.one234gift.saleshistoryservice.domain.model.RegisterSalesHistory;
 import com.one234gift.saleshistoryservice.domain.read.SalesHistoryModel;
 import com.one234gift.saleshistoryservice.query.application.QuerySaleshistoryRepository;

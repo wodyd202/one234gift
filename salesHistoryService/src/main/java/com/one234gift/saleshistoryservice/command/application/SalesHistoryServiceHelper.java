@@ -2,6 +2,7 @@ package com.one234gift.saleshistoryservice.command.application;
 
 import com.one234gift.saleshistoryservice.command.application.exception.SalesHistoryNotFoundException;
 import com.one234gift.saleshistoryservice.command.application.exception.UserNotFoundException;
+import com.one234gift.saleshistoryservice.command.application.external.UserRepository;
 import com.one234gift.saleshistoryservice.domain.SalesHistory;
 import com.one234gift.saleshistoryservice.domain.value.Writer;
 

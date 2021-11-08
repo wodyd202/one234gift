@@ -1,4 +1,4 @@
-package com.one234gift.saleshistoryservice.command.application;
+package com.one234gift.saleshistoryservice.command.application.external;
 
 import com.one234gift.saleshistoryservice.config.FeignClientConfig;
 import com.one234gift.saleshistoryservice.domain.value.Writer;

@@ -1,4 +1,4 @@
-package com.one234gift.customerservice.common;
+package com.one234gift.saleshistoryservice.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
