@@ -39,7 +39,7 @@ public class OrderFixture {
     public static SalesUser aSalesUser(String userId){
         return SalesUser.builder()
                 .phone(userId)
-                .name(userId)
+                .name("영업사원")
                 .build();
     }
 

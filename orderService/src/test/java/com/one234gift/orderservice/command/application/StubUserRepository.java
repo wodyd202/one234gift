@@ -17,7 +17,7 @@ public class StubUserRepository implements UserRepository {
     public void save(String userId){
         persistUser = SalesUser.builder()
                 .phone(userId)
-                .name(userId)
+                .name("영업사원")
                 .build();
     }
 }

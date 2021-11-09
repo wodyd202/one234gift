@@ -65,14 +65,14 @@ public class OrderSearchAPI_Test extends OrderAPITest {
         .andExpect(status().isOk());
     }
 
-    @Test
-    void 전체_영업자의_누적_매출_보기() throws Exception {
-        // when
-        mockMvc.perform(get("/api/order/cumulative-sales")
-                        .param("date", "2021-11-01"))
-
-        // then
-        .andExpect(status().isOk());
-    }
+//    @Test
+//    void 전체_영업자의_누적_매출_보기() throws Exception {
+//        // when
+//        mockMvc.perform(get("/api/order/cumulative-sales")
+//                        .param("date", "2021-11-01"))
+//
+//        // then
+//        .andExpect(status().isOk());
+//    }
 
 }
