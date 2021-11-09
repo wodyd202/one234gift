@@ -43,4 +43,36 @@ public class OrderSearchAPI_Test extends OrderAPITest {
         // then
         .andExpect(status().isOk());
     }
+
+    @Test
+    void 해당_고객에_대한_주문_보기() throws Exception {
+        // when
+        mockMvc.perform(get("/api/order/customer/{customerId}",1)
+                        .param("page","0")
+                        .param("size", "10"))
+
+        // then
+        .andExpect(status().isOk());
+    }
+
+    @Test
+    void 해당_영업자의_누적_매출_보기() throws Exception {
+        // when
+        mockMvc.perform(get("/api/order/cumulative-sales/{userId}", "userId")
+                        .param("date", "2021-11-01"))
+
+        // then
+        .andExpect(status().isOk());
+    }
+
+    @Test
+    void 전체_영업자의_누적_매출_보기() throws Exception {
+        // when
+        mockMvc.perform(get("/api/order/cumulative-sales")
+                        .param("date", "2021-11-01"))
+
+        // then
+        .andExpect(status().isOk());
+    }
+
 }

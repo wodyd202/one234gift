@@ -28,6 +28,10 @@ public class RegisterOrderService {
     private OrderRepository orderRepository;
     private ApplicationEventPublisher applicationEventPublisher;
 
+    /**
+     * @param registerOrder
+     * # 주문 등록
+     */
     public OrderModel register(RegisterOrder registerOrder) {
         // 해당 영업자 조회
         SalesUser salesUser = findUser(userRepository);

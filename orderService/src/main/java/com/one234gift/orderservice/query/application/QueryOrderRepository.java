@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface QueryOrderRepository {
-    List<OrderModel> findAll(String userId, Pageable pageable);
+    List<OrderModel> findByUserId(String userId, Pageable pageable);
+    List<OrderModel> findAllByCustomerId(long customerId, Pageable pageable);
     Optional<OrderModel> findById(long orderId);
 
-    long countAll(String userId);
+    long countByUserId(String userId);
+    long countByCustomerId(long customerId);
 }

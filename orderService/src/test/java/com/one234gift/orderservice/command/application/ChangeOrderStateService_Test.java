@@ -1,7 +1,7 @@
 package com.one234gift.orderservice.command.application;
 
 import com.one234gift.orderservice.OrderAPITest;
-import com.one234gift.orderservice.command.application.exception.OrderNotFoundException;
+import com.one234gift.orderservice.domain.exception.OrderNotFoundException;
 import com.one234gift.orderservice.domain.read.OrderModel;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

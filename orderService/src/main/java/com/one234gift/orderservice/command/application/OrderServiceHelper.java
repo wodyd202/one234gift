@@ -1,7 +1,7 @@
 package com.one234gift.orderservice.command.application;
 
 import com.one234gift.orderservice.command.application.exception.CustomerNotFoundException;
-import com.one234gift.orderservice.command.application.exception.OrderNotFoundException;
+import com.one234gift.orderservice.domain.exception.OrderNotFoundException;
 import com.one234gift.orderservice.command.application.exception.SalesUserNotFoundException;
 import com.one234gift.orderservice.domain.Order;
 import com.one234gift.orderservice.domain.value.CustomerInfo;

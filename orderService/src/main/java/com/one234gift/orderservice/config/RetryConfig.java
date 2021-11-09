@@ -7,6 +7,7 @@ import org.springframework.retry.backoff.FixedBackOffPolicy;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
 
+@Profile("!test")
 @EnableRetry
 public class RetryConfig {
     @Bean

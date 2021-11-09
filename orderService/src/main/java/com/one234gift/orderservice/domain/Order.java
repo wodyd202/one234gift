@@ -53,7 +53,7 @@ public class Order {
      */
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "name", column = @Column(name = "sales_user_name", nullable = false, length = 10)),
+            @AttributeOverride(name = "username", column = @Column(name = "sales_user_name", nullable = false, length = 10)),
             @AttributeOverride(name = "phone", column = @Column(name = "sales_user_phone", nullable = false, length = 13))
     })
     private SalesUser salesUser;

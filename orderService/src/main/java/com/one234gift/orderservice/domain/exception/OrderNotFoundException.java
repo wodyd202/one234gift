@@ -1,4 +1,4 @@
-package com.one234gift.orderservice.command.application.exception;
+package com.one234gift.orderservice.domain.exception;
 
 public class OrderNotFoundException extends RuntimeException {
     public OrderNotFoundException(){

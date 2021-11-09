@@ -1,4 +1,4 @@
-package com.one234gift.orderservice.query.model;
+package com.one234gift.orderservice.query.application.model;
 
 import com.one234gift.orderservice.common.Pageable;
 import com.one234gift.orderservice.domain.read.OrderModel;

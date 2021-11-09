@@ -9,6 +9,7 @@ import feign.Logger;
 import feign.RequestInterceptor;
 import feign.hystrix.HystrixFeign;
 import feign.hystrix.SetterFactory;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 
+@EnableCircuitBreaker
 @EnableFeignClients(basePackages = "com.one234gift.orderservice")
 @Profile("!test")
 @Configuration

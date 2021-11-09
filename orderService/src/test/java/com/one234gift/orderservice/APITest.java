@@ -26,9 +26,7 @@ abstract public class APITest {
         init();
     }
 
-    public void init(){
-
-    }
+    public void init(){}
 
     protected String toJson(Object obj) throws JsonProcessingException {
         return objectMapper.writeValueAsString(obj);
