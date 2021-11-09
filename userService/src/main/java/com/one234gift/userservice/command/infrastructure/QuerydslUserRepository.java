@@ -37,7 +37,7 @@ public class QuerydslUserRepository implements UserRepository {
     }
 
     private BooleanExpression eqPhone(Phone phone){
-        return user.phone.eq(phone);
+        return user.phone().eq(phone);
     }
 
     @Override
