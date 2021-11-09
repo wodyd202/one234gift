@@ -1,4 +1,4 @@
-package com.one234gift.common.http;
+package com.one234gift.userservice.common;
 
 public class Pageable {
     private int page;

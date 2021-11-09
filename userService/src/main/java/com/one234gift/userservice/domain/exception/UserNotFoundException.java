@@ -1,4 +1,4 @@
-package com.one234gift.userservice.query.application.exception;
+package com.one234gift.userservice.domain.exception;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(){

@@ -1,19 +1,22 @@
 package com.one234gift.userservice.command.presentation;
 
-import com.one234gift.userservice.command.application.exception.DuplicatePhoneException;
-import com.one234gift.userservice.command.application.exception.PhoneNotFoundException;
-import com.one234gift.userservice.common.APIResponse;
-import org.springframework.http.HttpStatus;
+import com.one234gift.userservice.domain.exception.AlreadyExistUserException;
+import com.one234gift.userservice.domain.exception.AlreadyLeaveException;
+import com.one234gift.userservice.domain.exception.AlreadyWorkingException;
+import com.one234gift.userservice.domain.exception.UserNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class UserExceptionHandler {
     @ExceptionHandler({
-            DuplicatePhoneException.class,
-            PhoneNotFoundException.class
+            AlreadyExistUserException.class,
+            UserNotFoundException.class,
+            AlreadyWorkingException.class,
+            AlreadyLeaveException.class
     })
-    public APIResponse error(RuntimeException e){
-        return new APIResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> error(RuntimeException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }

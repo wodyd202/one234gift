@@ -1,39 +1,52 @@
 package com.one234gift.userservice.command.application;
 
-import com.one234gift.userservice.command.application.event.RegisteredUserEvent;
-import com.one234gift.userservice.domain.RegisterUserValidator;
+import com.one234gift.userservice.command.application.model.RegisterUser;
 import com.one234gift.userservice.domain.User;
-import com.one234gift.userservice.domain.model.RegisterUser;
-import com.one234gift.userservice.domain.model.UserModel;
-import org.springframework.context.ApplicationEventPublisher;
+import com.one234gift.userservice.domain.exception.AlreadyExistUserException;
+import com.one234gift.userservice.domain.read.UserModel;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-abstract public class RegisterUserService {
-    protected final UserRepository userRepository;
-    protected final RegisterUserValidator registerUserValidator;
-    protected final PasswordEncoder passwordEncoder;
-    protected final ApplicationEventPublisher applicationEventPublisher;
+import java.sql.SQLException;
 
-    protected void afterRegister(User user){}
+/**
+ * 사원 등록 서비스
+ */
+@Service
+@Transactional
+@AllArgsConstructor
+@Slf4j
+@Retryable(maxAttempts = 3, value = SQLException.class, backoff = @Backoff(delay = 500))
+public class RegisterUserService {
+    private UserMapper userMapper;
+    private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
-    public RegisterUserService(UserRepository userRepository,
-                               RegisterUserValidator registerUserValidator,
-                               PasswordEncoder passwordEncoder, ApplicationEventPublisher applicationEventPublisher) {
-        this.userRepository = userRepository;
-        this.registerUserValidator = registerUserValidator;
-        this.passwordEncoder = passwordEncoder;
-        this.applicationEventPublisher = applicationEventPublisher;
+    /**
+     * @param registerUser
+     * # 사용자 등록
+     */
+    public UserModel register(RegisterUser registerUser) {
+        User user = userMapper.mapFrom(registerUser, passwordEncoder);
+        verifyNotExistUser(user);
+        userRepository.save(user);
+        UserModel userModel = user.toModel();
+        log.info("save user into database : {}", userModel);
+        return userModel;
     }
 
-    @Transactional
-    public UserModel register(RegisterUser registerUser) {
-        User user = User.registerSalesUser(registerUser);
-        user.register(registerUserValidator, passwordEncoder);
-        userRepository.save(user);
-        afterRegister(user);
-        UserModel userModel = user.toModel();
-        applicationEventPublisher.publishEvent(new RegisteredUserEvent(userModel));
-        return userModel;
+    /**
+     * @param user
+     * # 사용자 존재 여부 확인
+     */
+    private void verifyNotExistUser(User user){
+        if(userRepository.existsByPhone(user.getPhone())){
+            throw new AlreadyExistUserException();
+        }
     }
 }

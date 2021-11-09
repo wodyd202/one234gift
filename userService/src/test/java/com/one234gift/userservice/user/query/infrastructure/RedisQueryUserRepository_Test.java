@@ -1,7 +1,8 @@
 package com.one234gift.userservice.user.query.infrastructure;
 
-import com.one234gift.userservice.domain.model.UserModel;
-import com.one234gift.userservice.domain.value.State;
+import com.one234gift.userservice.domain.value.UserRole;
+import com.one234gift.userservice.domain.read.UserModel;
+import com.one234gift.userservice.domain.value.UserState;
 import com.one234gift.userservice.query.infrastructure.RedisQueryUserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class RedisQueryUserRepository_Test {
     void save(){
         UserModel userModel = UserModel.builder()
                 .password("password")
-                .role("role")
-                .state(State.LEAVE)
+                .role(UserRole.SALES_USER)
+                .state(UserState.LEAVE)
                 .phone("phone")
                 .username("username")
                 .build();
@@ -27,8 +28,8 @@ public class RedisQueryUserRepository_Test {
         userModel = redisQueryUserRepository.findByPhone("phone").get();
         assertEquals(userModel.getUsername(), "username");
         assertEquals(userModel.getPassword(), "password");
-        assertEquals(userModel.getState(), State.LEAVE);
+        assertEquals(userModel.getState(), UserState.LEAVE);
         assertEquals(userModel.getPhone(), "phone");
-        assertEquals(userModel.getRole(), "role");
+        assertEquals(userModel.getRole(), UserRole.SALES_USER);
     }
 }

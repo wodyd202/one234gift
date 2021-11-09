@@ -2,6 +2,9 @@ package com.one234gift.userservice.domain.value;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Password {
     private final String password;
 

@@ -58,9 +58,9 @@ public class Oauth2SecurityConfig extends AuthorizationServerConfigurerAdapter {
                 .withClient("one234gift")
                 .secret(passwordEncoder.encode("1234"))
                 .authorizedGrantTypes("refresh_token","password")
-                .scopes("webclient")
-                .accessTokenValiditySeconds(30 * 60)
-                .refreshTokenValiditySeconds(10 * 60 * 6);
+                .scopes("webclient");
+//                .accessTokenValiditySeconds(30 * 60)
+//                .refreshTokenValiditySeconds(10 * 60 * 6);
     }
 }
 

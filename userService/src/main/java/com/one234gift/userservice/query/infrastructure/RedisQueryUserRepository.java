@@ -1,6 +1,7 @@
 package com.one234gift.userservice.query.infrastructure;
 
-import com.one234gift.userservice.domain.model.UserModel;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.one234gift.userservice.domain.read.UserModel;
 import com.one234gift.userservice.query.application.QueryUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,8 +14,8 @@ import java.util.Optional;
 
 @Repository
 public class RedisQueryUserRepository implements QueryUserRepository {
-    @Autowired
-    private RedisTemplate<String,Object> redisTemplate;
+    @Autowired private RedisTemplate<String, Object> redisTemplate;
+    @Autowired private ObjectMapper objectMapper;
     private HashOperations hashOperations;
 
     @Value("${redis.user.key}")
@@ -32,7 +33,7 @@ public class RedisQueryUserRepository implements QueryUserRepository {
     public Optional<UserModel> findByPhone(String phone) {
         Object obj = hashOperations.get(USER_KEY, phone);
         if(obj != null){
-            return Optional.of((UserModel) obj);
+            return Optional.of(objectMapper.convertValue(obj, UserModel.class));
         }
         return Optional.empty();
     }

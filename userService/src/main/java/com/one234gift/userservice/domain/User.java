@@ -1,19 +1,22 @@
 package com.one234gift.userservice.domain;
 
+import com.one234gift.userservice.domain.event.ComebackedUserEvent;
+import com.one234gift.userservice.domain.event.LeavedUserEvent;
+import com.one234gift.userservice.domain.event.RegisteredUserEvent;
 import com.one234gift.userservice.domain.exception.AlreadyLeaveException;
 import com.one234gift.userservice.domain.exception.AlreadyWorkingException;
-import com.one234gift.userservice.domain.model.RegisterUser;
-import com.one234gift.userservice.domain.model.UserModel;
-import com.one234gift.userservice.domain.value.Password;
-import com.one234gift.userservice.domain.value.Phone;
-import com.one234gift.userservice.domain.value.State;
-import com.one234gift.userservice.domain.value.Username;
+import com.one234gift.userservice.domain.read.UserModel;
+import com.one234gift.userservice.domain.value.*;
+import lombok.Builder;
+import lombok.Getter;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.domain.AbstractAggregateRoot;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
-import static com.one234gift.userservice.domain.value.State.LEAVE;
-import static com.one234gift.userservice.domain.value.State.WORK;
+import static com.one234gift.userservice.domain.value.UserState.LEAVE;
+import static com.one234gift.userservice.domain.value.UserState.WORK;
 import static javax.persistence.EnumType.STRING;
 
 /**
@@ -21,12 +24,12 @@ import static javax.persistence.EnumType.STRING;
  */
 @Entity
 @Table(name = "users")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "role")
-abstract public class User {
+@DynamicUpdate
+final public class User extends AbstractAggregateRoot<User> {
     // 사용자 전화번호
     // 추후에 아이디로 사용될 예정
     // 유니크 해야함
+    @Getter
     @EmbeddedId
     @AttributeOverride(name = "phone", column = @Column(name = "phone", length = 13, nullable = false))
     private final Phone phone;
@@ -34,7 +37,7 @@ abstract public class User {
     // 사용자 이름
     // 추후에 비밀번호로 사용될 예정
     @Embedded
-    @AttributeOverride(name = "name", column = @Column(name = "name", length = 10, nullable = false))
+    @AttributeOverride(name = "username", column = @Column(name = "name", length = 10, nullable = false))
     private final Username name;
 
     @Embedded
@@ -46,45 +49,40 @@ abstract public class User {
     // APPROVED(재직)
     @Enumerated(STRING)
     @Column(nullable = false, length = 5)
-    private State state;
+    private UserState state;
+
+    // 사용자 권한
+    @Enumerated(STRING)
+    @Column(nullable = false, length = 15)
+    private final UserRole role;
 
     protected User(){
         phone = null;
         name = null;
+        role = null;
     }
 
-    protected User(Username username, Phone phone, Password password) {
-        name = username;
+    @Builder
+    public User(Phone phone, Username name, UserRole role, PasswordEncoder passwordEncoder) {
         this.phone = phone;
-        this.password = password;
+        this.name = name;
+        this.password = new Password(passwordEncoder.encode(name.get()));
+        this.role = role;
+        this.state = WORK;
+
+        // 사용자 생성 이벤트
+        registerEvent(new RegisteredUserEvent(phone, name, password, role));
     }
 
     /**
-     * - registerUser to user
-     * @param registerUser
-     * @return
+     * # 퇴사
      */
-    public static User registerSalesUser(RegisterUser registerUser) {
-        return new SalesUser(new Username(registerUser.getUsername()),
-                            new Phone(registerUser.getPhone()),
-                            new Password(registerUser.getUsername()));
-    }
-
-    public static User registerAccountingUser(RegisterUser registerUser) {
-        return new AccountingUser(new Username(registerUser.getUsername()),
-                                new Phone(registerUser.getPhone()),
-                                new Password(registerUser.getUsername()));
-    }
-
-    final public void register(RegisterUserValidator registerUserValidator, PasswordEncoder passwordEncoder){
-        registerUserValidator.validation(phone);
-        state = WORK;
-        password = password.encode(passwordEncoder);
-    }
-
-    final public void leave(){
+    public void leave(){
         verifyWorking();
         state = LEAVE;
+
+        // 퇴사 이벤트
+        registerEvent(new LeavedUserEvent(phone));
     }
 
     private void verifyWorking() {
@@ -93,9 +91,15 @@ abstract public class User {
         }
     }
 
+    /**
+     * # 재입사
+     */
     public void comeBack() {
         verifyLeaved();
         state = WORK;
+
+        // 재입사 이벤트
+        registerEvent(new ComebackedUserEvent(phone));
     }
 
     private void verifyLeaved() {
@@ -104,23 +108,16 @@ abstract public class User {
         }
     }
 
+    /**
+     * 조회 모델로 변환
+     */
     public UserModel toModel(){
         return UserModel.builder()
                 .username(name.get())
                 .phone(phone.get())
                 .state(state)
-                .role(this.getClass().getSimpleName())
+                .role(role)
                 .password(password.get())
                 .build();
     }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "phone=" + phone.get() +
-                ", name=" + name.get() +
-                ", state=" + state +
-                '}';
-    }
-
 }

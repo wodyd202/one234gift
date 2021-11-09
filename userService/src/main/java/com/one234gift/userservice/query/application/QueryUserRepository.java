@@ -1,6 +1,6 @@
 package com.one234gift.userservice.query.application;
 
-import com.one234gift.userservice.domain.model.UserModel;
+import com.one234gift.userservice.domain.read.UserModel;
 
 import java.util.Optional;
 

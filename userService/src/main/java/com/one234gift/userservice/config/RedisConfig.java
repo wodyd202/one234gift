@@ -1,5 +1,7 @@
 package com.one234gift.userservice.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +17,9 @@ import java.util.Optional;
 
 @Configuration
 public class RedisConfig {
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Value("${spring.redis.port}")
     private int port;
@@ -47,7 +52,7 @@ public class RedisConfig {
     RedisTemplate<String,Object> redisTemplate(){
         RedisTemplate<String,Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
-        redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+        redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer(objectMapper));
         return redisTemplate;
     }
 }

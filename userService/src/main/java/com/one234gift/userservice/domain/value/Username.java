@@ -1,8 +1,10 @@
 package com.one234gift.userservice.domain.value;
 
+import javax.persistence.Embeddable;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+@Embeddable
 public class Username {
     private final String username;
 

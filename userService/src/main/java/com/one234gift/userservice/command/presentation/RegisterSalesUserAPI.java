@@ -1,31 +1,38 @@
 package com.one234gift.userservice.command.presentation;
 
-import com.one234gift.userservice.command.application.RegisterSalesUserService;
-import com.one234gift.userservice.common.APIResponse;
-import com.one234gift.userservice.domain.model.RegisterUser;
-import com.one234gift.userservice.domain.model.UserModel;
+import com.one234gift.userservice.command.application.RegisterUserService;
+import com.one234gift.userservice.command.application.model.RegisterUser;
+import com.one234gift.userservice.domain.read.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
 import static com.one234gift.userservice.common.APIHelper.verifyNotContainsError;
 
+
 /**
- * 영업사원 생성 API
- * - 경리의 권한을 가진 사용자만 접근 가능
+ * 사원 생성 API
  */
 @RestController
-@RequestMapping("api/sales-user")
+@RequestMapping("api/user")
 public class RegisterSalesUserAPI {
-    @Autowired private RegisterSalesUserService registerSalesUserService;
+    @Autowired private RegisterUserService registerUserService;
 
+    /**
+     * @param registerUser
+     * @param errors
+     * # 사원 생성
+     */
     @PostMapping
-    public APIResponse registerSalesUser(@Valid @RequestBody RegisterUser registerUser, Errors errors){
+    public ResponseEntity<UserModel> registerSalesUser(@Valid @RequestBody RegisterUser registerUser, Errors errors){
         verifyNotContainsError(errors);
-        UserModel userModel = registerSalesUserService.register(registerUser);
-        return new APIResponse(userModel, HttpStatus.OK);
+        UserModel userModel = registerUserService.register(registerUser);
+        return ResponseEntity.ok(userModel);
     }
 }
