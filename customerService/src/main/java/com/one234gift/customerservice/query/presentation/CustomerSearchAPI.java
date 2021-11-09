@@ -63,7 +63,6 @@ public class CustomerSearchAPI {
      */
     @GetMapping("{customerId}/exist")
     public ResponseEntity<Boolean> existByCustomerId(@PathVariable Long customerId){
-        boolean exist = queryCustomerService.existCustomer(customerId);
-        return ResponseEntity.ok(exist);
+        return ResponseEntity.ok(queryCustomerService.existCustomer(customerId));
     }
 }

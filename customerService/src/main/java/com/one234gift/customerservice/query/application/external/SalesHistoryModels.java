@@ -5,6 +5,9 @@ import lombok.Getter;
 
 import java.util.List;
 
+/**
+ * 영업 기록 리스트 모델
+ */
 @Getter
 public class SalesHistoryModels {
     private List<SalesHistoryModel> salesHistoryModels;
