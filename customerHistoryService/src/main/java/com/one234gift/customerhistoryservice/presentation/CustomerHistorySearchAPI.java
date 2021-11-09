@@ -1,6 +1,6 @@
 package com.one234gift.customerhistoryservice.presentation;
 
-import com.one234gift.customerhistoryservice.application.CustomerHistoryModels;
+import com.one234gift.customerhistoryservice.application.model.CustomerHistoryModels;
 import com.one234gift.customerhistoryservice.application.CustomerHistoryService;
 import com.one234gift.customerhistoryservice.common.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;

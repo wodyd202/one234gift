@@ -1,4 +1,4 @@
-package com.one234gift.customerhistoryservice.application;
+package com.one234gift.customerhistoryservice.application.model;
 
 import com.one234gift.customerhistoryservice.domain.read.CustomerHistoryModel;
 import lombok.Builder;

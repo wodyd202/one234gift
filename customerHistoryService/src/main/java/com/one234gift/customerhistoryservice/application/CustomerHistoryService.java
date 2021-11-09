@@ -1,5 +1,6 @@
 package com.one234gift.customerhistoryservice.application;
 
+import com.one234gift.customerhistoryservice.application.model.CustomerHistoryModels;
 import com.one234gift.customerhistoryservice.common.Pageable;
 import com.one234gift.customerhistoryservice.domain.CustomerHistory;
 import com.one234gift.customerhistoryservice.domain.model.CustomerHistoryEvent;
