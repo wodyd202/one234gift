@@ -7,16 +7,16 @@ import java.time.LocalDateTime;
 
 @Getter
 public class CustomerHistoryModel {
-    private String customerId;
-    private String manager;
+    private long customerId;
+    private String who;
     private String payload;
     private String type;
     private LocalDateTime createDateTime;
 
     @Builder
-    public CustomerHistoryModel(String customerId, String manager, String payload, String type, LocalDateTime createDateTime) {
+    public CustomerHistoryModel(long customerId, String who, String payload, String type, LocalDateTime createDateTime) {
         this.customerId = customerId;
-        this.manager = manager;
+        this.who = who;
         this.payload = payload;
         this.type = type;
         this.createDateTime = createDateTime;
@@ -26,7 +26,7 @@ public class CustomerHistoryModel {
     public String toString() {
         return "CustomerHistoryModel{" +
                 "customerId='" + customerId + '\'' +
-                ", manager='" + manager + '\'' +
+                ", who='" + who + '\'' +
                 ", payload='" + payload + '\'' +
                 ", type='" + type + '\'' +
                 ", createDateTime=" + createDateTime +

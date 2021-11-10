@@ -1,7 +1,7 @@
 package com.one234gift.customerhistoryservice.application;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.one234gift.customerhistoryservice.domain.model.CustomerHistoryEvent;
+import com.one234gift.customerhistoryservice.application.model.CustomerHistoryEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -9,6 +9,9 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 이벤트 리스너
+ */
 @Component
 @Profile("!test")
 @Slf4j

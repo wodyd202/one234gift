@@ -1,19 +1,22 @@
-package com.one234gift.customerhistoryservice.domain.model;
+package com.one234gift.customerhistoryservice.application.model;
 
 import lombok.Builder;
 import lombok.Getter;
 
+/**
+ * 고객 이력 이벤트
+ */
 @Getter
 public class CustomerHistoryEvent {
-    private String customerId;
-    private String manager;
+    private long customerId;
+    private String who;
     private String payload;
     private String type;
 
     @Builder
-    public CustomerHistoryEvent(String customerId, String manager, String payload, String type) {
+    public CustomerHistoryEvent(long customerId, String who, String payload, String type) {
         this.customerId = customerId;
-        this.manager = manager;
+        this.who = who;
         this.payload = payload;
         this.type = type;
     }
@@ -22,7 +25,7 @@ public class CustomerHistoryEvent {
     public String toString() {
         return "CustomerHistoryEvent{" +
                 "customerId='" + customerId + '\'' +
-                ", manager='" + manager + '\'' +
+                ", who='" + who + '\'' +
                 ", payload='" + payload + '\'' +
                 ", type='" + type + '\'' +
                 '}';

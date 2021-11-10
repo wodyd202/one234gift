@@ -1,9 +1,9 @@
 package com.one234gift.customerhistoryservice.application;
 
 import com.one234gift.customerhistoryservice.application.model.CustomerHistoryModels;
-import com.one234gift.customerhistoryservice.common.Pageable;
+import com.one234gift.customerhistoryservice.application.model.Pageable;
 import com.one234gift.customerhistoryservice.domain.CustomerHistory;
-import com.one234gift.customerhistoryservice.domain.model.CustomerHistoryEvent;
+import com.one234gift.customerhistoryservice.application.model.CustomerHistoryEvent;
 import com.one234gift.customerhistoryservice.domain.read.CustomerHistoryModel;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,31 +14,52 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 고객 변경 이력 서비스
+ */
 @Service
 @Slf4j
 @AllArgsConstructor
 public class CustomerHistoryService {
+    private CustomerHistoryMapper customerHistoryMapper;
     private CustomerHistoryRepository customerHistoryRepository;
     private RetryTemplate retryTemplate;
 
+    /**
+     * @param customerId
+     * @param pageable
+     * # 고객 수정 이력 리스트 조회
+     */
     @Transactional(readOnly = true)
-    public CustomerHistoryModels findAll(String customerId, Pageable pageable) {
-        List<CustomerHistoryModel> customerHistoryModels = retryTemplate.execute(retryContext -> {
-            log.info("load customer history : {}", customerId);
-            return customerHistoryRepository.findByCustomerId(customerId, pageable);
-        }, retryContext -> {
-            log.error("retry error reson : {}", retryContext.getLastThrowable());
-            return new ArrayList<>();
-        });
+    public CustomerHistoryModels getCustomerHistorys(long customerId, Pageable pageable) {
+        List<CustomerHistoryModel> customerHistoryModels = getCustomerHistoryModels(customerId, pageable);
         return CustomerHistoryModels.builder()
                 .customerHistoryModels(customerHistoryModels)
                 .totalElement(customerHistoryRepository.countByCustomerId(customerId))
                 .build();
     }
 
+    private List<CustomerHistoryModel> getCustomerHistoryModels(long customerId, Pageable pageable) {
+        return retryTemplate.execute(retryContext -> {
+            log.info("load customer history : {}", customerId);
+            return customerHistoryRepository.findByCustomerId(customerId, pageable);
+        }, retryContext -> {
+            log.error("retry error reson : {}", retryContext.getLastThrowable());
+            return new ArrayList<>();
+        });
+    }
+
+    /**
+     * @param customerHistoryEvent
+     * # 고객 수정 이력 저장
+     */
     @Transactional
     public CustomerHistoryModel save(CustomerHistoryEvent customerHistoryEvent) {
-        CustomerHistory customerHistory = CustomerHistory.register(customerHistoryEvent);
+        CustomerHistory customerHistory = customerHistoryMapper.mapFrom(customerHistoryEvent);
+        return save(customerHistory);
+    }
+
+    private CustomerHistoryModel save(CustomerHistory customerHistory) {
         return retryTemplate.execute(retryContext -> {
             customerHistoryRepository.save(customerHistory);
             CustomerHistoryModel customerHistoryModel = customerHistory.toModel();

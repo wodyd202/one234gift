@@ -1,7 +1,7 @@
 package com.one234gift.customerhistoryservice.infrastructure;
 
 import com.one234gift.customerhistoryservice.application.CustomerHistoryRepository;
-import com.one234gift.customerhistoryservice.common.Pageable;
+import com.one234gift.customerhistoryservice.application.model.Pageable;
 import com.one234gift.customerhistoryservice.domain.CustomerHistory;
 import com.one234gift.customerhistoryservice.domain.read.CustomerHistoryModel;
 import lombok.extern.slf4j.Slf4j;
@@ -31,17 +31,17 @@ public class RedisCustomerHistoryRepository implements CustomerHistoryRepository
     }
 
     @Override
-    public List<CustomerHistoryModel> findByCustomerId(String customerId, Pageable pageable) {
+    public List<CustomerHistoryModel> findByCustomerId(long customerId, Pageable pageable) {
         return listOperations.range(customerHistoryKey(customerId), pageable.getPage() * pageable.getSize() , pageable.getSize()).stream()
                 .map(CustomerHistory::toModel).collect(Collectors.toList());
     }
 
     @Override
-    public long countByCustomerId(String customerId) {
+    public long countByCustomerId(long customerId) {
         return listOperations.size(customerHistoryKey(customerId));
     }
 
-    private String customerHistoryKey(String customerId) {
+    private String customerHistoryKey(long customerId) {
         return CUSTOMER_HISTORY_KEY + ":" + customerId;
     }
 

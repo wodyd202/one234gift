@@ -1,7 +1,7 @@
 package com.one234gift.customerhistoryservice.infrastructure;
 
 import com.one234gift.customerhistoryservice.application.CustomerHistoryRepository;
-import com.one234gift.customerhistoryservice.common.Pageable;
+import com.one234gift.customerhistoryservice.application.model.Pageable;
 import com.one234gift.customerhistoryservice.domain.CustomerHistory;
 import com.one234gift.customerhistoryservice.domain.read.CustomerHistoryModel;
 import com.querydsl.core.types.Projections;
@@ -26,10 +26,10 @@ public class QuerydslCustomerHistoryRepository implements CustomerHistoryReposit
     private EntityManager entityManager;
 
     @Override
-    public List<CustomerHistoryModel> findByCustomerId(String customerId, Pageable pageable) {
+    public List<CustomerHistoryModel> findByCustomerId(long customerId, Pageable pageable) {
         return jpaQueryFactory.select(Projections.constructor(CustomerHistoryModel.class,
                         asSimple(customerId),
-                        customerHistory.manager,
+                        customerHistory.who,
                         customerHistory.payload,
                         customerHistory.type,
                         customerHistory.createDateTime))
@@ -41,7 +41,7 @@ public class QuerydslCustomerHistoryRepository implements CustomerHistoryReposit
     }
 
     @Override
-    public long countByCustomerId(String customerId) {
+    public long countByCustomerId(long customerId) {
         return jpaQueryFactory.selectOne()
                 .from(customerHistory)
                 .where(customerHistory.customerId.eq(customerId))
