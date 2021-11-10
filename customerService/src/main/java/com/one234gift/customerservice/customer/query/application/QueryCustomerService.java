@@ -1,16 +1,14 @@
 package com.one234gift.customerservice.customer.query.application;
 
 import com.one234gift.customerservice.customer.domain.exception.CustomerNotFoundException;
-import com.one234gift.customerservice.customer.query.application.model.Pageable;
 import com.one234gift.customerservice.customer.domain.read.CustomerModel;
 import com.one234gift.customerservice.customer.query.application.external.CustomerHistoryRepository;
 import com.one234gift.customerservice.customer.query.application.external.OrderRepository;
 import com.one234gift.customerservice.customer.query.application.external.SalesHistoryRepository;
 import com.one234gift.customerservice.customer.query.application.model.CustomerModels;
 import com.one234gift.customerservice.customer.query.application.model.CustomerSearchDTO;
+import com.one234gift.customerservice.customer.query.application.model.Pageable;
 import lombok.AllArgsConstructor;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @AllArgsConstructor
-@Retryable(maxAttempts = 3, value = RuntimeException.class, backoff = @Backoff(delay = 1000))
 public class QueryCustomerService {
     private QueryCustomerListRepository customerListRepository;
 
