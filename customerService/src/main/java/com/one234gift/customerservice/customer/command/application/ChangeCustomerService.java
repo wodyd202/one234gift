@@ -18,13 +18,15 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
+
 import static com.one234gift.customerservice.customer.command.application.CustomerServiceHelper.findCustomer;
 import static com.one234gift.customerservice.customer.command.application.CustomerServiceHelper.findUser;
 
 @Slf4j
 @Service
 @Transactional
-@Retryable(maxAttempts = 3, include = Exception.class, backoff = @Backoff(delay = 500))
+@Retryable(maxAttempts = 3, include = SQLException.class, backoff = @Backoff(delay = 500))
 @AllArgsConstructor
 public class ChangeCustomerService {
     private CustomerMapper customerMapper;
