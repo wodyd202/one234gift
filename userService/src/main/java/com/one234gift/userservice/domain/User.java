@@ -1,8 +1,8 @@
 package com.one234gift.userservice.domain;
 
-import com.one234gift.userservice.domain.event.ComebackedUserEvent;
-import com.one234gift.userservice.domain.event.LeavedUserEvent;
-import com.one234gift.userservice.domain.event.RegisteredUserEvent;
+import com.one234gift.userservice.command.event.ComebackedUserEvent;
+import com.one234gift.userservice.command.event.LeavedUserEvent;
+import com.one234gift.userservice.command.event.RegisteredUserEvent;
 import com.one234gift.userservice.domain.exception.AlreadyLeaveException;
 import com.one234gift.userservice.domain.exception.AlreadyWorkingException;
 import com.one234gift.userservice.domain.read.UserModel;

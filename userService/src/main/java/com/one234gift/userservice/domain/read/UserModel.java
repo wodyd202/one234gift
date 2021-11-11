@@ -1,8 +1,8 @@
 package com.one234gift.userservice.domain.read;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.one234gift.userservice.domain.event.ComebackedUserEvent;
-import com.one234gift.userservice.domain.event.LeavedUserEvent;
+import com.one234gift.userservice.command.event.ComebackedUserEvent;
+import com.one234gift.userservice.command.event.LeavedUserEvent;
 import com.one234gift.userservice.domain.value.UserRole;
 import com.one234gift.userservice.domain.value.UserState;
 import lombok.Builder;

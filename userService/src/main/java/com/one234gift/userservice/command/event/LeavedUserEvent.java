@@ -1,4 +1,4 @@
-package com.one234gift.userservice.domain.event;
+package com.one234gift.userservice.command.event;
 
 import com.one234gift.userservice.domain.value.Phone;
 import lombok.Getter;

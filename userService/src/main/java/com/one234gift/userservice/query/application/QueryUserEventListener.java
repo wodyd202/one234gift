@@ -1,7 +1,7 @@
 package com.one234gift.userservice.query.application;
 
-import com.one234gift.userservice.domain.event.AbstractUserEvent;
-import com.one234gift.userservice.domain.event.RegisteredUserEvent;
+import com.one234gift.userservice.command.event.AbstractUserEvent;
+import com.one234gift.userservice.command.event.RegisteredUserEvent;
 import com.one234gift.userservice.domain.read.UserModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

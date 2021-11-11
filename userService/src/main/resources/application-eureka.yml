@@ -8,4 +8,4 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://${eureka.server.username}:${eureka.server.password}@One234gift-discoverservice:8761/eureka
+      defaultZone: http://${eureka.server.username}:${eureka.server.password}@localhost:8761/eureka
