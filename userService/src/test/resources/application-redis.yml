@@ -5,5 +5,5 @@ spring:
     timeout: 3000
 
 redis:
-  user:
-    key: one234gift:user
+  employee:
+    key: one234gift:employee

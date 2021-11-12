@@ -2,6 +2,6 @@ server:
   port: 8080
 spring:
   application:
-    name: user-service
+    name: employee-service
   profiles:
     include: database, eureka, redis
