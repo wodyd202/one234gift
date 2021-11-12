@@ -1,6 +1,5 @@
 package com.one234gift.customerservice.customer.command.application.external;
 
-import com.one234gift.customerservice.customer.domain.value.Manager;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -14,9 +13,9 @@ public class UserRepositoryFallbackFactory implements FallbackFactory<UserReposi
     public UserRepository create(Throwable throwable) {
         return new UserRepository() {
             @Override
-            public Optional<Manager> findUser(String userId) {
+            public Optional<Employee> findUser(String userId) {
                 log.info("sales-history-service request error : {}", throwable.getMessage());
-                return Optional.of(Manager.builder().phone(userId).build());
+                return Optional.of(new Employee());
             }
         };
     }
