@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="apiGatewayService" />
+        <module name="customerService" />
+        <module name="configServer" />
+        <module name="orderService" />
+        <module name="happyCallService" />
+        <module name="customerHistoryService" />
+        <module name="discoverService" />
+        <module name="salesHistoryService" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="EmployeeService" target="1.8" />
+      <module name="one234gift" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="EmployeeService" options="-parameters" />
+      <module name="apiGatewayService" options="-parameters" />
+      <module name="configServer" options="-parameters" />
+      <module name="customerHistoryService" options="-parameters" />
+      <module name="customerService" options="-parameters" />
+      <module name="discoverService" options="-parameters" />
+      <module name="happyCallService" options="-parameters" />
+      <module name="one234gift" options="-parameters" />
+      <module name="orderService" options="-parameters" />
+      <module name="salesHistoryService" options="-parameters" />
+    </option>
+  </component>
+</project>
