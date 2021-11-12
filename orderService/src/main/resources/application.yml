@@ -4,9 +4,9 @@ spring:
   application:
     name: order-service
   profiles:
-    include: database, eureka, feign, kafka
+    include: database, eureka, kafka, service-url
     active: dev
 security:
   oauth2:
     resource:
-      userInfoUri: http://127.0.0.1:8080/user
+      userInfoUri: http://localhost:8080/user

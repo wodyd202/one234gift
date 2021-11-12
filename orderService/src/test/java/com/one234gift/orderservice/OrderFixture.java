@@ -1,13 +1,14 @@
 package com.one234gift.orderservice;
 
-import com.one234gift.orderservice.domain.Order;
-import com.one234gift.orderservice.domain.model.ChangeDelivery;
-import com.one234gift.orderservice.domain.model.RegisterOrder;
-import com.one234gift.orderservice.domain.value.CustomerInfo;
-import com.one234gift.orderservice.domain.value.OrderType;
-import com.one234gift.orderservice.domain.value.SalesUser;
+import com.one234gift.orderservice.order.command.application.OrderMapper;
+import com.one234gift.orderservice.order.domain.Order;
+import com.one234gift.orderservice.order.command.application.model.RegisterOrder;
+import com.one234gift.orderservice.order.domain.value.CustomerInfo;
+import com.one234gift.orderservice.order.domain.value.OrderType;
+import com.one234gift.orderservice.order.domain.value.SalesUser;
 
 public class OrderFixture {
+    private static OrderMapper orderMapper = new OrderMapper();
 
     public static SalesUser.SalesUserBuilder aSaleUser() {
         return SalesUser.builder()
@@ -26,9 +27,7 @@ public class OrderFixture {
         return RegisterOrder.builder()
                 .product("상품명")
                 .customerId(1L)
-                .delivery(ChangeDelivery.builder()
-                        .addressDetail("배송지 주소")
-                        .build())
+                .delivery("배송지 주소")
                 .quantity(30L)
                 .purchasePrice(3000L)
                 .salePrice(4000L)
@@ -45,7 +44,7 @@ public class OrderFixture {
 
     public static Order aOrder(SalesUser salesUser){
         RegisterOrder registerOrder = OrderFixture.aRegisterOrder().build();
-        Order order = Order.register(aCustomerInfo().build(), salesUser, registerOrder);
+        Order order = orderMapper.mapFrom(aCustomerInfo().build(), salesUser, registerOrder);
         order.place();
         return order;
     }
