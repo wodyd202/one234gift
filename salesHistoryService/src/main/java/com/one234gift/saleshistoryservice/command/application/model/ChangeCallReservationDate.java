@@ -1,4 +1,4 @@
-package com.one234gift.saleshistoryservice.domain.model;
+package com.one234gift.saleshistoryservice.command.application.model;
 
 import lombok.AccessLevel;
 import lombok.Builder;

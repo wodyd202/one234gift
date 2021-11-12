@@ -1,8 +1,10 @@
 package com.one234gift.saleshistoryservice.domain.value;
 
+import javax.persistence.Embeddable;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+@Embeddable
 public class HistoryContent {
     private final String content;
 

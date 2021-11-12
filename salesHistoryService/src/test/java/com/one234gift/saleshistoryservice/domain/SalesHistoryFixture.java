@@ -1,7 +1,7 @@
 package com.one234gift.saleshistoryservice.domain;
 
 import com.one234gift.saleshistoryservice.domain.value.Writer;
-import com.one234gift.saleshistoryservice.domain.model.RegisterSalesHistory;
+import com.one234gift.saleshistoryservice.command.application.model.RegisterSalesHistory;
 import com.one234gift.saleshistoryservice.domain.value.CustomerReactivity;
 
 public class SalesHistoryFixture {

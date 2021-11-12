@@ -2,9 +2,9 @@ package com.one234gift.saleshistoryservice.command.application;
 
 import com.one234gift.saleshistoryservice.SalesHistoryAPITest;
 import com.one234gift.saleshistoryservice.command.application.exception.SalesHistoryNotFoundException;
-import com.one234gift.saleshistoryservice.domain.model.ChangeCallReservationDate;
-import com.one234gift.saleshistoryservice.domain.model.ChangeCustomerReactivity;
-import com.one234gift.saleshistoryservice.domain.model.ChangeSalesHistoryContent;
+import com.one234gift.saleshistoryservice.command.application.model.ChangeCallReservationDate;
+import com.one234gift.saleshistoryservice.command.application.model.ChangeCustomerReactivity;
+import com.one234gift.saleshistoryservice.command.application.model.ChangeSalesHistoryContent;
 import com.one234gift.saleshistoryservice.domain.read.SalesHistoryModel;
 import com.one234gift.saleshistoryservice.domain.value.CustomerReactivity;
 import org.junit.jupiter.api.BeforeEach;

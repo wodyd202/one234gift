@@ -1,13 +1,11 @@
 package com.one234gift.saleshistoryservice.domain;
 
-import com.one234gift.saleshistoryservice.domain.model.ChangeCallReservationDate;
-import com.one234gift.saleshistoryservice.domain.model.ChangeCustomerReactivity;
-import com.one234gift.saleshistoryservice.domain.model.ChangeSalesHistoryContent;
-import com.one234gift.saleshistoryservice.domain.model.RegisterSalesHistory;
+import com.one234gift.saleshistoryservice.command.application.model.ChangeCustomerReactivity;
 import com.one234gift.saleshistoryservice.domain.read.SalesHistoryModel;
 import com.one234gift.saleshistoryservice.domain.value.CustomerReactivity;
 import com.one234gift.saleshistoryservice.domain.value.HistoryContent;
 import com.one234gift.saleshistoryservice.domain.value.Writer;
+import lombok.Builder;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -36,7 +34,7 @@ public class SalesHistory {
      * 고객 고유 번호
      */
     @Column(nullable = false, name = "customer_id")
-    private Long customerId;
+    private long customerId;
 
     /**
      * 영업 내용
@@ -78,29 +76,50 @@ public class SalesHistory {
      * 작성자
      */
     @Embedded
-    private final Writer writer;
+    private Writer writer;
 
     protected SalesHistory(){
         createDateTime = null;
         writer = null;
     }
 
-    private SalesHistory(RegisterSalesHistory registerSalesHistory, Writer writer) {
-        this.customerId = registerSalesHistory.getCustomerId();
-        setContent(registerSalesHistory.getContent());
-        sample = registerSalesHistory.isSample();
-        catalogue = registerSalesHistory.isCatalogue();
-        setCallReservationDate(registerSalesHistory.getCallReservationDate());
-        reactivity = registerSalesHistory.getReactivity();
-        this.writer = writer;
-        createDateTime = LocalDateTime.now();
+    @Builder
+    public SalesHistory(long customerId,
+                        HistoryContent content,
+                        boolean sample,
+                        boolean catalogue,
+                        LocalDate callReservationDate,
+                        CustomerReactivity reactivity,
+                        Writer writer) {
+        this.customerId = customerId;
+        this.sample = sample;
+        this.catalogue = catalogue;
+        setContent(content);
+        setCallReservationDate(callReservationDate);
+        setReactivity(reactivity);
+        setWriter(writer);
+        this.createDateTime = LocalDateTime.now();
     }
 
-    private void setContent(String content) {
+    private void setWriter(Writer writer){
+        if(writer == null){
+            throw new IllegalArgumentException("작성자를 입력해주세요.");
+        }
+        this.writer = writer;
+    }
+
+    private void setReactivity(CustomerReactivity reactivity) {
+        if(reactivity == null){
+            throw new IllegalArgumentException("반응도를 입력해주세요.");
+        }
+        this.reactivity = reactivity;
+    }
+
+    private void setContent(HistoryContent content) {
         if(content == null){
             throw new IllegalArgumentException("영업 내용을 입력해주세요.");
         }
-        this.content = new HistoryContent(content);
+        this.content = content;
     }
 
     private void setCallReservationDate(LocalDate callReservationDate) {
@@ -109,10 +128,6 @@ public class SalesHistory {
             throw new IllegalArgumentException("예약콜은 오늘 이후 날짜로 지정해주세요.");
         }
         this.callReservationDate = callReservationDate;
-    }
-
-    public static SalesHistory register(RegisterSalesHistory registerSalesHistory, Writer manager) {
-        return new SalesHistory(registerSalesHistory, manager);
     }
 
     /**
@@ -130,19 +145,19 @@ public class SalesHistory {
     }
 
     /**
-     * @param salesHistoryContent
+     * @param changeContent
      * - 내용_변경
      */
-    public void changeContent(ChangeSalesHistoryContent salesHistoryContent) {
-        setContent(salesHistoryContent.getContent());
+    public void changeContent(HistoryContent changeContent) {
+        setContent(changeContent);
     }
 
     /**
-     * @param callReservationDate
+     * @param changeCallReservationDate
      * - 예약콜 변경
      */
-    public void changeCallReservationDate(ChangeCallReservationDate callReservationDate) {
-        setCallReservationDate(callReservationDate.getCallReservationDate());
+    public void changeCallReservationDate(LocalDate changeCallReservationDate) {
+        setCallReservationDate(changeCallReservationDate);
     }
 
     /**

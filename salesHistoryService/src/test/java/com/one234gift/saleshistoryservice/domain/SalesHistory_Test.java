@@ -1,9 +1,8 @@
 package com.one234gift.saleshistoryservice.domain;
 
-import com.one234gift.saleshistoryservice.domain.model.ChangeCallReservationDate;
-import com.one234gift.saleshistoryservice.domain.model.ChangeCustomerReactivity;
-import com.one234gift.saleshistoryservice.domain.model.ChangeSalesHistoryContent;
-import com.one234gift.saleshistoryservice.domain.model.RegisterSalesHistory;
+import com.one234gift.saleshistoryservice.command.application.SalesHistoryMapper;
+import com.one234gift.saleshistoryservice.command.application.model.ChangeCustomerReactivity;
+import com.one234gift.saleshistoryservice.command.application.model.RegisterSalesHistory;
 import com.one234gift.saleshistoryservice.domain.read.SalesHistoryModel;
 import com.one234gift.saleshistoryservice.domain.value.CustomerReactivity;
 import com.one234gift.saleshistoryservice.domain.value.HistoryContent;
@@ -21,6 +20,7 @@ import static org.junit.Assert.*;
  * 영업기록 도메인 테스트
  */
 public class SalesHistory_Test {
+    private SalesHistoryMapper salesHistoryMapper = new SalesHistoryMapper();
 
     @ParameterizedTest
     @ValueSource(strings = {
@@ -51,7 +51,7 @@ public class SalesHistory_Test {
         RegisterSalesHistory registerSalesHistory = aRegisterSalesHistory().callReservationDate(null).build();
 
         // when
-        SalesHistory salesHistory = SalesHistory.register(registerSalesHistory, aManager().build());
+        SalesHistory salesHistory = salesHistoryMapper.mapFrom(registerSalesHistory, aManager().build());
         SalesHistoryModel salesHistoryModel = salesHistory.toModel();
 
         // then
@@ -65,7 +65,7 @@ public class SalesHistory_Test {
 
         assertThrows(IllegalArgumentException.class,()->{
             // when
-            SalesHistory.register(registerSalesHistory, aManager().build());
+            salesHistoryMapper.mapFrom(registerSalesHistory, aManager().build());
         });
     }
 
@@ -82,7 +82,7 @@ public class SalesHistory_Test {
                 .build();
 
         // when
-        SalesHistory salesHistory = SalesHistory.register(registerSalesHistory, aManager().build());
+        SalesHistory salesHistory = salesHistoryMapper.mapFrom(registerSalesHistory, aManager().build());
         SalesHistoryModel salesHistoryModel = salesHistory.toModel();
 
         // then
@@ -97,7 +97,7 @@ public class SalesHistory_Test {
     void 샘플_유무_변경(){
         // given
         RegisterSalesHistory registerSalesHistory = aRegisterSalesHistory().sample(false).build();
-        SalesHistory salesHistory = SalesHistory.register(registerSalesHistory, aManager().build());
+        SalesHistory salesHistory = salesHistoryMapper.mapFrom(registerSalesHistory, aManager().build());
 
         // when
         salesHistory.changeSample();
@@ -110,7 +110,7 @@ public class SalesHistory_Test {
     void 카탈로그_유무_변경(){
         // given
         RegisterSalesHistory registerSalesHistory = aRegisterSalesHistory().catalogue(false).build();
-        SalesHistory salesHistory = SalesHistory.register(registerSalesHistory, aManager().build());
+        SalesHistory salesHistory = salesHistoryMapper.mapFrom(registerSalesHistory, aManager().build());
 
         // when
         salesHistory.changeCatalogue();
@@ -123,12 +123,10 @@ public class SalesHistory_Test {
     void 내용_변경(){
         // given
         RegisterSalesHistory registerSalesHistory = aRegisterSalesHistory().build();
-        SalesHistory salesHistory = SalesHistory.register(registerSalesHistory, aManager().build());
+        SalesHistory salesHistory = salesHistoryMapper.mapFrom(registerSalesHistory, aManager().build());
 
         // when
-        salesHistory.changeContent(ChangeSalesHistoryContent.builder()
-                        .content("내용 변경")
-                .build());
+        salesHistory.changeContent(new HistoryContent("내용 변경"));
 
         // then
         assertEquals(salesHistory.toModel().getContent(), "내용 변경");
@@ -138,11 +136,10 @@ public class SalesHistory_Test {
     void 예약콜_변경(){
         // given
         RegisterSalesHistory registerSalesHistory = aRegisterSalesHistory().callReservationDate(LocalDate.now().plusDays(1)).build();
-        SalesHistory salesHistory = SalesHistory.register(registerSalesHistory, aManager().build());
+        SalesHistory salesHistory = salesHistoryMapper.mapFrom(registerSalesHistory, aManager().build());
 
         // when
-        salesHistory.changeCallReservationDate(ChangeCallReservationDate.builder()
-                .build());
+        salesHistory.changeCallReservationDate(null);
 
         // then
         assertNull(salesHistory.toModel().getCallReservationDate());
@@ -152,7 +149,7 @@ public class SalesHistory_Test {
     void 반응도_변경(){
         // given
         RegisterSalesHistory registerSalesHistory = aRegisterSalesHistory().build();
-        SalesHistory salesHistory = SalesHistory.register(registerSalesHistory, aManager().build());
+        SalesHistory salesHistory = salesHistoryMapper.mapFrom(registerSalesHistory, aManager().build());
 
         // when
         salesHistory.changeReactivity(ChangeCustomerReactivity.builder()

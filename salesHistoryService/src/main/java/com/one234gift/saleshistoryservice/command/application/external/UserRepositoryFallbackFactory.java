@@ -13,7 +13,7 @@ public class UserRepositoryFallbackFactory implements FallbackFactory<UserReposi
     public UserRepository create(Throwable throwable) {
         return new UserRepository() {
             @Override
-            public Optional<Writer> findUser() {
+            public Optional<Writer> findUser(String userId) {
                 log.info("user-service request error : {}", throwable.getMessage());
                 return Optional.empty();
             }

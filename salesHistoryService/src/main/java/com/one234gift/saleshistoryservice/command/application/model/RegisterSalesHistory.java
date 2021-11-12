@@ -1,4 +1,4 @@
-package com.one234gift.saleshistoryservice.domain.model;
+package com.one234gift.saleshistoryservice.command.application.model;
 
 import com.one234gift.saleshistoryservice.domain.value.CustomerReactivity;
 import lombok.AccessLevel;

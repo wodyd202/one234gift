@@ -4,9 +4,10 @@ spring:
   application:
     name: saleshistory-service
   profiles:
-    include: database, kafka, eureka
+    include: database, kafka, eureka, service-url
     active: dev
 security:
   oauth2:
     resource:
-      userInfoUri: http://One234gift-userservice:8080/user
+      userInfoUri: http://localhost:8080/user
+#      userInfoUri: http://One234gift-userservice:8080/user

@@ -11,7 +11,7 @@ public class StubUserRepository implements UserRepository {
     private Writer writer;
 
     @Override
-    public Optional<Writer> findUser() {
+    public Optional<Writer> findUser(String userId) {
         return Optional.of(writer);
     }
 

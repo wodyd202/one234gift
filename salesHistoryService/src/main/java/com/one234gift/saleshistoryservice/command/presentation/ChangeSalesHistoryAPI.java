@@ -2,9 +2,9 @@ package com.one234gift.saleshistoryservice.command.presentation;
 
 import com.one234gift.saleshistoryservice.command.application.ChangeSalesHistoryService;
 import com.one234gift.saleshistoryservice.common.CommandException;
-import com.one234gift.saleshistoryservice.domain.model.ChangeCallReservationDate;
-import com.one234gift.saleshistoryservice.domain.model.ChangeCustomerReactivity;
-import com.one234gift.saleshistoryservice.domain.model.ChangeSalesHistoryContent;
+import com.one234gift.saleshistoryservice.command.application.model.ChangeCallReservationDate;
+import com.one234gift.saleshistoryservice.command.application.model.ChangeCustomerReactivity;
+import com.one234gift.saleshistoryservice.command.application.model.ChangeSalesHistoryContent;
 import com.one234gift.saleshistoryservice.domain.read.SalesHistoryModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

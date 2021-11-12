@@ -1,10 +1,11 @@
 package com.one234gift.saleshistoryservice.command.application;
 
 import com.one234gift.saleshistoryservice.domain.SalesHistory;
-import com.one234gift.saleshistoryservice.domain.model.ChangeCallReservationDate;
-import com.one234gift.saleshistoryservice.domain.model.ChangeCustomerReactivity;
-import com.one234gift.saleshistoryservice.domain.model.ChangeSalesHistoryContent;
+import com.one234gift.saleshistoryservice.command.application.model.ChangeCallReservationDate;
+import com.one234gift.saleshistoryservice.command.application.model.ChangeCustomerReactivity;
+import com.one234gift.saleshistoryservice.command.application.model.ChangeSalesHistoryContent;
 import com.one234gift.saleshistoryservice.domain.read.SalesHistoryModel;
+import com.one234gift.saleshistoryservice.domain.value.HistoryContent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,13 +37,14 @@ public class ChangeSalesHistoryService {
 
     public SalesHistoryModel changeContent(Long salesHistoryId, ChangeSalesHistoryContent salesHistoryContent, String userId) {
         return action(salesHistoryId, userId, (salesHistory)->{
-            salesHistory.changeContent(salesHistoryContent);
+            HistoryContent changeContent = new HistoryContent(salesHistoryContent.getContent());
+            salesHistory.changeContent(changeContent);
         });
     }
 
     public SalesHistoryModel changeCallReservationDate(Long salesHistoryId, ChangeCallReservationDate callReservationDate, String userId) {
         return action(salesHistoryId, userId, (salesHistory)->{
-            salesHistory.changeCallReservationDate(callReservationDate);
+            salesHistory.changeCallReservationDate(callReservationDate.getCallReservationDate());
         });
     }
 

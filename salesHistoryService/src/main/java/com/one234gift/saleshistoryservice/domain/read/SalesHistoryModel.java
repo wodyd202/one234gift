@@ -20,7 +20,6 @@ public class SalesHistoryModel {
     private LocalDateTime createDateTime;
     private WriterModel writer;
 
-
     /**
      * 영업 기록 단건 조회시 사용
      */
@@ -46,7 +45,7 @@ public class SalesHistoryModel {
     }
 
     /**
-     * 영업 기록 리스트 조회시 사용
+     * 해당 고객에 대한 영업 기록 리스트 조회시 사용
      */
     @Builder
     public SalesHistoryModel(Long id,

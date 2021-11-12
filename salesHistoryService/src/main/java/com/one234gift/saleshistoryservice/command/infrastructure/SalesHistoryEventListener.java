@@ -1,25 +1,32 @@
 package com.one234gift.saleshistoryservice.command.infrastructure;
 
-import com.one234gift.saleshistoryservice.command.application.Producer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.one234gift.saleshistoryservice.command.application.event.CallReserved;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.event.EventListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-@Slf4j
 @Component
+@Slf4j
 @Profile("!test")
-public class KafkaProducer implements Producer {
+public class SalesHistoryEventListener {
+
     @Value("${salesHistory.topic}")
     private String TOPIC;
 
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
-    @Override
-    public void publish(String payload) {
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @EventListener
+    void handle(CallReserved event) throws Exception {
+        String payload = objectMapper.writeValueAsString(event);
         log.info("send event {} to topic {}", payload, TOPIC);
         kafkaTemplate.send(TOPIC, payload);
     }

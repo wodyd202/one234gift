@@ -4,7 +4,10 @@ import com.one234gift.saleshistoryservice.domain.read.WriterModel;
 import lombok.Builder;
 import lombok.Setter;
 
+import javax.persistence.Embeddable;
+
 @Setter
+@Embeddable
 public class Writer {
     private String username;
     private String phone;

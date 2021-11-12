@@ -1,7 +1,7 @@
 package com.one234gift.saleshistoryservice.command.presentation;
 
 import com.one234gift.saleshistoryservice.SalesHistoryAPITest;
-import com.one234gift.saleshistoryservice.domain.model.RegisterSalesHistory;
+import com.one234gift.saleshistoryservice.command.application.model.RegisterSalesHistory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
