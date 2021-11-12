@@ -9,10 +9,10 @@
         <relativePath/>
     </parent>
     <groupId>com.one234gift</groupId>
-    <artifactId>userService</artifactId>
+    <artifactId>employeeService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>userService</name>
-    <description>userService</description>
+    <name>employeeService</name>
+    <description>employeeService</description>
     <properties>
         <java.version>1.8</java.version>
         <spring.cloud-version>Hoxton.SR8</spring.cloud-version>
