@@ -1,7 +1,7 @@
 spring:
   kafka:
+    bootstrap-servers: 
     consumer:
-      bootstrap-servers: kafka:9092
       group-id: customer-history
       auto-offset-reset: latest
 

@@ -9,4 +9,4 @@ spring:
 security:
   oauth2:
     resource:
-      userInfoUri: http://One234gift-userservice:8080/user
+      userInfoUri: http://10.202.48.134:8080/user
