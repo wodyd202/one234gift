@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 public class StubCustomerHistoryRepository implements CustomerHistoryRepository {
     @Override
     public CustomerHistoryModels findLatelyByCustomerId(long customerId, Pageable pageable) {
-        return CustomerHistoryModels.builder().build();
+        return new CustomerHistoryModels();
     }
 }

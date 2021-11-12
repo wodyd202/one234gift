@@ -29,8 +29,8 @@ public class CustomerSearchAPI {
      * # 고객 상세 정보 가져오기
      */
     @GetMapping("{customerId}")
-    public ResponseEntity<CustomerModel> customerModel(@PathVariable Long customerId) {
-        CustomerModel customerModel = queryCustomerService.getCustomerModel(customerId);
+    public ResponseEntity<CustomerModel> customerModel(@PathVariable Long customerId, boolean simple) {
+        CustomerModel customerModel = queryCustomerService.getCustomerModel(customerId, simple);
         return ResponseEntity.ok(customerModel);
     }
 
@@ -56,13 +56,5 @@ public class CustomerSearchAPI {
         }
         CustomerModels customerModels = queryCustomerService.getCustomerModelsByTargetResponsibleUser(customerSearchDTO, principal.getName(), pageable);
         return ResponseEntity.ok(customerModels);
-    }
-
-    /**
-     * # 해당 고객이 존재하는지 체크
-     */
-    @GetMapping("{customerId}/exist")
-    public ResponseEntity<Boolean> existByCustomerId(@PathVariable Long customerId){
-        return ResponseEntity.ok(queryCustomerService.existCustomer(customerId));
     }
 }

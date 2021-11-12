@@ -1,24 +1,21 @@
 package com.one234gift.saleshistoryservice.command.application;
 
-import com.one234gift.saleshistoryservice.command.application.external.UserRepository;
-import com.one234gift.saleshistoryservice.domain.value.Writer;
+import com.one234gift.saleshistoryservice.command.application.external.Employee;
+import com.one234gift.saleshistoryservice.command.application.external.EmployeeRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public class StubUserRepository implements UserRepository {
-    private Writer writer;
+public class StubUserRepository implements EmployeeRepository {
+    private Employee writer;
 
     @Override
-    public Optional<Writer> findUser(String userId) {
+    public Optional<Employee> getEmployee(String userId) {
         return Optional.of(writer);
     }
 
     public void save(String userId){
-        writer = Writer.builder()
-                .phone(userId)
-                .name(userId)
-                .build();
+        writer = new Employee("작성자", userId);
     }
 }

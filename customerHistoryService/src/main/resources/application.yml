@@ -9,4 +9,4 @@ spring:
 security:
   oauth2:
     resource:
-      userInfoUri: http://10.202.48.134:8080/user
+      userInfoUri: http://localhost:8080/user

@@ -14,7 +14,7 @@ public class SalesHistoryRepositoryFallbackFactory implements FallbackFactory<Sa
             @Override
             public SalesHistoryModels findLatelyByCustomerId(long customerId, Pageable pageable) {
                 log.info("sales-history-service request error : {}", throwable.getMessage());
-                return SalesHistoryModels.builder().build();
+                return new SalesHistoryModels();
             }
         };
     }

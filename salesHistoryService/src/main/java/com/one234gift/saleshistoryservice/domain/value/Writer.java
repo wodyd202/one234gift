@@ -2,27 +2,25 @@ package com.one234gift.saleshistoryservice.domain.value;
 
 import com.one234gift.saleshistoryservice.domain.read.WriterModel;
 import lombok.Builder;
-import lombok.Setter;
 
 import javax.persistence.Embeddable;
 
-@Setter
 @Embeddable
 public class Writer {
-    private String username;
+    private String name;
     private String phone;
 
     protected Writer(){}
 
     @Builder
     public Writer(String name, String phone) {
-        this.username = name;
+        this.name = name;
         this.phone = phone;
     }
 
     public WriterModel toModel(){
         return WriterModel.builder()
-                .name(username)
+                .name(name)
                 .phone(phone)
                 .build();
     }
@@ -30,7 +28,7 @@ public class Writer {
     @Override
     public String toString() {
         return "Manager{" +
-                "name='" + username + '\'' +
+                "name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
     }

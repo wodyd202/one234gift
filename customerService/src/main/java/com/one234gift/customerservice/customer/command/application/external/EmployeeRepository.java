@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
-@FeignClient(value = "USER-SERVICE", configuration = FeignClientConfig.class, fallbackFactory = UserRepositoryFallbackFactory.class)
-public interface UserRepository {
-    @GetMapping("api/user/{userId}")
-    Optional<Employee> findUser(@PathVariable String userId);
+@FeignClient(value = "EMPLOYEE-SERVICE", configuration = FeignClientConfig.class, fallbackFactory = EmployeeRepositoryFallbackFactory.class)
+public interface EmployeeRepository {
+    @GetMapping("api/employee/{employeeId}")
+    Optional<Employee> getEmployee(@PathVariable String employeeId);
 }

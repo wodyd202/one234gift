@@ -1,21 +1,21 @@
 package com.one234gift.saleshistoryservice.command.application;
 
 import com.one234gift.saleshistoryservice.command.application.event.CallReserved;
-import com.one234gift.saleshistoryservice.command.application.exception.CustomerNotFoundException;
+import com.one234gift.saleshistoryservice.command.application.external.Customer;
 import com.one234gift.saleshistoryservice.command.application.external.CustomerRepository;
-import com.one234gift.saleshistoryservice.command.application.external.UserRepository;
+import com.one234gift.saleshistoryservice.command.application.external.Employee;
+import com.one234gift.saleshistoryservice.command.application.external.EmployeeRepository;
+import com.one234gift.saleshistoryservice.command.application.model.RegisterSalesHistory;
 import com.one234gift.saleshistoryservice.command.application.util.ProcessUserIdGetter;
 import com.one234gift.saleshistoryservice.domain.SalesHistory;
-import com.one234gift.saleshistoryservice.command.application.model.RegisterSalesHistory;
 import com.one234gift.saleshistoryservice.domain.read.SalesHistoryModel;
-import com.one234gift.saleshistoryservice.domain.value.Writer;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.one234gift.saleshistoryservice.command.application.SalesHistoryServiceHelper.findUser;
+import static com.one234gift.saleshistoryservice.command.application.SalesHistoryServiceHelper.getEmployee;
 
 /**
  * 영업 기록 생성 서비스
@@ -31,7 +31,7 @@ public class RegisterSalesHistoryService {
     private ApplicationEventPublisher applicationEventPublisher;
 
     // 외부 모듈
-    private UserRepository userRepository;
+    private EmployeeRepository userRepository;
     private CustomerRepository customerRepository;
 
     /**
@@ -39,13 +39,13 @@ public class RegisterSalesHistoryService {
      */
     public SalesHistoryModel register(RegisterSalesHistory registerSalesHistory) {
         // 고객 존재 여부 확인
-        verifyExistCustomer(registerSalesHistory);
+        verifySaleCustomer(registerSalesHistory);
 
         // 작성자 정보 조회
-        Writer writer = findUser(userRepository, userIdGetter);
+        Employee employee = getEmployee(userRepository, userIdGetter);
 
         // map
-        SalesHistory salesHistory = salesHistoryMapper.mapFrom(registerSalesHistory, writer);
+        SalesHistory salesHistory = salesHistoryMapper.mapFrom(registerSalesHistory, employee);
         salesHistoryRepository.save(salesHistory);
 
         SalesHistoryModel salesHistoryModel = salesHistory.toModel();
@@ -55,9 +55,10 @@ public class RegisterSalesHistoryService {
         return salesHistoryModel;
     }
 
-    private void verifyExistCustomer(RegisterSalesHistory registerSalesHistory) {
-        if(!customerRepository.existByCustomer(registerSalesHistory.getCustomerId())){
-            throw new CustomerNotFoundException();
+    private void verifySaleCustomer(RegisterSalesHistory registerSalesHistory) {
+        Customer customer = customerRepository.getCustomer(registerSalesHistory.getCustomerId());
+        if(!customer.isSale()){
+            throw new IllegalArgumentException("현재 영업중인 고객만 영업 기록을 등록할 수 있습니다.");
         }
     }
 }

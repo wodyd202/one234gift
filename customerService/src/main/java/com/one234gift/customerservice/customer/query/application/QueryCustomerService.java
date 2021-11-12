@@ -9,12 +9,14 @@ import com.one234gift.customerservice.customer.query.application.model.CustomerM
 import com.one234gift.customerservice.customer.query.application.model.CustomerSearchDTO;
 import com.one234gift.customerservice.customer.query.application.model.Pageable;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 고객 조회 서비스
  */
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @AllArgsConstructor
@@ -59,22 +61,27 @@ public class QueryCustomerService {
     /**
      * 고객 단건조회
      * @param customerId
+     * @param simple
      */
-    public CustomerModel getCustomerModel(Long customerId) {
+    public CustomerModel getCustomerModel(Long customerId, boolean simple) {
         CustomerModel customerModel = customerRepository.findById(customerId).orElseThrow(CustomerNotFoundException::new);
-        Pageable latelyPageable = getTop10Pageable();
 
-        // 최근 변경 이력 조회
-        customerModel.addLatelyHistorys(customerHistoryRepository.findLatelyByCustomerId(customerId, latelyPageable));
+        if(!simple){
+            // 최근 10건
+            Pageable latelyPageable = getTop10Pageable();
 
-        // 최근 메모 이력 조회
-        customerModel.addLatelySalesHistorys(salesHistoryRepository.findLatelyByCustomerId(customerId, latelyPageable));
+            // 최근 변경 이력 조회 후 추가
+            customerModel.addLatelyHistorys(customerHistoryRepository.findLatelyByCustomerId(customerId, latelyPageable));
 
-        // 최근 주문 이력 조회
-        customerModel.addLatelyOrders(orderRepository.findByCustomerId(customerId, latelyPageable));
+            // 최근 메모 이력 조회 후 추가
+            customerModel.addLatelySalesHistorys(salesHistoryRepository.findLatelyByCustomerId(customerModel.getId(), latelyPageable));
 
-        // 해당 고객 담당자 조회
-        customerModel.addResponsibleUsers(customerListRepository.findResponsibleUsers(customerId));
+            // 최근 주문 이력 조회 후 추가
+            customerModel.addLatelyOrders(orderRepository.findByCustomerId(customerModel.getId(), latelyPageable));
+
+            // 해당 고객 담당자 조회
+            customerModel.addResponsibleUsers(customerListRepository.findResponsibleUsers(customerId));
+        }
         return customerModel;
     }
 

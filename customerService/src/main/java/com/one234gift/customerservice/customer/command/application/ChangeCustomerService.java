@@ -1,28 +1,29 @@
 package com.one234gift.customerservice.customer.command.application;
 
-import com.one234gift.customerservice.customer.command.application.exception.DataBaseNotAccessAbleException;
-import com.one234gift.customerservice.customer.command.application.external.UserRepository;
+import com.one234gift.customerservice.customer.command.application.event.*;
+import com.one234gift.customerservice.customer.command.application.external.Employee;
+import com.one234gift.customerservice.customer.command.application.external.EmployeeRepository;
 import com.one234gift.customerservice.customer.command.application.model.*;
 import com.one234gift.customerservice.customer.command.application.util.ProcessUserIdGetter;
 import com.one234gift.customerservice.customer.domain.Customer;
-import com.one234gift.customerservice.customer.command.application.event.*;
 import com.one234gift.customerservice.customer.domain.read.CustomerModel;
 import com.one234gift.customerservice.customer.domain.value.*;
-import com.one234gift.customerservice.customer.query.application.external.ManagerModel;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 
-import static com.one234gift.customerservice.customer.command.application.CustomerServiceHelper.findCustomer;
-import static com.one234gift.customerservice.customer.command.application.CustomerServiceHelper.findUser;
+import static com.one234gift.customerservice.customer.command.application.CustomerServiceHelper.getCustomer;
+import static com.one234gift.customerservice.customer.command.application.CustomerServiceHelper.getEmployee;
 
+/**
+ * 고객 정보 변경 서비스
+ */
 @Slf4j
 @Service
 @Transactional
@@ -30,7 +31,7 @@ import static com.one234gift.customerservice.customer.command.application.Custom
 @AllArgsConstructor
 public class ChangeCustomerService {
     private CustomerMapper customerMapper;
-    private UserRepository userRepository;
+    private EmployeeRepository userRepository;
     private CustomerRepository customerRepository;
     private ProcessUserIdGetter userIdGetter;
     private ApplicationEventPublisher applicationEventPublisher;
@@ -41,8 +42,8 @@ public class ChangeCustomerService {
      * # 상호명 변경
      */
     public CustomerModel changeBusinessName(Long customerId, ChangeBusinessName businessName) {
-        Customer customer = findCustomer(customerRepository, customerId);
-        ManagerModel updater = findUser(userRepository,userIdGetter).toModel();
+        Customer customer = getCustomer(customerRepository, customerId);
+        Employee employee = getEmployee(userRepository, userIdGetter);
 
         customer.changeBusinessName(new BusinessName(businessName.getName()));
         customerRepository.save(customer);
@@ -50,7 +51,7 @@ public class ChangeCustomerService {
         log.info("change businessName of customer into database : {}", customerModel);
 
         // publish event
-        applicationEventPublisher.publishEvent(new ChangedBusinessNameEvent(customerId, updater.getName(), businessName.getName()));
+        applicationEventPublisher.publishEvent(new ChangedBusinessNameEvent(customerId, employee.getName(), businessName.getName()));
         return customerModel;
     }
 
@@ -60,8 +61,8 @@ public class ChangeCustomerService {
      * # 고객 상세주소 변경
      */
     public CustomerModel changeAddressDetail(Long customerId, ChangeAddressDetail changeAddressDetail) {
-        Customer customer = findCustomer(customerRepository, customerId);
-        ManagerModel updater = findUser(userRepository,userIdGetter).toModel();
+        Customer customer = getCustomer(customerRepository, customerId);
+        Employee employee = getEmployee(userRepository,userIdGetter);
 
         customer.changeAddressDetail(getAddressDetail(changeAddressDetail));
         customerRepository.save(customer);
@@ -69,7 +70,7 @@ public class ChangeCustomerService {
         log.info("change addressDetail of customer into database : {}", customerModel);
 
         // publish event
-        applicationEventPublisher.publishEvent(new ChangedAddressDetailEvent(customerId, updater.getName(), changeAddressDetail.getDetail()));
+        applicationEventPublisher.publishEvent(new ChangedAddressDetailEvent(customerId, employee.getName(), changeAddressDetail.getDetail()));
         return customerModel;
     }
 
@@ -83,8 +84,8 @@ public class ChangeCustomerService {
      * # 사업자 번호 변경
      */
     public CustomerModel changeBusinessNumber(Long customerId, ChangeBusinessNumber changeBusinessNumber) {
-        Customer customer = findCustomer(customerRepository, customerId);
-        ManagerModel updater = findUser(userRepository, userIdGetter).toModel();
+        Customer customer = getCustomer(customerRepository, customerId);
+        Employee employee = getEmployee(userRepository, userIdGetter);
 
         customer.changeBusinessNumber(getBusinessNumber(changeBusinessNumber));
         customerRepository.save(customer);
@@ -92,7 +93,7 @@ public class ChangeCustomerService {
         log.info("change businessNumber of customer into database : {}", customerModel);
 
         // publish event
-        applicationEventPublisher.publishEvent(new ChangedBusinessNumberEvent(customerId,updater.getName(), changeBusinessNumber.getBusinessNumber()));
+        applicationEventPublisher.publishEvent(new ChangedBusinessNumberEvent(customerId,employee.getName(), changeBusinessNumber.getBusinessNumber()));
         return customerModel;
     }
 
@@ -106,8 +107,8 @@ public class ChangeCustomerService {
      * # 팩스 변경
      */
     public CustomerModel changeFax(Long customerId, ChangeFax changeFax) {
-        Customer customer = findCustomer(customerRepository, customerId);
-        ManagerModel updater = findUser(userRepository, userIdGetter).toModel();
+        Customer customer = getCustomer(customerRepository, customerId);
+        Employee employee = getEmployee(userRepository, userIdGetter);
 
         customer.changeFax(getFax(changeFax));
         customerRepository.save(customer);
@@ -115,7 +116,7 @@ public class ChangeCustomerService {
         log.info("change fax of customer into database : {}", customerModel);
 
         // publish event
-        applicationEventPublisher.publishEvent(new ChangedFaxEvent(customerId, updater.getName(), changeFax.getFax()));
+        applicationEventPublisher.publishEvent(new ChangedFaxEvent(customerId, employee.getName(), changeFax.getFax()));
         return customerModel;
     }
 
@@ -129,8 +130,8 @@ public class ChangeCustomerService {
      * # 구매담당자 추가
      */
     public CustomerModel addPurchasingManager(Long customerId, ChangePurchasingManager addPurchasingManager) {
-        Customer customer = findCustomer(customerRepository, customerId);
-        ManagerModel updater = findUser(userRepository, userIdGetter).toModel();
+        Customer customer = getCustomer(customerRepository, customerId);
+        Employee employee = getEmployee(userRepository, userIdGetter);
 
         // map
         PurchasingManager purchasingManager = customerMapper.mapFrom(addPurchasingManager);
@@ -140,7 +141,7 @@ public class ChangeCustomerService {
         log.info("add purchasingManager of customer into database : {}", customerModel);
 
         // publish event
-        applicationEventPublisher.publishEvent(new AddedPurchasingManagerEvent(customerId,updater.getName(), purchasingManager.toModel()));
+        applicationEventPublisher.publishEvent(new AddedPurchasingManagerEvent(customerId,employee.getName(), purchasingManager.toModel()));
         return customerModel;
     }
 
@@ -150,8 +151,8 @@ public class ChangeCustomerService {
      * # 구매담당자 삭제
      */
     public CustomerModel removePurchasingManager(Long customerId, RemovePurchasingManager purchasingManager){
-        Customer customer = findCustomer(customerRepository, customerId);
-        ManagerModel updater = findUser(userRepository, userIdGetter).toModel();
+        Customer customer = getCustomer(customerRepository, customerId);
+        Employee employee = getEmployee(userRepository, userIdGetter);
 
         customer.removePurchasingManager(purchasingManager.getId());
         customerRepository.save(customer);
@@ -159,14 +160,7 @@ public class ChangeCustomerService {
         log.info("remove purchasingManager of customer into database : {}", customerModel);
 
         // publish event
-        applicationEventPublisher.publishEvent(new RemovedPurchasingManagerEvent(customerId,updater.getName(), purchasingManager.getId()));
+        applicationEventPublisher.publishEvent(new RemovedPurchasingManagerEvent(customerId,employee.getName(), purchasingManager.getId()));
         return customerModel;
-    }
-
-    @Recover
-    private void retryFallback(Exception e){
-        e.printStackTrace();
-        log.error(e.toString());
-        throw new DataBaseNotAccessAbleException();
     }
 }

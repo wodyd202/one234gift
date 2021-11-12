@@ -13,7 +13,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CustomerSearchAPI_Test extends CustomerAPITest {
 
     @Test
-    void 해당_고객_보기() throws Exception {
+    void 해당_고객_요약_보기() throws Exception {
+        CustomerModel customerModel = registerCustomer(aRegisterCustomer().build());
+
+        // when
+        mockMvc.perform(get("/api/customer/{customerId}", customerModel.getId())
+                        .param("simple", "true"))
+
+        // then
+        .andExpect(status().isOk());
+    }
+
+    @Test
+    void 해당_고객_상세_보기() throws Exception {
         // given
         CustomerModel customerModel = registerCustomer(aRegisterCustomer().build());
 

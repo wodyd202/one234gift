@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Repository
+//@Repository
 public class RedisCustomerHistoryRepository implements CustomerHistoryRepository {
     @Autowired private RedisTemplate<String, CustomerHistory> redisTemplate;
     private ListOperations<String, CustomerHistory> listOperations;

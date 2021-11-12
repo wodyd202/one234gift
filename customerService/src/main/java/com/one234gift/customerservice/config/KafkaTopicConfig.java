@@ -1,4 +1,4 @@
-package com.one234gift.customerhistoryservice.config;
+package com.one234gift.customerservice.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;

@@ -7,7 +7,6 @@ import com.netflix.hystrix.HystrixCommandProperties;
 import feign.Feign;
 import feign.Logger;
 import feign.RequestInterceptor;
-import feign.Retryer;
 import feign.hystrix.HystrixFeign;
 import feign.hystrix.SetterFactory;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -23,11 +22,6 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 @Configuration
 @EnableFeignClients(basePackages = "com.one234gift.customerservice")
 public class FeignClientConfig {
-
-    @Bean
-    Retryer retryer(){
-        return Retryer.NEVER_RETRY;
-    }
 
     @Bean
     RequestInterceptor requestInterceptor(){

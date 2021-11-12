@@ -11,9 +11,9 @@ public class CustomerRepositoryFallbackFactory implements FallbackFactory<Custom
     public CustomerRepository create(Throwable throwable) {
         return new CustomerRepository() {
             @Override
-            public boolean existByCustomer(long customerId) {
+            public Customer getCustomer(long customerId) {
                 log.info("customer-service request error : {}", throwable.getMessage());
-                return false;
+                return new Customer(Customer.SaleState.STOP);
             }
         };
     }

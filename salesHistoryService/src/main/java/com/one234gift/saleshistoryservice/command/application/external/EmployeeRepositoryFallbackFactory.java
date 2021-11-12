@@ -1,5 +1,4 @@
-package com.one234gift.customerservice.customer.command.application.external;
-
+package com.one234gift.saleshistoryservice.command.application.external;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -14,8 +13,8 @@ public class EmployeeRepositoryFallbackFactory implements FallbackFactory<Employ
         return new EmployeeRepository() {
             @Override
             public Optional<Employee> getEmployee(String userId) {
-                log.info("sales-history-service request error : {}", throwable.getMessage());
-                return Optional.of(new Employee());
+                log.info("employee-service request error : {}", throwable.getMessage());
+                return Optional.empty();
             }
         };
     }

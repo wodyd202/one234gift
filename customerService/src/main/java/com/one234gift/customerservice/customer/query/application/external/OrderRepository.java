@@ -7,7 +7,9 @@ import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "ORDER-SERVICE", configuration = FeignClientConfig.class, fallbackFactory = CustomerHistoryFallbackFactory.class)
+@FeignClient(name = "orderService",
+             configuration = FeignClientConfig.class,
+             fallbackFactory = OrderRepositoryFallbackFactory.class)
 public interface OrderRepository {
     @GetMapping("api/order/customer/{customerId}")
     OrderModels findByCustomerId(@PathVariable Long customerId, @SpringQueryMap Pageable pageable);

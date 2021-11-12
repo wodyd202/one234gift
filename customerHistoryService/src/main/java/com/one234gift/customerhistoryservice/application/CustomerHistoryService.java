@@ -32,9 +32,8 @@ public class CustomerHistoryService {
      */
     @Transactional(readOnly = true)
     public CustomerHistoryModels getCustomerHistorys(long customerId, Pageable pageable) {
-        List<CustomerHistoryModel> customerHistoryModels = getCustomerHistoryModels(customerId, pageable);
         return CustomerHistoryModels.builder()
-                .customerHistoryModels(customerHistoryModels)
+                .customerHistoryModels(getCustomerHistoryModels(customerId, pageable))
                 .totalElement(customerHistoryRepository.countByCustomerId(customerId))
                 .build();
     }
