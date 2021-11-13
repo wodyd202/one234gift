@@ -1,7 +1,6 @@
 spring:
   kafka:
-    producer:
-      bootstrap-servers: localhost:9092
+    bootstrap-servers: localhost:9092
 
-salesHistory:
-  topic: salesHistory
+call-reservation:
+  topic: call-reservation

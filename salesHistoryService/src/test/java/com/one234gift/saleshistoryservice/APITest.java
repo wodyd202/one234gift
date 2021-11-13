@@ -2,7 +2,7 @@ package com.one234gift.saleshistoryservice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.one234gift.saleshistoryservice.command.application.RegisterSalesHistoryService;
+import com.one234gift.saleshistoryservice.salesHistory.command.application.RegisterSalesHistoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,8 +21,7 @@ abstract public class APITest {
     @Autowired
     protected RegisterSalesHistoryService registerSalesHistoryService;
 
-    public void init(){
-    }
+    public void init(){}
 
     @BeforeEach
     void setUp() {
