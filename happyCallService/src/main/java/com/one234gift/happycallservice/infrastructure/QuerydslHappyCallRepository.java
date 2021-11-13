@@ -4,7 +4,7 @@ import com.one234gift.happycallservice.application.HappyCallRepository;
 import com.one234gift.happycallservice.common.Pageable;
 import com.one234gift.happycallservice.domain.HappyCall;
 import com.one234gift.happycallservice.domain.read.HappyCallModel;
-import com.one234gift.happycallservice.domain.value.SalesUserInfo;
+import com.one234gift.happycallservice.domain.value.Reserver;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class QuerydslHappyCallRepository implements HappyCallRepository {
     @Autowired private JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Optional<HappyCall> findByIdAndSalesUser(long seq, SalesUserInfo salesUser) {
+    public Optional<HappyCall> findByIdAndSalesUser(long seq, Reserver salesUser) {
         return Optional.ofNullable(
                 jpaQueryFactory.selectFrom(happyCall)
                         .where(eqSalesUser(salesUser), eqSeq(seq))
@@ -34,7 +34,7 @@ public class QuerydslHappyCallRepository implements HappyCallRepository {
     }
 
     @Override
-    public List<HappyCallModel> findTodayHappyCall(Pageable pageable, SalesUserInfo salesUser) {
+    public List<HappyCallModel> findTodayHappyCall(Pageable pageable, Reserver salesUser) {
         return jpaQueryFactory.select(happyCall)
                 .from(happyCall)
                 .where(eqSalesUser(salesUser), lteWhen(LocalDate.now()), notRead())
@@ -45,7 +45,7 @@ public class QuerydslHappyCallRepository implements HappyCallRepository {
     }
 
     @Override
-    public long countTodayCallReservation(SalesUserInfo salesUser) {
+    public long countTodayCallReservation(Reserver salesUser) {
         return jpaQueryFactory.selectOne()
                 .from(happyCall)
                 .where(eqSalesUser(salesUser), lteWhen(LocalDate.now()), notRead())
@@ -61,7 +61,7 @@ public class QuerydslHappyCallRepository implements HappyCallRepository {
         return happyCall.when.loe(localDate);
     }
 
-    private BooleanExpression eqSalesUser(SalesUserInfo salesUserInfo){
+    private BooleanExpression eqSalesUser(Reserver salesUserInfo){
         return happyCall.salesUser().eq(salesUserInfo);
     }
 

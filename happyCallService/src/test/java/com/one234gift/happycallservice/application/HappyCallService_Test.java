@@ -5,7 +5,7 @@ import com.one234gift.happycallservice.domain.model.SalesUser;
 import com.one234gift.happycallservice.domain.read.CallReservationModel;
 import com.one234gift.happycallservice.domain.read.HappyCallModel;
 import com.one234gift.happycallservice.domain.read.OrderHappyCallModel;
-import com.one234gift.happycallservice.domain.value.SalesUserInfo;
+import com.one234gift.happycallservice.domain.value.Reserver;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -49,7 +49,7 @@ public class HappyCallService_Test {
         HappyCallModel happyCallModel = happyCallService.registerOrderHappyCall(registerHappyCall);
 
         // when
-        happyCallService.read(happyCallModel.getSeq(), new SalesUserInfo("담당자"));
+        happyCallService.read(happyCallModel.getSeq(), new Reserver("담당자"));
     }
 
 }

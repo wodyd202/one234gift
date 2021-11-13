@@ -1,8 +1,8 @@
 package com.one234gift.happycallservice.domain.value;
 
-import lombok.Setter;
+import javax.persistence.Embeddable;
 
-@Setter
+@Embeddable
 public class BusinessInfo {
     private String name;
 

@@ -1,6 +1,7 @@
 package com.one234gift.happycallservice.application;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.one234gift.happycallservice.application.model.RegisterCallReservation;
 import com.one234gift.happycallservice.domain.model.RegisterHappyCall;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,8 @@ public class HappyCallEventListener {
 
     @KafkaListener(groupId = "${spring.kafka.consumer.group-id}", topics = "${sales-history.topic}")
     public void callReserved(String event) throws Exception {
-        RegisterHappyCall registerHappyCall = objectMapper.readValue(event, RegisterHappyCall.class);
-        happyCallService.registerCallReservation(registerHappyCall);
+        RegisterCallReservation registerCallReservation = objectMapper.readValue(event, RegisterCallReservation.class);
+        happyCallService.registerCallReservation(registerCallReservation);
     }
 
     @KafkaListener(groupId = "${spring.kafka.consumer.group-id}", topics = "${happy-call.topic}")

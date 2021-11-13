@@ -1,6 +1,5 @@
 package com.one234gift.happycallservice.domain;
 
-import com.one234gift.happycallservice.application.HappyCallFactory;
 import com.one234gift.happycallservice.application.StubCustomerRepository;
 import com.one234gift.happycallservice.domain.model.RegisterHappyCall;
 import com.one234gift.happycallservice.domain.model.SalesUser;

@@ -3,7 +3,7 @@ package com.one234gift.happycallservice.domain;
 import com.one234gift.happycallservice.domain.read.HappyCallModel;
 import com.one234gift.happycallservice.domain.read.OrderHappyCallModel;
 import com.one234gift.happycallservice.domain.value.CustomerInfo;
-import com.one234gift.happycallservice.domain.value.SalesUserInfo;
+import com.one234gift.happycallservice.domain.value.Reserver;
 import lombok.Builder;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -17,7 +17,7 @@ public class OrderHappyCall extends HappyCall {
     protected OrderHappyCall(){}
 
     @Builder
-    public OrderHappyCall(LocalDate when, CustomerInfo customerInfo, SalesUserInfo salesUser) {
+    public OrderHappyCall(LocalDate when, CustomerInfo customerInfo, Reserver salesUser) {
         super(when, customerInfo, salesUser);
     }
 

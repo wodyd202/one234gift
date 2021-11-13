@@ -2,7 +2,7 @@ package com.one234gift.happycallservice.domain;
 
 import com.one234gift.happycallservice.domain.read.HappyCallModel;
 import com.one234gift.happycallservice.domain.value.CustomerInfo;
-import com.one234gift.happycallservice.domain.value.SalesUserInfo;
+import com.one234gift.happycallservice.domain.value.Reserver;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -43,7 +43,7 @@ abstract public class HappyCall {
      * 전화 예약자
      */
     @Embedded
-    protected final SalesUserInfo salesUser;
+    protected final Reserver salesUser;
 
     /**
      * 읽음
@@ -57,7 +57,7 @@ abstract public class HappyCall {
         salesUser = null;
     }
 
-    protected HappyCall(LocalDate when, CustomerInfo customerInfo, SalesUserInfo salesUser) {
+    protected HappyCall(LocalDate when, CustomerInfo customerInfo, Reserver salesUser) {
         this.when = when;
         this.targetCustomer = customerInfo;
         this.salesUser = salesUser;

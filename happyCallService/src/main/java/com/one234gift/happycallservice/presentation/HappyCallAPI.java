@@ -2,7 +2,7 @@ package com.one234gift.happycallservice.presentation;
 
 import com.one234gift.happycallservice.application.HappyCallService;
 import com.one234gift.happycallservice.common.Pageable;
-import com.one234gift.happycallservice.domain.value.SalesUserInfo;
+import com.one234gift.happycallservice.domain.value.Reserver;
 import com.one234gift.happycallservice.application.model.HappyCallModels;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class HappyCallAPI {
      */
     @GetMapping
     public ResponseEntity<HappyCallModels> findTodayHappyCall(Pageable pageable, Principal principal){
-        HappyCallModels happyCallModels = happyCallService.findTodayHappyCall(pageable, new SalesUserInfo(principal.getName()));
+        HappyCallModels happyCallModels = happyCallService.findTodayHappyCall(pageable, new Reserver(principal.getName()));
         return ResponseEntity.ok(happyCallModels);
     }
 
@@ -40,7 +40,7 @@ public class HappyCallAPI {
      */
     @GetMapping("{happycallId}")
     public ResponseEntity<Void> read(@PathVariable Long happycallId, Principal principal){
-        happyCallService.read(happycallId, new SalesUserInfo(principal.getName()));
+        happyCallService.read(happycallId, new Reserver(principal.getName()));
         return ResponseEntity.ok(null);
     }
 

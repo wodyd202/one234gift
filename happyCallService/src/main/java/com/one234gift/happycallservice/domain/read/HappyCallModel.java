@@ -2,7 +2,7 @@ package com.one234gift.happycallservice.domain.read;
 
 import com.one234gift.happycallservice.domain.model.SalesUser;
 import com.one234gift.happycallservice.domain.value.CustomerInfo;
-import com.one234gift.happycallservice.domain.value.SalesUserInfo;
+import com.one234gift.happycallservice.domain.value.Reserver;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -17,7 +17,7 @@ abstract public class HappyCallModel {
 
     public HappyCallModel(Long seq,
                              LocalDate when,
-                             SalesUserInfo salesUser,
+                             Reserver salesUser,
                              CustomerInfo targetCustomer,
                             String type) {
         this.seq = seq;

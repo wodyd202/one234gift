@@ -2,16 +2,13 @@ package com.one234gift.happycallservice.domain.value;
 
 import com.one234gift.happycallservice.domain.read.CustomerInfoModel;
 import lombok.Builder;
-import lombok.Setter;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import java.util.Objects;
 
-@Setter
 @Embeddable
 public class CustomerInfo {
-    private long id;
     @Embedded
     private BusinessInfo businessInfo;
     private String category;
@@ -19,15 +16,13 @@ public class CustomerInfo {
     protected CustomerInfo(){}
 
     @Builder
-    public CustomerInfo(long id, String name, String category) {
-        this.id = id;
+    public CustomerInfo(String name, String category) {
         this.businessInfo = new BusinessInfo(name);
         this.category = category;
     }
 
     public CustomerInfoModel toModel() {
         return CustomerInfoModel.builder()
-                .customerId(id)
                 .category(category)
                 .name(businessInfo.getName())
                 .build();
@@ -38,12 +33,11 @@ public class CustomerInfo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CustomerInfo that = (CustomerInfo) o;
-        return id == that.id && Objects.equals(businessInfo, that.businessInfo) && Objects.equals(category, that.category);
+        return Objects.equals(businessInfo, that.businessInfo) && Objects.equals(category, that.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, businessInfo, category);
+        return Objects.hash(businessInfo, category);
     }
-
 }

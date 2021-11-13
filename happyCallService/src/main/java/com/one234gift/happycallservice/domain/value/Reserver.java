@@ -5,14 +5,14 @@ import com.one234gift.happycallservice.domain.model.SalesUser;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class SalesUserInfo {
+public class Reserver {
     private final String phone;
 
-    protected SalesUserInfo() {
+    protected Reserver() {
         phone = null;
     }
 
-    public SalesUserInfo(String phone) {
+    public Reserver(String phone) {
         this.phone = phone;
     }
 

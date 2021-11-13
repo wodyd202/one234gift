@@ -1,0 +1,12 @@
+server:
+  port: 8087
+spring:
+  application:
+    name: call-service
+  profiles:
+    include: kafka, eureka
+
+security:
+  oauth2:
+    resource:
+      userInfoUri: http://localhost:8080/user

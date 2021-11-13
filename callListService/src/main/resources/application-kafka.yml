@@ -1,0 +1,9 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: customer-history
+      auto-offset-reset: latest
+
+call-reservation:
+  topic: call-reservation
