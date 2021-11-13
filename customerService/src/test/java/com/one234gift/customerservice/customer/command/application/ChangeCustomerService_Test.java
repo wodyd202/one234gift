@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static com.one234gift.customerservice.customer.CustomerFixture.aAddPurchasingManager;
-import static com.one234gift.customerservice.customer.CustomerFixture.aRegisterCustomer;
+import static com.one234gift.customerservice.customer.CustomerFixture.*;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -22,7 +21,6 @@ public class ChangeCustomerService_Test extends CustomerAPITest {
     CustomerModel customer;
     @Override
     public void init(){
-        userRepository.save("userId");
         customer = registerCustomer(aRegisterCustomer().build());
     }
 
@@ -34,7 +32,7 @@ public class ChangeCustomerService_Test extends CustomerAPITest {
                 .build();
 
         // when
-        changeCustomerService.changeBusinessName(customer.getId(), changeBusinessName);
+        changeCustomerService.changeBusinessName(customer.getId(), changeBusinessName, aChanger("변경자"));
         CustomerModel findCustomer = getCustomer(customer.getId());
 
         // then
@@ -50,7 +48,7 @@ public class ChangeCustomerService_Test extends CustomerAPITest {
                 .build();
 
         // when
-        changeCustomerService.changeAddressDetail(customer.getId(), changeAddressDetail);
+        changeCustomerService.changeAddressDetail(customer.getId(), changeAddressDetail, aChanger("변경자"));
         CustomerModel findCustomer = getCustomer(customer.getId());
 
         // then
@@ -65,7 +63,7 @@ public class ChangeCustomerService_Test extends CustomerAPITest {
                 .build();
 
         // when
-        changeCustomerService.changeBusinessNumber(customer.getId(), changeBusinessNumber);
+        changeCustomerService.changeBusinessNumber(customer.getId(), changeBusinessNumber, aChanger("변경자"));
         CustomerModel findCustomer = getCustomer(customer.getId());
 
         // then
@@ -78,7 +76,7 @@ public class ChangeCustomerService_Test extends CustomerAPITest {
         ChangeFax changeFax = ChangeFax.builder().fax("123-1234-1234").build();
 
         // when
-        changeCustomerService.changeFax(customer.getId(), changeFax);
+        changeCustomerService.changeFax(customer.getId(), changeFax, aChanger("변경자"));
         CustomerModel findCustomer = getCustomer(customer.getId());
 
         // then
@@ -91,7 +89,7 @@ public class ChangeCustomerService_Test extends CustomerAPITest {
         ChangePurchasingManager changePurchasingManager = aAddPurchasingManager().build();
 
         // when
-        changeCustomerService.addPurchasingManager(customer.getId(), changePurchasingManager);
+        changeCustomerService.addPurchasingManager(customer.getId(), changePurchasingManager, aChanger("변경자"));
         CustomerModel findCustomer = getCustomer(customer.getId());
 
         // then
@@ -110,7 +108,7 @@ public class ChangeCustomerService_Test extends CustomerAPITest {
         customer = registerCustomerService.register(aRegisterCustomer().purchasingManagers(purchasingManagers).build());
 
         // when
-        changeCustomerService.removePurchasingManager(customer.getId(), RemovePurchasingManager.builder().id(customer.getPurchasingManagers().get(0).getId()).build());
+        changeCustomerService.removePurchasingManager(customer.getId(), RemovePurchasingManager.builder().id(customer.getPurchasingManagers().get(0).getId()).build(), aChanger("변경자"));
         CustomerModel findCustomer = getCustomer(customer.getId());
 
         // then
@@ -120,7 +118,7 @@ public class ChangeCustomerService_Test extends CustomerAPITest {
     @Test
     void 해당_담당자가_존재하지_않음(){
         assertThrows(PurchasingManagerNotFoundException.class, ()->{
-            changeCustomerService.removePurchasingManager(customer.getId(), RemovePurchasingManager.builder().id(1000L).build());
+            changeCustomerService.removePurchasingManager(customer.getId(), RemovePurchasingManager.builder().id(1000L).build(), aChanger("변경자"));
         });
     }
 

@@ -3,7 +3,7 @@ package com.one234gift.customerservice.customer.command.application;
 import com.one234gift.customerservice.customer.command.application.event.ChangedStateEvent;
 import com.one234gift.customerservice.customer.command.application.external.Employee;
 import com.one234gift.customerservice.customer.command.application.external.EmployeeRepository;
-import com.one234gift.customerservice.customer.command.application.util.ProcessUserIdGetter;
+import com.one234gift.customerservice.customer.command.application.model.Changer;
 import com.one234gift.customerservice.customer.domain.Customer;
 import com.one234gift.customerservice.customer.domain.read.CustomerModel;
 import com.one234gift.customerservice.customer.domain.value.SaleState;
@@ -28,7 +28,6 @@ import static com.one234gift.customerservice.customer.command.application.Custom
 @Slf4j
 public class ChangeSaleStateService {
     private CustomerRepository customerRepository;
-    private ProcessUserIdGetter userIdGetter;
     private ApplicationEventPublisher applicationEventPublisher;
 
     // 외부 모듈
@@ -38,9 +37,9 @@ public class ChangeSaleStateService {
      * @param customerId    고객 고유 번호
      * # 판매 중단
      */
-    public CustomerModel saleStop(Long customerId) {
+    public CustomerModel saleStop(Long customerId, Changer changer) {
         Customer customer = getCustomer(customerRepository, customerId);
-        Employee employee = getEmployee(userRepository, userIdGetter);
+        Employee employee = getEmployee(userRepository, changer);
 
         customer.saleStop();
         customerRepository.save(customer);
@@ -56,9 +55,9 @@ public class ChangeSaleStateService {
      * @param customerId
      * # 판매중으로 변경
      */
-    public CustomerModel sale(Long customerId) {
+    public CustomerModel sale(Long customerId, Changer changer) {
         Customer customer = getCustomer(customerRepository, customerId);
-        Employee employee = getEmployee(userRepository, userIdGetter);
+        Employee employee = getEmployee(userRepository, changer);
 
         customer.sale();
         customerRepository.save(customer);

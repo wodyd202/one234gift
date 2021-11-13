@@ -14,7 +14,6 @@ public class ResponsibleService_Test extends CustomerAPITest {
     CustomerModel customer;
     @Override
     public void init() {
-        userRepository.save("userId");
         customer = registerCustomer(aRegisterCustomer().build());
     }
 

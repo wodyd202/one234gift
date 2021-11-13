@@ -59,15 +59,6 @@ public class CustomerSearchAPI_Test extends CustomerAPITest {
     }
 
     @Test
-    void 해당_고객이_존재하는지_확인() throws Exception {
-        // given
-        mockMvc.perform(get("/api/customer/{customerId}/exist",1))
-
-        // then
-        .andExpect(status().isOk());
-    }
-
-    @Test
     void 전체_고객_보기() throws Exception {
         // given
         mockMvc.perform(get("/api/customer")

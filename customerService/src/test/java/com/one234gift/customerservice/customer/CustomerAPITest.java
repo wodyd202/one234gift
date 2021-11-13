@@ -2,9 +2,9 @@ package com.one234gift.customerservice.customer;
 
 import com.one234gift.customerservice.APITest;
 import com.one234gift.customerservice.customer.command.application.RegisterCustomerService;
-import com.one234gift.customerservice.customer.domain.exception.CustomerNotFoundException;
 import com.one234gift.customerservice.customer.command.application.StubUserRepository;
 import com.one234gift.customerservice.customer.command.application.model.RegisterCustomer;
+import com.one234gift.customerservice.customer.domain.exception.CustomerNotFoundException;
 import com.one234gift.customerservice.customer.domain.read.CustomerModel;
 import com.one234gift.customerservice.customer.query.infrastructure.QuerydslQueryCustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,8 +15,6 @@ public class CustomerAPITest extends APITest {
     public RegisterCustomerService registerCustomerService;
     @Autowired
     public QuerydslQueryCustomerRepository customerRepository;
-    @Autowired
-    public StubUserRepository userRepository;
 
     public void init(){}
 

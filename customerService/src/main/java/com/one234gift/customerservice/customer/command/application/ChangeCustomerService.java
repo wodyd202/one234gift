@@ -4,7 +4,6 @@ import com.one234gift.customerservice.customer.command.application.event.*;
 import com.one234gift.customerservice.customer.command.application.external.Employee;
 import com.one234gift.customerservice.customer.command.application.external.EmployeeRepository;
 import com.one234gift.customerservice.customer.command.application.model.*;
-import com.one234gift.customerservice.customer.command.application.util.ProcessUserIdGetter;
 import com.one234gift.customerservice.customer.domain.Customer;
 import com.one234gift.customerservice.customer.domain.read.CustomerModel;
 import com.one234gift.customerservice.customer.domain.value.*;
@@ -33,7 +32,6 @@ public class ChangeCustomerService {
     private CustomerMapper customerMapper;
     private EmployeeRepository userRepository;
     private CustomerRepository customerRepository;
-    private ProcessUserIdGetter userIdGetter;
     private ApplicationEventPublisher applicationEventPublisher;
 
     /**
@@ -41,9 +39,9 @@ public class ChangeCustomerService {
      * @param businessName  변경할 상호명
      * # 상호명 변경
      */
-    public CustomerModel changeBusinessName(Long customerId, ChangeBusinessName businessName) {
+    public CustomerModel changeBusinessName(Long customerId, ChangeBusinessName businessName, Changer changer) {
         Customer customer = getCustomer(customerRepository, customerId);
-        Employee employee = getEmployee(userRepository, userIdGetter);
+        Employee employee = getEmployee(userRepository, changer);
 
         customer.changeBusinessName(new BusinessName(businessName.getName()));
         customerRepository.save(customer);
@@ -60,9 +58,9 @@ public class ChangeCustomerService {
      * @param changeAddressDetail 변경할 상세주소
      * # 고객 상세주소 변경
      */
-    public CustomerModel changeAddressDetail(Long customerId, ChangeAddressDetail changeAddressDetail) {
+    public CustomerModel changeAddressDetail(Long customerId, ChangeAddressDetail changeAddressDetail, Changer changer) {
         Customer customer = getCustomer(customerRepository, customerId);
-        Employee employee = getEmployee(userRepository,userIdGetter);
+        Employee employee = getEmployee(userRepository, changer);
 
         customer.changeAddressDetail(getAddressDetail(changeAddressDetail));
         customerRepository.save(customer);
@@ -83,9 +81,9 @@ public class ChangeCustomerService {
      * @param changeBusinessNumber    변경할 사업자번호
      * # 사업자 번호 변경
      */
-    public CustomerModel changeBusinessNumber(Long customerId, ChangeBusinessNumber changeBusinessNumber) {
+    public CustomerModel changeBusinessNumber(Long customerId, ChangeBusinessNumber changeBusinessNumber, Changer changer) {
         Customer customer = getCustomer(customerRepository, customerId);
-        Employee employee = getEmployee(userRepository, userIdGetter);
+        Employee employee = getEmployee(userRepository, changer);
 
         customer.changeBusinessNumber(getBusinessNumber(changeBusinessNumber));
         customerRepository.save(customer);
@@ -106,9 +104,9 @@ public class ChangeCustomerService {
      * @param changeFax     변경할 팩스번호
      * # 팩스 변경
      */
-    public CustomerModel changeFax(Long customerId, ChangeFax changeFax) {
+    public CustomerModel changeFax(Long customerId, ChangeFax changeFax, Changer changer) {
         Customer customer = getCustomer(customerRepository, customerId);
-        Employee employee = getEmployee(userRepository, userIdGetter);
+        Employee employee = getEmployee(userRepository, changer);
 
         customer.changeFax(getFax(changeFax));
         customerRepository.save(customer);
@@ -129,9 +127,9 @@ public class ChangeCustomerService {
      * @param addPurchasingManager     구매담당자 정보
      * # 구매담당자 추가
      */
-    public CustomerModel addPurchasingManager(Long customerId, ChangePurchasingManager addPurchasingManager) {
+    public CustomerModel addPurchasingManager(Long customerId, ChangePurchasingManager addPurchasingManager, Changer changer) {
         Customer customer = getCustomer(customerRepository, customerId);
-        Employee employee = getEmployee(userRepository, userIdGetter);
+        Employee employee = getEmployee(userRepository, changer);
 
         // map
         PurchasingManager purchasingManager = customerMapper.mapFrom(addPurchasingManager);
@@ -150,9 +148,9 @@ public class ChangeCustomerService {
      * @param purchasingManager     구매담당자 정보
      * # 구매담당자 삭제
      */
-    public CustomerModel removePurchasingManager(Long customerId, RemovePurchasingManager purchasingManager){
+    public CustomerModel removePurchasingManager(Long customerId, RemovePurchasingManager purchasingManager, Changer changer){
         Customer customer = getCustomer(customerRepository, customerId);
-        Employee employee = getEmployee(userRepository, userIdGetter);
+        Employee employee = getEmployee(userRepository, changer);
 
         customer.removePurchasingManager(purchasingManager.getId());
         customerRepository.save(customer);

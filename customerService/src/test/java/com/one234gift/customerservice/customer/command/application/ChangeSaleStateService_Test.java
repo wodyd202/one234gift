@@ -5,6 +5,7 @@ import com.one234gift.customerservice.customer.domain.read.CustomerModel;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static com.one234gift.customerservice.customer.CustomerFixture.aChanger;
 import static com.one234gift.customerservice.customer.CustomerFixture.aRegisterCustomer;
 import static com.one234gift.customerservice.customer.domain.value.SaleState.SALE;
 import static com.one234gift.customerservice.customer.domain.value.SaleState.STOP;
@@ -18,14 +19,13 @@ public class ChangeSaleStateService_Test extends CustomerAPITest {
     CustomerModel customer;
     @Override
     public void init(){
-        userRepository.save("userId");
         customer = registerCustomer(aRegisterCustomer().build());
     }
 
     @Test
     void 영업_중단(){
         // when
-        changeSaleStateService.saleStop(customer.getId());
+        changeSaleStateService.saleStop(customer.getId(), aChanger("변경자"));
         CustomerModel findCustomer = getCustomer(customer.getId());
 
         // then
@@ -35,10 +35,10 @@ public class ChangeSaleStateService_Test extends CustomerAPITest {
     @Test
     void 영업중으로_변경(){
         //given
-        changeSaleStateService.saleStop(customer.getId());
+        changeSaleStateService.saleStop(customer.getId(), aChanger("변경자"));
 
         //when
-        changeSaleStateService.sale(customer.getId());
+        changeSaleStateService.sale(customer.getId(), aChanger("변경자"));
         CustomerModel findCustomer = getCustomer(customer.getId());
 
         // then

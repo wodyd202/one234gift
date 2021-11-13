@@ -8,13 +8,8 @@ import java.util.Optional;
 
 @Repository
 public class StubUserRepository implements EmployeeRepository {
-    private Employee employee;
     @Override
-    public Optional<Employee> getEmployee(String userId) {
-        return Optional.of(employee);
-    }
-
-    public void save(String userId){
-        employee = new Employee("담당자명", userId);
+    public Optional<Employee> getEmployee(String employee) {
+        return Optional.of(new Employee(employee,employee));
     }
 }

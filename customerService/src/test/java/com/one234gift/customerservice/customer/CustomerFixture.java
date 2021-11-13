@@ -11,6 +11,10 @@ import static org.mockito.Mockito.mock;
 
 public class CustomerFixture {
     private static CustomerMapper customerMapper = new CustomerMapper();
+    public static Changer aChanger(String changer){
+        return new Changer(changer);
+    }
+
     public static Customer aCustomer(){
         Customer customer = customerMapper.mapFrom(aRegisterCustomer().build());
         customer.register(mock(RegisterCustomerValidator.class));

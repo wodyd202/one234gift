@@ -27,7 +27,7 @@ public class ChangeCustomerAPI {
         if(errors.hasErrors()){
             throw new CommandException(errors);
         }
-        CustomerModel customerModel = changeCustomerService.changeBusinessName(customerId, businessName);
+        CustomerModel customerModel = changeCustomerService.changeBusinessName(customerId, businessName, getChanger(principal));
         return ResponseEntity.ok(customerModel);
     }
 
@@ -39,7 +39,7 @@ public class ChangeCustomerAPI {
         if(errors.hasErrors()){
             throw new CommandException(errors);
         }
-        CustomerModel customerModel = changeCustomerService.changeAddressDetail(customerId, addressDetail);
+        CustomerModel customerModel = changeCustomerService.changeAddressDetail(customerId, addressDetail, getChanger(principal));
         return ResponseEntity.ok(customerModel);
     }
 
@@ -51,7 +51,7 @@ public class ChangeCustomerAPI {
         if(errors.hasErrors()){
             throw new CommandException(errors);
         }
-        CustomerModel customerModel = changeCustomerService.changeBusinessNumber(customerId, businessNumber);
+        CustomerModel customerModel = changeCustomerService.changeBusinessNumber(customerId, businessNumber, getChanger(principal));
         return ResponseEntity.ok(customerModel);
     }
 
@@ -63,44 +63,50 @@ public class ChangeCustomerAPI {
         if(errors.hasErrors()){
             throw new CommandException(errors);
         }
-        CustomerModel customerModel = changeCustomerService.changeFax(customerId, fax);
+        CustomerModel customerModel = changeCustomerService.changeFax(customerId, fax, getChanger(principal));
         return ResponseEntity.ok(customerModel);
     }
 
     @PutMapping("sale")
     public ResponseEntity<Void> sale(@PathVariable Long customerId,
-                            Principal principal){
-        changeSaleStateService.sale(customerId);
+                                     Principal principal){
+        changeSaleStateService.sale(customerId, getChanger(principal));
         return ResponseEntity.ok(null);
     }
 
     @PutMapping("sale-stop")
     public ResponseEntity<Void> saleStop(@PathVariable Long customerId,
-                            Principal principal){
-        changeSaleStateService.saleStop(customerId);
+                                         Principal principal){
+        changeSaleStateService.saleStop(customerId, getChanger(principal));
         return ResponseEntity.ok(null);
     }
 
     @PutMapping("purchasing-manager")
     public ResponseEntity<CustomerModel> addPurchasingManager(@PathVariable Long customerId,
                                                               @Valid @RequestBody ChangePurchasingManager purchasingManager,
-                                                              Errors errors){
+                                                              Errors errors,
+                                                              Principal principal){
         if(errors.hasErrors()){
             throw new CommandException(errors);
         }
-        CustomerModel customerModel = changeCustomerService.addPurchasingManager(customerId, purchasingManager);
+        CustomerModel customerModel = changeCustomerService.addPurchasingManager(customerId, purchasingManager, getChanger(principal));
         return ResponseEntity.ok(customerModel);
     }
 
     @DeleteMapping("purchasing-manager")
     public ResponseEntity<CustomerModel> removePurchasingManager(@PathVariable Long customerId,
                                                                  @Valid @RequestBody RemovePurchasingManager purchasingManager,
-                                                                 Errors errors){
+                                                                 Errors errors,
+                                                                 Principal principal){
         if(errors.hasErrors()){
             throw new CommandException(errors);
         }
-        CustomerModel customerModel = changeCustomerService.removePurchasingManager(customerId, purchasingManager);
+        CustomerModel customerModel = changeCustomerService.removePurchasingManager(customerId, purchasingManager, getChanger(principal));
         return ResponseEntity.ok(customerModel);
+    }
+
+    private Changer getChanger(Principal principal) {
+        return new Changer(principal.getName());
     }
 
 }
