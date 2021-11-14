@@ -1,4 +1,4 @@
-package com.one234gift.orderservice.order.command.application.event;
+package com.one234gift.orderservice.order.domain.event;
 
 import com.one234gift.orderservice.order.domain.read.OrderModel;
 import com.one234gift.orderservice.order.domain.read.SalesUserModel;

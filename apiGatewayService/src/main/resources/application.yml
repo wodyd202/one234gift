@@ -5,19 +5,86 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
+      defaultZone: http://localhost:8761/eureka
 spring:
   application:
-    name: apigateway-service
+    name: api-gateway
   cloud:
     gateway:
       routes:
-        - id: user-service
-          uri: lb://USER-SERVICE
+        # 사원 서비스
+        - id: employee-service
+          uri: lb://EMPLOYEE-SERVICE
           predicates:
-            - Path=/user-service/access-token
-            - Method=POST
+            - Path=/api/employee
           filters:
             - RemoveRequestHeader=Cookie
-            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - RewritePath=/api/employee/(?<segment>.*), /$\{segment}
+        - id: employee-service
+          uri: lb://EMPLOYEE-SERVICE
+          predicates:
+            - Path=/api/employee/**, /oauth/token
+          filters:
+            - RemoveRequestHeader=Cookie
 
+        # 고객 서비스
+        - id: customer-service
+          uri: lb://CUSTOMER-SERVICE
+          predicates:
+            - Path=/api/customer
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/api/customer/(?<segment>.*), /$\{segment}
+        - id: customer-service
+          uri: lb://CUSTOMER-SERVICE
+          predicates:
+            - Path=/api/customer/**
+          filters:
+            - RemoveRequestHeader=Cookie
+
+        # 주문 서비스
+        - id:  order-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/api/order
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/api/order/(?<segment>.*), /$\{segment}
+        - id: order-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - RemoveRequestHeader=Cookie
+
+        # 영업 기록 서비스
+        - id: sales-history-service
+          uri: lb://SALESHISTORY-SERVICE
+          predicates:
+            - Path=/api/sales-history
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/api/sales-history/(?<segment>.*), /$\{segment}
+
+        - id: sales-history-service
+          uri: lb://SALESHISTORY-SERVICE
+          predicates:
+            - Path=/api/sales-history/**
+          filters:
+            - RemoveRequestHeader=Cookie
+
+        # 예약콜 서비스
+        - id: call-service
+          uri: lb://CALL-SERVICE
+          predicates:
+            - Path=/api/reservation-call
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/api/reservation-call/(?<segment>.*), /$\{segment}
+
+        - id: call-service
+          uri: lb://CALL-SERVICE
+          predicates:
+            - Path=/api/reservation-call/**
+          filters:
+            - RemoveRequestHeader=Cookie

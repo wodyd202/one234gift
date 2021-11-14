@@ -1,5 +1,0 @@
-services:
-  user:
-    url: http://localhost:8080
-  customer:
-    url: http://localhost:8081
