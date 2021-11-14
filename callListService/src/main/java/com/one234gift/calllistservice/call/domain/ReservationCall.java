@@ -1,10 +1,11 @@
 package com.one234gift.calllistservice.call.domain;
 
-import com.one234gift.calllistservice.call.domain.read.CallInfoModel;
+import com.one234gift.calllistservice.call.domain.read.ReservationCallModel;
 import com.one234gift.calllistservice.call.domain.value.Reserver;
 import com.one234gift.calllistservice.call.domain.value.SalesHistoryId;
 import com.one234gift.calllistservice.call.domain.value.TargetCustomer;
 import lombok.Builder;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -14,15 +15,13 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name = "reservation_call")
+@DynamicUpdate
 public class ReservationCall {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     /**
      * 영업 기록
      */
-    @Embedded
+    @EmbeddedId
     @AttributeOverride(name = "id", column = @Column(name = "sales_history_id", nullable = false, length = 50))
     private SalesHistoryId salesHistoryId;
 
@@ -69,11 +68,25 @@ public class ReservationCall {
      */
     public void changeWhen(LocalDate callReservationDate) {
         this.when = callReservationDate;
+        read = false;
     }
 
-    public CallInfoModel toModel(){
-        return CallInfoModel.builder()
-                .id(id)
+    /**
+     * @param reader
+     * # 예약콜 읽음 처리
+     */
+    public void read(Reserver reader) {
+        if(!reserver.equals(reader)){
+            throw new IllegalArgumentException("다른 영업사원의 예약콜을 읽음처리 할 수 없습니다.");
+        }
+        // 미래일자 예약콜은 읽음 상태를 변경하지 않음
+        if(!when.isAfter(LocalDate.now())){
+            read = true;
+        }
+    }
+
+    public ReservationCallModel toModel(){
+        return ReservationCallModel.builder()
                 .salesHistoryId(salesHistoryId)
                 .customer(customer)
                 .reserver(reserver)

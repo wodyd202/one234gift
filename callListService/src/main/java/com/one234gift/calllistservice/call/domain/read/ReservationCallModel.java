@@ -9,8 +9,7 @@ import lombok.Getter;
 import java.time.LocalDate;
 
 @Getter
-public class CallInfoModel {
-    private Long id;
+public class ReservationCallModel {
     private String salesHistoryId;
     private TargetCustomerModel customer;
     private String reserver;
@@ -18,13 +17,11 @@ public class CallInfoModel {
     private boolean read;
 
     @Builder
-    public CallInfoModel(Long id,
-                         SalesHistoryId salesHistoryId,
-                         TargetCustomer customer,
-                         Reserver reserver,
-                         LocalDate when,
-                         boolean read) {
-        this.id = id;
+    public ReservationCallModel(SalesHistoryId salesHistoryId,
+                                TargetCustomer customer,
+                                Reserver reserver,
+                                LocalDate when,
+                                boolean read) {
         this.salesHistoryId = salesHistoryId.get();
         this.customer = customer.toModel();
         this.reserver = reserver.get();
@@ -35,8 +32,7 @@ public class CallInfoModel {
     @Override
     public String toString() {
         return "CallInfoModel{" +
-                "id=" + id +
-                ", salesHistoryId='" + salesHistoryId + '\'' +
+                "salesHistoryId='" + salesHistoryId + '\'' +
                 ", customer=" + customer +
                 ", reserver='" + reserver + '\'' +
                 ", when=" + when +

@@ -1,4 +1,4 @@
-package com.one234gift.calllistservice.call.command.application.model;
+package com.one234gift.calllistservice.call.application.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AccessLevel;

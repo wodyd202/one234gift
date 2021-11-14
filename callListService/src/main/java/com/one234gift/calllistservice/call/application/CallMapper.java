@@ -1,6 +1,6 @@
-package com.one234gift.calllistservice.call.command.application;
+package com.one234gift.calllistservice.call.application;
 
-import com.one234gift.calllistservice.call.command.application.model.ReservatedCallEvent;
+import com.one234gift.calllistservice.call.application.model.ReservatedCallEvent;
 import com.one234gift.calllistservice.call.domain.ReservationCall;
 import com.one234gift.calllistservice.call.domain.value.Reserver;
 import com.one234gift.calllistservice.call.domain.value.SalesHistoryId;
