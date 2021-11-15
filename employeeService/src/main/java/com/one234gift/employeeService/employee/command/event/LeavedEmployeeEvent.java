@@ -8,7 +8,7 @@ import lombok.Getter;
  */
 @Getter
 public class LeavedEmployeeEvent extends AbstractEmployeeEvent {
-    public LeavedEmployeeEvent(Phone phone) {
-        super(phone.get());
+    public LeavedEmployeeEvent(String phone) {
+        super(phone);
     }
 }

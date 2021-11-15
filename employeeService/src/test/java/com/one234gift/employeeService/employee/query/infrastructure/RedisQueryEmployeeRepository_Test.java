@@ -29,6 +29,6 @@ public class RedisQueryEmployeeRepository_Test {
         assertEquals(employeeModel.getPassword(), "password");
         assertEquals(employeeModel.getState(), EmployeeState.LEAVE);
         assertEquals(employeeModel.getPhone(), "phone");
-        assertEquals(employeeModel.getRole(), EmployeePosition.SALES_EMPLOYEE);
+        assertEquals(employeeModel.getPosition(), EmployeePosition.SALES_EMPLOYEE);
     }
 }

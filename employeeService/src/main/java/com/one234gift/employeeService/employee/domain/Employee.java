@@ -1,8 +1,5 @@
 package com.one234gift.employeeService.employee.domain;
 
-import com.one234gift.employeeService.employee.command.event.ComebackedEmployeeEvent;
-import com.one234gift.employeeService.employee.command.event.LeavedEmployeeEvent;
-import com.one234gift.employeeService.employee.command.event.RegisteredEmployeeEvent;
 import com.one234gift.employeeService.employee.domain.exception.AlreadyLeaveException;
 import com.one234gift.employeeService.employee.domain.exception.AlreadyWorkingException;
 import com.one234gift.employeeService.employee.domain.read.EmployeeModel;
@@ -10,7 +7,6 @@ import com.one234gift.employeeService.employee.domain.value.*;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.domain.AbstractAggregateRoot;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -25,7 +21,7 @@ import static javax.persistence.EnumType.STRING;
 @Entity
 @Table(name = "employee")
 @DynamicUpdate
-final public class Employee extends AbstractAggregateRoot<Employee> {
+final public class Employee {
     // 사용자 전화번호
     // 추후에 아이디로 사용될 예정
     // 유니크 해야함
@@ -69,9 +65,6 @@ final public class Employee extends AbstractAggregateRoot<Employee> {
         this.password = new Password(passwordEncoder.encode(name.get()));
         this.role = role;
         this.state = WORK;
-
-        // 사용자 생성 이벤트
-        registerEvent(new RegisteredEmployeeEvent(phone, name, password, role));
     }
 
     /**
@@ -80,9 +73,6 @@ final public class Employee extends AbstractAggregateRoot<Employee> {
     public void leave(){
         verifyWorking();
         state = LEAVE;
-
-        // 퇴사 이벤트
-        registerEvent(new LeavedEmployeeEvent(phone));
     }
 
     private void verifyWorking() {
@@ -97,9 +87,6 @@ final public class Employee extends AbstractAggregateRoot<Employee> {
     public void comeBack() {
         verifyLeaved();
         state = WORK;
-
-        // 재입사 이벤트
-        registerEvent(new ComebackedEmployeeEvent(phone));
     }
 
     private void verifyLeaved() {

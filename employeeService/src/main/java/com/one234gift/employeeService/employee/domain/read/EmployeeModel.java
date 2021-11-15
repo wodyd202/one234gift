@@ -14,7 +14,7 @@ public class EmployeeModel {
     private String phone;
     private String password;
     private EmployeeState state;
-    private EmployeePosition role;
+    private EmployeePosition position;
 
     protected EmployeeModel(){}
 
@@ -23,7 +23,7 @@ public class EmployeeModel {
         this.name = name;
         this.phone = phone;
         this.state = state;
-        this.role = role;
+        this.position = role;
         this.password = password;
     }
 
@@ -46,7 +46,7 @@ public class EmployeeModel {
      */
     @JsonIgnore
     public boolean isReadAble(EmployeeModel requesterInfo) {
-        return requesterInfo.role.equals(EmployeePosition.ACCOUNTING_EMPLOYEE) || requesterInfo.phone.equals(phone);
+        return requesterInfo.position.equals(EmployeePosition.ACCOUNTING_EMPLOYEE) || requesterInfo.phone.equals(phone);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class EmployeeModel {
                 ", phone='" + phone + '\'' +
                 ", password='" + password + '\'' +
                 ", state=" + state +
-                ", role=" + role +
+                ", role=" + position +
                 '}';
     }
 }

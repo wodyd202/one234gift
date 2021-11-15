@@ -28,7 +28,7 @@ public class JoinEmployeeService_Test extends EmployeeAPITest {
         EmployeeModel employeeModel = joinEmployeeService.join(joinEmployee);
 
         // then
-        assertEquals(employeeModel.getRole(), EmployeePosition.ACCOUNTING_EMPLOYEE);
+        assertEquals(employeeModel.getPosition(), EmployeePosition.ACCOUNTING_EMPLOYEE);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class JoinEmployeeService_Test extends EmployeeAPITest {
         EmployeeModel employeeModel = joinEmployeeService.join(joinEmployee);
 
         // then
-        assertEquals(employeeModel.getRole(), EmployeePosition.SALES_EMPLOYEE);
+        assertEquals(employeeModel.getPosition(), EmployeePosition.SALES_EMPLOYEE);
     }
 
     @Test

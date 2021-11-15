@@ -1,10 +1,13 @@
 package com.one234gift.employeeService.employee.command.application;
 
+import com.one234gift.employeeService.employee.command.event.ComebackedEmployeeEvent;
+import com.one234gift.employeeService.employee.command.event.LeavedEmployeeEvent;
 import com.one234gift.employeeService.employee.domain.Employee;
 import com.one234gift.employeeService.employee.domain.read.EmployeeModel;
 import com.one234gift.employeeService.employee.domain.value.Phone;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,7 @@ import static com.one234gift.employeeService.employee.command.application.Employ
 @Retryable(maxAttempts = 3, value = SQLException.class, backoff = @Backoff(delay = 500))
 public class EmployeeStateChangeService {
     private EmployeeRepository employeeRepository;
+    private ApplicationEventPublisher applicationEventPublisher;
 
     /**
      * @param phone
@@ -35,6 +39,9 @@ public class EmployeeStateChangeService {
         employeeRepository.save(employee);
         EmployeeModel employeeModel = employee.toModel();
         log.info("comback employee : {}", employeeModel);
+
+        // publish event
+        applicationEventPublisher.publishEvent(new ComebackedEmployeeEvent(employeeModel.getPhone()));
         return employeeModel;
     }
 
@@ -48,6 +55,9 @@ public class EmployeeStateChangeService {
         employeeRepository.save(employee);
         EmployeeModel employeeModel = employee.toModel();
         log.info("leave employee : {}", employeeModel);
+
+        // publish event
+        applicationEventPublisher.publishEvent(new LeavedEmployeeEvent(employeeModel.getPhone()));
         return employeeModel;
     }
 }

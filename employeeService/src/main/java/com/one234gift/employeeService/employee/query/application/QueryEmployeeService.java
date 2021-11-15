@@ -78,6 +78,6 @@ public class QueryEmployeeService implements UserDetailsService {
         if(employeeModel.isLeaved()){
             throw new UsernameNotFoundException(phone);
         }
-        return new User(employeeModel.getPhone(), employeeModel.getPassword(), Arrays.asList(new SimpleGrantedAuthority("ROLE_" + employeeModel.getRole())));
+        return new User(employeeModel.getPhone(), employeeModel.getPassword(), Arrays.asList(new SimpleGrantedAuthority("ROLE_" + employeeModel.getPosition())));
     }
 }

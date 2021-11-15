@@ -1,7 +1,7 @@
 package com.one234gift.employeeService.employee.query.application;
 
 import com.one234gift.employeeService.employee.command.event.AbstractEmployeeEvent;
-import com.one234gift.employeeService.employee.command.event.RegisteredEmployeeEvent;
+import com.one234gift.employeeService.employee.command.event.JoinedEmployeeEvent;
 import com.one234gift.employeeService.employee.domain.read.EmployeeModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class QueryEmployeeEventListener {
     @Autowired private QueryEmployeeRepository queryEmployeeRepository;
 
     @EventListener
-    public void handle(RegisteredEmployeeEvent event){
+    public void handle(JoinedEmployeeEvent event){
         EmployeeModel employeeModel = EmployeeModel.builder()
                 .name(event.getName())
                 .phone(event.getPhone())

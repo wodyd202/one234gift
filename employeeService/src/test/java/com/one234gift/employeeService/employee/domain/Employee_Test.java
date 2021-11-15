@@ -84,7 +84,7 @@ public class Employee_Test {
         assertEquals(employeeModel.getPhone(), "010-0000-0000");
         assertEquals(employeeModel.getName(), "이름");
         assertEquals(employeeModel.getState(), EmployeeState.WORK);
-        assertEquals(employeeModel.getRole(), EmployeePosition.SALES_EMPLOYEE);
+        assertEquals(employeeModel.getPosition(), EmployeePosition.SALES_EMPLOYEE);
     }
 
     @Test
